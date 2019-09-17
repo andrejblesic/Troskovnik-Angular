@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+.expense-wrapper {
+  overflow: hidden;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  border: 1px solid red;
+}
+
+.main-wrapper {
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.income-wrapper {
+  @extend .expense-wrapper;
+  border: 1px solid green;
+}
+
+.information {
+  font-family: 'Open Sans';
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.information-category {
+  display: inline;
+  width: 25%;
+  padding-left: 6px;
+}
