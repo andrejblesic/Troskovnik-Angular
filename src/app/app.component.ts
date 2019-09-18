@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from './http.service';
+import { HttpFetchService } from './http-fetch.service';
+import { HttpSendService } from './http-send.service';
 import { Store } from '@ngrx/store';
 import { share, map } from 'rxjs/operators';
 
@@ -16,7 +17,7 @@ interface AppState {
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(private httpService: HttpService, private store: Store<AppState>) { }
+  constructor(private httpFetchService: HttpFetchService, private httpSendService: HttpSendService, private store: Store<AppState>) { }
   title = 'troskovnik-angular';
 
   expenses: object;
@@ -33,11 +34,16 @@ export class AppComponent {
     scope: ""
   }
 
+  deleteEntry($event) {
+    this.httpSendService.deleteIncome($event);
+  }
+
   ngOnInit() {
-    this.httpService.login(this.userInfo);
+    this.httpFetchService.login(this.userInfo);
     this.expenses = this.store.select(state => state.appState ? state.appState.expenses : null).pipe(
       share(),
       map(obj => {
+        this.totalExpenses = 0;
         for (let item in obj) {
           this.totalExpenses += parseFloat(obj[item].amount);
         }
@@ -47,6 +53,7 @@ export class AppComponent {
     this.incomes = this.store.select(state => state.appState ? state.appState.incomes : null).pipe(
       share(),
       map(obj => {
+        this.totalIncomes = 0;
         for (let item in obj) {
           this.totalIncomes += parseFloat(obj[item].amount);
         }

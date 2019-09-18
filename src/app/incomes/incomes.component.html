@@ -4,6 +4,7 @@
   <p class="income-field">{{incomeArr[i].value.description}}</p>
   <p class="income-field">{{incomeArr[i].value.entry_date}}</p>
   <p class="income-field">{{incomeArr[i].value.amount}}</p>
+  <button id="{{incomeArr[i].value.id}}" (click)="callParent($event)" class="delete-button" type="button" name="button">DELETE</button>
 </div>
 <div class="income-total">
   <p>Total: {{incomeTotal | number: '.2'}}</p>

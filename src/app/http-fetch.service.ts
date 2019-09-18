@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { allExpenses, allIncomes } from './store/actions';
+import { allExpenses, allIncomes, accessToken, incomeCategories } from './store/actions';
 import { Store } from '@ngrx/store';
 
 const httpOptions = {
@@ -14,7 +14,7 @@ interface AppState {
 @Injectable({
   providedIn: 'root'
 })
-export class HttpService {
+export class HttpFetchService {
 
   constructor(private http: HttpClient, private store: Store<AppState>) {}
 
@@ -30,8 +30,13 @@ export class HttpService {
   }
 
   updateStore(message) {
-    this.access_token = message.access_token;
-    httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${message.access_token}`);
+    if (!this.access_token) {
+      this.access_token = message.access_token;
+    }
+    this.store.dispatch(accessToken({
+      access_token: this.access_token
+    }))
+    httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.access_token}`);
     const httpExpenses = this.http.get("https://troskovnik.omniapps.info/api/v1/expenses", httpOptions);
     const httpIncomes = this.http.get("https://troskovnik.omniapps.info/api/v1/incomes", httpOptions);
     const httpIncomeCategories = this.http.get("https://troskovnik.omniapps.info/api/v1/income-categories", httpOptions);
@@ -46,8 +51,17 @@ export class HttpService {
       () => console.log('Incomes Fetched')
     );
     httpIncomeCategories.subscribe(
-      message => console.log('INCOME CATEGORIES', message)
+      message => this.dispatchIncomeCategories(message),
+      error => console.log(error),
+      () => console.log("Income Categories Fetched")
     )
+  }
+
+  dispatchIncomeCategories(message) {
+    console.log(message.data);
+    this.store.dispatch(incomeCategories({
+      income_categories: message.data
+    }))
   }
 
   dispatchExpenses(message) {
@@ -57,6 +71,7 @@ export class HttpService {
   }
 
   dispatchIncomes(message) {
+    console.log('MESSAGE DATA RIGHT HERE ', message.data)
     message.data ? this.store.dispatch(allIncomes({
       incomes: message.data
     })) : null;

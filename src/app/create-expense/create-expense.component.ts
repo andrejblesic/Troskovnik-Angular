@@ -9,6 +9,12 @@ export class CreateExpenseComponent implements OnInit {
 
   constructor() { }
 
+  expenseCategory: string = "Hosting";
+  expenseEntryDate: string = "2019-09-18";
+  expenseAmount: string = "200.00";
+  expenseDescription: string = "Test Description";
+  newExpenseId: number;
+
   ngOnInit() {
   }
 

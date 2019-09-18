@@ -20,3 +20,15 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.delete-button {
+  position: absolute;
+  right: 0;
+  transform: translateX(-20px) translateY(10px);
+  color: white;
+  background: red;
+  border: none;
+  border-radius: 3px;
+  padding: 9px;
+  cursor: pointer;
+}

@@ -1,1 +1,8 @@
-<p>create-expense works!</p>
+<div class="create-expense">
+  <p>Create Expense</p>
+  <input [(ngModel)]="expenseCategory" placeholder="Expense category" type="text" name="expenseCategory" value="">
+  <input [(ngModel)]="expenseEntryDate" required placeholder="Entry Date*" type="date" name="expenseEntryDate" value="">
+  <input [(ngModel)]="expenseAmount" required placeholder="Amount*" type="text" name="expenseAmount" value="">
+  <input [(ngModel)]="expenseDescription" placeholder="Description" type="text" name="expenseDescription" value="">
+  <button (click)="sendExpense()" type="button" name="button">SUBMIT</button>
+</div>

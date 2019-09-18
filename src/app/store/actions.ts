@@ -1,21 +1,18 @@
 import { createAction, props } from '@ngrx/store';
-import { IExpense, IIncome, IAllExpenses, IAllIncomes } from '../models/income-expense-models';
+import {
+  IAllExpenses,
+  IAllIncomes,
+  IAccessToken,
+  IExpenseCategories,
+  IIncomeCategories
+} from '../models/income-expense-models';
 
-// const NEW_EXPENSE = '[HttpService] New Expense';
-// const NEW_INCOME = '[HttpService] New Income';
 const ALL_EXPENSES = '[HttpService] All Expenses';
 const ALL_INCOMES = '[HttpService] All Incomes';
+const INCOME_CATEGORIES = '[HttpService] Income Categories';
+const EXPENSE_CATEGORIES = '[HttpService] Expense Categories';
+const ACCESS_TOKEN = '[HttpService] Access Token';
 
-// export const newExpense = createAction(
-//   NEW_EXPENSE,
-//   props<IExpense>()
-// )
-
-// export const newIncome = createAction(
-//   NEW_INCOME,
-//   props<IIncome>()
-// );
-//
 export const allExpenses = createAction(
   ALL_EXPENSES,
   props<IAllExpenses>()
@@ -24,4 +21,19 @@ export const allExpenses = createAction(
 export const allIncomes = createAction(
   ALL_INCOMES,
   props<IAllIncomes>()
+)
+
+export const incomeCategories = createAction(
+  INCOME_CATEGORIES,
+  props<IIncomeCategories>()
+)
+
+export const expenseCategories = createAction(
+  EXPENSE_CATEGORIES,
+  props<IExpenseCategories>()
+)
+
+export const accessToken = createAction(
+  ACCESS_TOKEN,
+  props<IAccessToken>()
 )
