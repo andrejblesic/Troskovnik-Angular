@@ -5,7 +5,9 @@
   background: lightgreen;
   font-family: 'Open Sans';
   display: flex;
+  align-items: center;
   justify-content: space-around;
+  padding: 10px 5px;
 }
 
 .income-field {
@@ -22,9 +24,8 @@
 }
 
 .delete-button {
-  position: absolute;
-  right: 0;
-  transform: translateX(-20px) translateY(10px);
+  position: relative;
+  float: right;
   color: white;
   background: red;
   border: none;

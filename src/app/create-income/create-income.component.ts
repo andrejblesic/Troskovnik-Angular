@@ -23,8 +23,8 @@ export class CreateIncomeComponent implements OnInit {
 
   constructor(private service: HttpSendService, private store: Store<AppState>) { }
 
-  incomeCategory: string = "Consulting";
-  incomeEntryDate: string = "09/09/2019";
+  incomeCategory = "Razvoj softwarea";
+  incomeEntryDate: string = "";
   incomeAmount: string = "200.00";
   incomeDescription: string = "Test Description";
   incomeCategories: Observable<any>;
@@ -42,7 +42,7 @@ export class CreateIncomeComponent implements OnInit {
   }
 
   logDate($event) {
-    console.log($event.target.value);
+    this.incomeEntryDate = $event.target.value.split("-").reverse().join("/");
   }
 
   setIncomeCategoryId($event) {

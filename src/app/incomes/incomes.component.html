@@ -1,10 +1,10 @@
 <div *ngFor="let item of incomeArr; trackBy: trackByFn; let i = index" class="incomes-div">
-  <p class="income-field">Income</p>
-  <p class="income-field">{{incomeArr[i].value.income_category.name}}</p>
-  <p class="income-field">{{incomeArr[i].value.description}}</p>
-  <p class="income-field">{{incomeArr[i].value.entry_date}}</p>
-  <p class="income-field">{{incomeArr[i].value.amount}}</p>
-  <button id="{{incomeArr[i].value.id}}" (click)="callParent($event)" class="delete-button" type="button" name="button">DELETE</button>
+  <div class="income-field">Income</div>
+  <div class="income-field">{{incomeArr[i].value.income_category.name}}</div>
+  <div class="income-field">{{incomeArr[i].value.description}}</div>
+  <div class="income-field">{{incomeArr[i].value.entry_date}}</div>
+  <div class="income-field">{{incomeArr[i].value.amount}}</div>
+  <button id="{{incomeArr[i].value.id}}" (click)="deleteIncome($event)" class="delete-button income-field" type="button" name="button">DELETE</button>
 </div>
 <div class="income-total">
   <p>Total: {{incomeTotal | number: '.2'}}</p>
