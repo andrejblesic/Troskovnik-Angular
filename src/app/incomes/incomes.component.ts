@@ -25,14 +25,14 @@ export class IncomesComponent implements OnInit {
   }
 
   ngOnInit() {
-    let ids = [];
-    setTimeout(() => {
-      for (let i = 0; i < this.incomeArr.length; i++) {
-        ids.push(this.incomeArr[i].value.id);
-      }
-      console.log(Math.max(...ids));
-      console.log(this.incomeArr);
-    }, 2000)
+    // let ids = [];
+    // setTimeout(() => {
+    //   for (let i = 0; i < this.incomeArr.length; i++) {
+    //     ids.push(this.incomeArr[i].value.id);
+    //   }
+    //   console.log(Math.max(...ids));
+    //   console.log(this.incomeArr);
+    // }, 2000)
   }
 
 }

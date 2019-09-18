@@ -2,9 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { HttpSendService } from '../http-send.service';
 import { Store } from '@ngrx/store';
 import { share } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 interface AppState {
-  appState: object;
+  appState: {
+    access_token: string,
+    incomes: object,
+    expenses: object,
+    income_categories: object,
+    expense_categories: object
+  }
 }
 
 @Component({
@@ -20,17 +27,10 @@ export class CreateIncomeComponent implements OnInit {
   incomeEntryDate: string = "09/09/2019";
   incomeAmount: string = "200.00";
   incomeDescription: string = "Test Description";
-  incomeCategories: object[];
+  incomeCategories: Observable<any>;
   incomeCategoryId: number = 1;
 
   sendIncome() {
-    // console.log(
-    //   this.incomeCategory,
-    //   this.incomeEntryDate,
-    //   this.incomeAmount,
-    //   this.incomeDescription,
-    //   this.incomeCategoryId
-    // )
     this.service.sendIncome(
       this.incomeCategory,
       this.incomeEntryDate,
@@ -50,21 +50,8 @@ export class CreateIncomeComponent implements OnInit {
     this.incomeCategoryId = parseInt($event.target.value);
   }
 
-  // getLatestId(message) {
-  //   let ids = [];
-  //   for (let item in message.appState.incomes) {
-  //     ids.push(message.appState.incomes[item].id);
-  //   }
-  //   this.newIncomeId = Math.max(...ids);
-  // }
-
   ngOnInit() {
     this.incomeCategories = this.store.select(state => state.appState.income_categories).pipe(share())
-    // this.store.subscribe(
-    //   message => this.getLatestId(message),
-    //   error => console.log(error),
-    //   () => console.log("done")
-    // )
   }
 
 }

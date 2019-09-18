@@ -4,7 +4,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpFetchService } from './http-fetch.service';
 
 interface AppState {
-  appState: object;
+  appState: {
+    access_token: string,
+    incomes: object,
+    expenses: object,
+    income_categories: object,
+    expense_categories: object
+  }
 }
 
 const httpOptions = {

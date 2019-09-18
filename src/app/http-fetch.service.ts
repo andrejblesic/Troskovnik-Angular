@@ -23,19 +23,24 @@ export class HttpFetchService {
   login(userInfo) {
     let httpLogin = this.http.post('https://troskovnik.omniapps.info/oauth/token', userInfo);
     httpLogin.subscribe(
-      message => this.updateStore(message),
+      message => this.setAccessToken(message),
       error => console.log(error),
       () => console.log('Login successful')
     );
   }
 
-  updateStore(message) {
-    if (!this.access_token) {
-      this.access_token = message.access_token;
-    }
+  setAccessToken(message) {
+    this.access_token = message.access_token;
+    this.updateStore();
+  }
+
+  updateStore() {
+    // if (!this.access_token) {
+    //   this.access_token = message.access_token;
+    // }
     this.store.dispatch(accessToken({
       access_token: this.access_token
-    }))
+    }));
     httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.access_token}`);
     const httpExpenses = this.http.get("https://troskovnik.omniapps.info/api/v1/expenses", httpOptions);
     const httpIncomes = this.http.get("https://troskovnik.omniapps.info/api/v1/incomes", httpOptions);
