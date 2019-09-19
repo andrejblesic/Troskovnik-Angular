@@ -14,18 +14,17 @@ export class IncomesComponent implements OnInit {
   @Input() incomeDescription: string;
   @Input() incomeTotal: number;
   @Input() incomeArr: string[];
-  @Output() deleteEntry = new EventEmitter<string>();
+  @Output() deleteEntry = new EventEmitter<string[]>();
 
   trackByFn(index, item) {
     return index;
   }
 
   deleteIncome($event) {
-    this.deleteEntry.next($event.target.id);
+    this.deleteEntry.next([$event.target.id, $event.target.getAttribute("data-id")]);
   }
 
   ngOnInit() {
 
   }
-
 }

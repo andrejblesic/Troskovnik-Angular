@@ -46,7 +46,6 @@ export class CreateIncomeComponent implements OnInit {
   }
 
   setIncomeCategoryId($event) {
-    console.log(parseInt($event.target.value))
     this.incomeCategoryId = parseInt($event.target.value);
   }
 

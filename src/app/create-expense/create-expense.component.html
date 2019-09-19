@@ -1,8 +1,12 @@
 <div class="create-expense">
-  <p>Create Expense</p>
-  <input [(ngModel)]="expenseCategory" placeholder="Expense category" type="text" name="expenseCategory" value="">
-  <input [(ngModel)]="expenseEntryDate" required placeholder="Entry Date*" type="date" name="expenseEntryDate" value="">
-  <input [(ngModel)]="expenseAmount" required placeholder="Amount*" type="text" name="expenseAmount" value="">
-  <input [(ngModel)]="expenseDescription" placeholder="Description" type="text" name="expenseDescription" value="">
-  <button (click)="sendExpense()" type="button" name="button">SUBMIT</button>
+  <form class="">
+    <p>Create Expense</p>
+    <select (change)="setExpenseCategoryId($event)" class="select-expense-category" name="select-expense-category">
+      <option *ngFor="let item of (expenseCategories | async); let i = index" id="{{item.id}}" value="{{item.id}}">{{item.name}}</option>
+    </select>
+    <input (change)="logDate($event)" required placeholder="Entry Date*" type="date" name="expenseEntryDate" value="">
+    <input [(ngModel)]="expenseAmount" required placeholder="Amount*" type="text" name="expenseAmount" value="">
+    <input [(ngModel)]="expenseDescription" placeholder="Description" type="text" name="expenseDescription" value="">
+    <button (click)="sendExpense()" type="button" name="button">SUBMIT</button>
+  </form>
 </div>

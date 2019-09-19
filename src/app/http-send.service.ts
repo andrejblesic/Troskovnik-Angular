@@ -24,20 +24,10 @@ export class HttpSendService {
 
   constructor(private store: Store<AppState>, private http: HttpClient, private service: HttpFetchService) { }
 
-  test() {
-    console.log("works");
-  }
-
   sendIncome(incomeCategory, incomeEntryDate, incomeAmount, incomeDescription, incomeCategoryId) {
-    console.log(incomeCategoryId);
-    console.log("send service triggered");
+    httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
     let date = new Date();
-    this.store.subscribe(
-      message => {
-        httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${message.appState.access_token}`);
-      }
-    )
-    let fullDate = `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)} ${("0" + date.getHours()).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}:${("0" + date.getSeconds()).slice(-2)}`;
+    let fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
     let incomeJSON = {
       amount: incomeAmount,
       created_at: fullDate,
@@ -55,22 +45,56 @@ export class HttpSendService {
       income_category_id: incomeCategoryId,
       updated_at: fullDate
     }
-    console.log(incomeJSON);
-    let postIncome = this.http.post("https://troskovnik.omniapps.info/api/v1/incomes", incomeJSON, httpOptions);
+    let postIncome = this.http.post('https://troskovnik.omniapps.info/api/v1/incomes', incomeJSON, httpOptions);
     postIncome.subscribe(
-      message => this.service.updateStore()
+      message => this.service.updateIncomes(),
+      error => console.log(error),
+      () => console.log('Income Sent')
+    )
+  }
+
+  sendExpense(expenseCategory, expenseEntryDate, expenseAmount, expenseDescription, expenseCategoryId) {
+    httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
+    let date = new Date();
+    let fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
+    let expenseJSON = {
+      amount: expenseAmount,
+      created_at: fullDate,
+      deleted_at: null,
+      description: expenseDescription,
+      entry_date: expenseEntryDate.replace(/\//g, "."),
+      id: 1,
+      expense_category: {
+        id: 1,
+        name: expenseCategory,
+        created_at: fullDate,
+        updated_at: fullDate,
+        deleted_at: null
+      },
+      expense_category_id: expenseCategoryId,
+      updated_at: fullDate
+    }
+    let postExpense = this.http.post('https://troskovnik.omniapps.info/api/v1/expenses', expenseJSON, httpOptions);
+    postExpense.subscribe(
+      message => this.service.updateExpenses(),
+      error => console.log(error),
+      () => console.log('Expense Sent')
     )
   }
 
   deleteIncome(id) {
-    this.store.subscribe(
-      message => {
-        httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${message.appState.access_token}`);
-      }
+    httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
+    let deleteIncome = this.http.delete(`https://troskovnik.omniapps.info/api/v1/incomes/${id}`, httpOptions);
+    deleteIncome.subscribe(
+      message => this.service.updateIncomes()
     )
-    let deleteLast = this.http.delete(`https://troskovnik.omniapps.info/api/v1/incomes/${id}`, httpOptions);
-    deleteLast.subscribe(
-      message => this.service.updateStore()
+  }
+
+  deleteExpense(id) {
+    httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
+    let deleteExpense = this.http.delete(`https://troskovnik.omniapps.info/api/v1/expenses/${id}`, httpOptions);
+    deleteExpense.subscribe(
+      message => this.service.updateExpenses()
     )
   }
 

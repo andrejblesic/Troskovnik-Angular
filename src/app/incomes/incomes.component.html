@@ -4,7 +4,7 @@
   <div class="income-field">{{incomeArr[i].value.description}}</div>
   <div class="income-field">{{incomeArr[i].value.entry_date}}</div>
   <div class="income-field">{{incomeArr[i].value.amount}}</div>
-  <button id="{{incomeArr[i].value.id}}" (click)="deleteIncome($event)" class="delete-button income-field" type="button" name="button">DELETE</button>
+  <button data-id="income" id="{{incomeArr[i].value.id}}" (click)="deleteIncome($event)" class="delete-button income-field" type="button" name="button">DELETE</button>
 </div>
 <div class="income-total">
   <p>Total: {{incomeTotal | number: '.2'}}</p>

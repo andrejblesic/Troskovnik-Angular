@@ -1,6 +1,5 @@
-<app-create-income></app-create-income>
-<app-create-expense></app-create-expense>
 <div class="main-wrapper">
+  <app-create-income></app-create-income>
   <div class="information">
     <div class="information-category">TYPE</div>
     <div class="information-category">CATEGORY</div>
@@ -16,8 +15,10 @@
       [incomeTotal]="totalIncomes">
     </app-incomes>
   </div>
+  <app-create-expense></app-create-expense>
   <div class="expense-wrapper">
     <app-expenses
+      (deleteEntry)="deleteEntry($event)"
       [expenseArr]="expenses | async | keyvalue"
       [expenseTotal]="totalExpenses">
     </app-expenses>

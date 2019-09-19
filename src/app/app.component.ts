@@ -17,7 +17,11 @@ interface AppState {
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(private httpFetchService: HttpFetchService, private httpSendService: HttpSendService, private store: Store<AppState>) { }
+  constructor(
+    private httpFetchService: HttpFetchService,
+    private httpSendService: HttpSendService,
+    private store: Store<AppState>
+  ) { }
   title = 'troskovnik-angular';
 
   expenses: object;
@@ -34,8 +38,13 @@ export class AppComponent {
     scope: ""
   }
 
-  deleteEntry($event) {
-    this.httpSendService.deleteIncome($event);
+  deleteEntry(args) {
+    console.log('triggered');
+    if (args[1] === "income") {
+      this.httpSendService.deleteIncome(args[0]);
+    } else if (args[1] === "expense") {
+      this.httpSendService.deleteExpense(args[0]);
+    }
   }
 
   ngOnInit() {

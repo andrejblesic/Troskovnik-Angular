@@ -1,12 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
 .expenses-div {
-  border-bottom: 1px solid red;
+  border-bottom: 1px solid green;
   background: pink;
   font-family: 'Open Sans';
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-around;
+  padding: 10px 5px;
 }
 
 .expense-field {
@@ -20,4 +21,15 @@
   font-weight: 600;
   display: flex;
   justify-content: flex-end;
+}
+
+.delete-button {
+  position: relative;
+  float: right;
+  color: white;
+  background: red;
+  border: none;
+  border-radius: 3px;
+  padding: 9px;
+  cursor: pointer;
 }

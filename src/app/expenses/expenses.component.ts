@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-expenses',
@@ -14,15 +14,18 @@ export class ExpensesComponent implements OnInit {
   @Input() expenseDescription: string;
   @Input() expenseTotal: number;
   @Input() expenseArr: string[];
+  @Output() deleteEntry = new EventEmitter<string[]>();
 
   trackByFn(item, index) {
     return index;
   }
 
+  deleteExpense($event) {
+    this.deleteEntry.next([$event.target.id, $event.target.getAttribute("data-id")]);
+  }
+
   ngOnInit() {
-    setTimeout(() => {
-      console.log("EXPENSE ARRAY", this.expenseArr)
-    }, 5000);
+
   }
 
 }
