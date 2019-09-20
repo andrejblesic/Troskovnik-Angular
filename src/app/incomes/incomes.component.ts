@@ -16,6 +16,8 @@ export class IncomesComponent implements OnInit {
   @Input() incomeArr: string[];
   @Output() deleteEntry = new EventEmitter<string[]>();
 
+  fadeOut: boolean = false;
+
   trackByFn(index, item) {
     return index;
   }
@@ -25,6 +27,5 @@ export class IncomesComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
 }

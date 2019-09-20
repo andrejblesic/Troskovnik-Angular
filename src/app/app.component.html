@@ -16,6 +16,14 @@
     </app-incomes>
   </div>
   <app-create-expense></app-create-expense>
+  <div class="information">
+    <div class="information-category">TYPE</div>
+    <div class="information-category">CATEGORY</div>
+    <div class="information-category">DESCRIPTION</div>
+    <div class="information-category">ENTRY DATE</div>
+    <div class="information-category">AMOUNT</div>
+    <div class="information-category"></div>
+  </div>
   <div class="expense-wrapper">
     <app-expenses
       (deleteEntry)="deleteEntry($event)"
@@ -24,3 +32,5 @@
     </app-expenses>
   </div>
 </div>
+
+<app-dashboard></app-dashboard>

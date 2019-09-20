@@ -13,6 +13,7 @@ import { ExpensesComponent } from './expenses/expenses.component';
 import { IncomesComponent } from './incomes/incomes.component';
 import { StoreModule } from '@ngrx/store';
 import { transactionReducer } from './store/reducers';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { transactionReducer } from './store/reducers';
     LoginComponent,
     CreateExpenseComponent,
     ExpensesComponent,
-    IncomesComponent
+    IncomesComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

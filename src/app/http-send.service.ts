@@ -54,6 +54,7 @@ export class HttpSendService {
   }
 
   sendExpense(expenseCategory, expenseEntryDate, expenseAmount, expenseDescription, expenseCategoryId) {
+    console.log(expenseCategoryId);
     httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
     let date = new Date();
     let fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
@@ -74,7 +75,7 @@ export class HttpSendService {
       expense_category_id: expenseCategoryId,
       updated_at: fullDate
     }
-    let postExpense = this.http.post('https://troskovnik.omniapps.info/api/v1/expenses', expenseJSON, httpOptions);
+    let postExpense = this.http.post('https://troskovnik.omniapps.info/api/v1/expenses/', expenseJSON, httpOptions);
     postExpense.subscribe(
       message => this.service.updateExpenses(),
       error => console.log(error),

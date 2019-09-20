@@ -47,6 +47,8 @@ export class AppComponent {
     }
   }
 
+
+
   ngOnInit() {
     this.httpFetchService.login(this.userInfo);
     this.expenses = this.store.select(state => state.appState ? state.appState.expenses : null).pipe(

@@ -1,10 +1,12 @@
-<div *ngFor="let item of expenseArr; trackBy: trackByFn; let i = index" class="expenses-div">
-  <div class="expense-field">Expense</div>
-  <div class="expense-field">{{expenseArr[i].value.expense_category.name}}</div>
-  <div class="expense-field">{{expenseArr[i].value.description}}</div>
-  <div class="expense-field">{{expenseArr[i].value.entry_date}}</div>
-  <div class="expense-field">{{expenseArr[i].value.amount}}</div>
-  <button data-id="expense" id="{{expenseArr[i].value.id}}" (click)="deleteExpense($event)" class="delete-button expense-field" type="button" name="button">DELETE</button>
+<div *ngFor="let item of expenseArr; trackBy: trackByFn; let i = index">
+  <span [ngClass]="item.fadeOut ? 'fade-out' : null" class='expenses-div'>
+    <div class="expense-field">Expense</div>
+    <div class="expense-field">{{expenseArr[i].value.expense_category.name}}</div>
+    <div class="expense-field">{{expenseArr[i].value.description}}</div>
+    <div class="expense-field">{{expenseArr[i].value.entry_date}}</div>
+    <div class="expense-field">{{expenseArr[i].value.amount}}</div>
+    <button data-id="expense" id="{{expenseArr[i].value.id}}" (click)="deleteExpense($event); item.fadeOut = true" class="delete-button expense-field" type="button" name="button">DELETE</button>
+  </span>
 </div>
 <div class="expense-total">
   <p>Total: {{expenseTotal | number: '.2'}}</p>

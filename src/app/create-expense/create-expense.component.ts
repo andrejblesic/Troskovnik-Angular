@@ -23,10 +23,10 @@ export class CreateExpenseComponent implements OnInit {
 
   constructor(private store: Store<AppState>, private service: HttpSendService) { }
 
-  expenseCategory: string = "Hosting";
+  expenseCategory: string;
   expenseEntryDate: string = "";
-  expenseAmount: string = "200.00";
-  expenseDescription: string = "Test Description";
+  expenseAmount: string = "";
+  expenseDescription: string = "";
   expenseCategories: Observable<any>;
   expenseCategoryId: number;
 

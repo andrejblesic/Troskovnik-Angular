@@ -16,6 +16,8 @@ export class ExpensesComponent implements OnInit {
   @Input() expenseArr: string[];
   @Output() deleteEntry = new EventEmitter<string[]>();
 
+  fadeOut: boolean = false;
+
   trackByFn(item, index) {
     return index;
   }

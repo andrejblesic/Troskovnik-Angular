@@ -7,12 +7,27 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 10px 5px;
-}
-
-.income-field {
-  width: 25%;
-  padding: 0px 5px;
+  padding: 10px;
+  transition: background-color 200ms, color 200ms, border-color 200ms;
+  &.fade-out {
+    background-color: transparent;
+    color: transparent;
+    border-color: transparent;
+  }
+  .income-field {
+    width: 25%;
+    padding: 0px 5px;
+  }
+  .delete-button {
+    position: relative;
+    float: right;
+    color: white;
+    background: red;
+    border: none;
+    border-radius: 3px;
+    padding: 9px;
+    cursor: pointer;
+  }
 }
 
 .income-total {
@@ -21,15 +36,4 @@
   font-weight: 600;
   display: flex;
   justify-content: flex-end;
-}
-
-.delete-button {
-  position: relative;
-  float: right;
-  color: white;
-  background: red;
-  border: none;
-  border-radius: 3px;
-  padding: 9px;
-  cursor: pointer;
 }

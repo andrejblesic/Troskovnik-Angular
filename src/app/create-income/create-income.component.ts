@@ -43,6 +43,7 @@ export class CreateIncomeComponent implements OnInit {
 
   logDate($event) {
     this.incomeEntryDate = $event.target.value.split("-").reverse().join("/");
+    console.log(this.incomeEntryDate);
   }
 
   setIncomeCategoryId($event) {
