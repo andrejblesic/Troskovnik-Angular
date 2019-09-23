@@ -39,7 +39,6 @@ export class AppComponent {
   }
 
   deleteEntry(args) {
-    console.log('triggered');
     if (args[1] === "income") {
       this.httpSendService.deleteIncome(args[0]);
     } else if (args[1] === "expense") {
@@ -47,9 +46,10 @@ export class AppComponent {
     }
   }
 
-
-
   ngOnInit() {
+    // setTimeout(() => {
+    //   this.httpSendService.deleteIncomeCategory(6);
+    // }, 2000)
     this.httpFetchService.login(this.userInfo);
     this.expenses = this.store.select(state => state.appState ? state.appState.expenses : null).pipe(
       share(),

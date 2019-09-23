@@ -3,6 +3,11 @@ import { Store } from '@ngrx/store';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpFetchService } from './http-fetch.service';
 
+const incomesUrl: string = 'https://troskovnik.omniapps.info/api/v1/incomes/';
+const expensesUrl: string = 'https://troskovnik.omniapps.info/api/v1/expenses/';
+const incomeCategoryUrl: string = 'https://troskovnik.omniapps.info/api/v1/income-categories/';
+const expenseCategoryUrl: string = 'https://troskovnik.omniapps.info/api/v1/expense-categories/';
+
 interface AppState {
   appState: {
     access_token: string,
@@ -45,7 +50,7 @@ export class HttpSendService {
       income_category_id: incomeCategoryId,
       updated_at: fullDate
     }
-    let postIncome = this.http.post('https://troskovnik.omniapps.info/api/v1/incomes', incomeJSON, httpOptions);
+    let postIncome = this.http.post(incomesUrl, incomeJSON, httpOptions);
     postIncome.subscribe(
       message => this.service.updateIncomes(),
       error => console.log(error),
@@ -54,7 +59,6 @@ export class HttpSendService {
   }
 
   sendExpense(expenseCategory, expenseEntryDate, expenseAmount, expenseDescription, expenseCategoryId) {
-    console.log(expenseCategoryId);
     httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
     let date = new Date();
     let fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
@@ -75,7 +79,7 @@ export class HttpSendService {
       expense_category_id: expenseCategoryId,
       updated_at: fullDate
     }
-    let postExpense = this.http.post('https://troskovnik.omniapps.info/api/v1/expenses/', expenseJSON, httpOptions);
+    let postExpense = this.http.post(expensesUrl, expenseJSON, httpOptions);
     postExpense.subscribe(
       message => this.service.updateExpenses(),
       error => console.log(error),
@@ -83,9 +87,43 @@ export class HttpSendService {
     )
   }
 
+  sendIncomeCategory(name) {
+    httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
+    let date = new Date();
+    let fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
+    let incomeCategoryJSON = {
+      created_at: fullDate,
+      deleted_at: null,
+      id: 1,
+      name: name,
+      updated_at: fullDate
+    }
+    let postIncomeCategory = this.http.post(incomeCategoryUrl, incomeCategoryJSON, httpOptions);
+    postIncomeCategory.subscribe(
+      message => this.service.updateIncomeCategories()
+    )
+  }
+
+  sendExpenseCategory(name) {
+    httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
+    let date = new Date();
+    let fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
+    let expenseCategoryJSON = {
+      created_at: fullDate,
+      deleted_at: null,
+      id: 1,
+      name: name,
+      updated_at: fullDate
+    }
+    let postExpenseCategory = this.http.post(expenseCategoryUrl, expenseCategoryJSON, httpOptions);
+    postExpenseCategory.subscribe(
+      message => this.service.updateExpenseCategories()
+    )
+  }
+
   deleteIncome(id) {
     httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
-    let deleteIncome = this.http.delete(`https://troskovnik.omniapps.info/api/v1/incomes/${id}`, httpOptions);
+    let deleteIncome = this.http.delete(incomesUrl + id, httpOptions);
     deleteIncome.subscribe(
       message => this.service.updateIncomes()
     )
@@ -93,10 +131,25 @@ export class HttpSendService {
 
   deleteExpense(id) {
     httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
-    let deleteExpense = this.http.delete(`https://troskovnik.omniapps.info/api/v1/expenses/${id}`, httpOptions);
+    let deleteExpense = this.http.delete(expensesUrl + id, httpOptions);
     deleteExpense.subscribe(
       message => this.service.updateExpenses()
     )
   }
 
+  //ONLY FOR DEVELOPMENT PURPOSES
+  deleteIncomeCategory(num) {
+    console.log("okida income");
+    httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
+    let deleteIncomeCategories = this.http.delete(`https://troskovnik.omniapps.info/api/v1/income-categories/${num.toString()}`, httpOptions);
+    deleteIncomeCategories.subscribe(message => console.log(message));
+  }
+
+  //ONLY FOR DEVELOPMENT PURPOSES
+  deleteExpenseCategory(num) {
+    console.log("okida expense");
+    httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
+    let deleteExpenseCategories = this.http.delete(`https://troskovnik.omniapps.info/api/v1/expense-categories/${num.toString()}`, httpOptions);
+    deleteExpenseCategories.subscribe(message => console.log(message));
+  }
 }

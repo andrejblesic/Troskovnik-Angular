@@ -3,11 +3,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { allExpenses, allIncomes, accessToken, incomeCategories, expenseCategories } from './store/actions';
 import { Store } from '@ngrx/store';
 
-const authUrl: string = 'https://troskovnik.omniapps.info/oauth/token';
-const incomeUrl: string = 'https://troskovnik.omniapps.info/api/v1/incomes';
-const expenseUrl: string = 'https://troskovnik.omniapps.info/api/v1/expenses';
-const incomeCategoryUrl: string = 'https://troskovnik.omniapps.info/api/v1/income-categories';
-const expenseCategoryUrl: string = 'https://troskovnik.omniapps.info/api/v1/expense-categories';
+const authUrl: string = 'https://troskovnik.omniapps.info/oauth/token/';
+const incomeUrl: string = 'https://troskovnik.omniapps.info/api/v1/incomes/';
+const expenseUrl: string = 'https://troskovnik.omniapps.info/api/v1/expenses/';
+const incomeCategoryUrl: string = 'https://troskovnik.omniapps.info/api/v1/income-categories/';
+const expenseCategoryUrl: string = 'https://troskovnik.omniapps.info/api/v1/expense-categories/';
 
 const httpOptions = {
   headers: new HttpHeaders({})
@@ -81,14 +81,12 @@ export class HttpFetchService {
   }
 
   dispatchIncomeCategories(message) {
-    console.log(message.data);
     this.store.dispatch(incomeCategories({
       income_categories: message.data
     }))
   }
 
   dispatchExpenseCategories(message) {
-    console.log(message.data);
     this.store.dispatch(expenseCategories({
       expense_categories: message.data
     }))
@@ -101,7 +99,6 @@ export class HttpFetchService {
   }
 
   dispatchIncomes(message) {
-    console.log('MESSAGE DATA RIGHT HERE ', message.data)
     message.data ? this.store.dispatch(allIncomes({
       incomes: message.data
     })) : null;

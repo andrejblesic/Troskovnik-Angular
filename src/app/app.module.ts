@@ -14,6 +14,8 @@ import { IncomesComponent } from './incomes/incomes.component';
 import { StoreModule } from '@ngrx/store';
 import { transactionReducer } from './store/reducers';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { CreateIncomeCategoryComponent } from './create-income-category/create-income-category.component';
+import { CreateExpenseCategoryComponent } from './create-expense-category/create-expense-category.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     CreateExpenseComponent,
     ExpensesComponent,
     IncomesComponent,
-    DashboardComponent
+    DashboardComponent,
+    CreateIncomeCategoryComponent,
+    CreateExpenseCategoryComponent
   ],
   imports: [
     BrowserModule,

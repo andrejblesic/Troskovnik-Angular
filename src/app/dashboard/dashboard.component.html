@@ -3,7 +3,7 @@
   <option value="Incomes">Incomes</option>
   <option value="Expenses">Expenses</option>
 </select>
-<select (change)="sortBy($event)" class="" name="sort-by">
+<select [(ngModel)]="sortBy" (change)=sortTransactions() class="" name="sort-by">
   <option value="Date(Recent First)">Date(Recent First)</option>
   <option value="Date(Old First)">Date(Old First)</option>
 </select>
@@ -11,10 +11,10 @@
   <p *ngIf="show === 'All' ? item[1] : (show === 'Expenses' ? item[1].expense_category : item[1].income_category)">
     <span *ngIf="item[1].income_category">Income</span>
     <span *ngIf="item[1].expense_category">Expense</span>
-    {{item[1].expense_category?.name}}
-    {{item[1].income_category?.name}}
-    {{item[1].description}}
-    {{item[1].entry_date}}
-    {{item[1].amount}}
+    {{item[1]?.expense_category?.name}}
+    {{item[1]?.income_category?.name}}
+    {{item[1]?.description}}
+    {{item[1]?.entry_date}}
+    {{item[1]?.amount}}
   </p>
 </div>

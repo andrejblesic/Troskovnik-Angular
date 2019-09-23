@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { share } from 'rxjs/operators';
 
@@ -25,27 +25,30 @@ export class DashboardComponent implements OnInit {
   expenseArr: object[] = [];
   allTransactionsArr: object[] = [];
   show: string = "All";
+  sortBy: string = "Date(Recent First)";
+  incomeSub;
+  expenseSub;
 
   ngOnInit() {
     setTimeout(() => {
-      console.log(this.allTransactionsArr);
-    }, 4000)
-    this.store.select(state => state.appState.incomes).subscribe(
+      console.log(this.allTransactionsArr)
+    }, 3000)
+    this.incomeSub = this.store.select(state => state.appState.incomes).subscribe(
       message => this.handleIncomes(message)
     )
-    this.store.select(state => state.appState.expenses).subscribe(
+    this.expenseSub = this.store.select(state => state.appState.expenses).subscribe(
       message => this.handleExpenses(message)
     )
   }
 
-  sortBy($event) {
-    if ($event.target.value === "Date(Old First)") {
+  sortTransactions() {
+    if (this.sortBy === "Date(Old First)") {
       this.allTransactionsArr.sort((a, b) => {
         let date1:number = new Date(a[1].entry_date.slice(6) + "-" + a[1].entry_date.slice(3, 5) + "-" + a[1].entry_date.slice(0, 2)).getTime();
         let date2:number = new Date(b[1].entry_date.slice(6) + "-" + b[1].entry_date.slice(3, 5) + "-" + b[1].entry_date.slice(0, 2)).getTime();
         return date1 - date2;
       });
-    } else if ($event.target.value === "Date(Recent First)") {
+    } else if (this.sortBy === "Date(Recent First)") {
       this.allTransactionsArr.sort((a, b) => {
         let date1 = new Date(a[1].entry_date.slice(6) + "-" + a[1].entry_date.slice(3, 5) + "-" + a[1].entry_date.slice(0, 2)).getTime();
         let date2 = new Date(b[1].entry_date.slice(6) + "-" + b[1].entry_date.slice(3, 5) + "-" + b[1].entry_date.slice(0, 2)).getTime();
@@ -54,24 +57,24 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  filterByDate(date1, date2) {
-
-  }
-
   showTransactions($event) {
     this.show = $event.target.value;
-    console.log(this.show);
   }
 
   handleIncomes(message) {
     message ? this.incomeArr = Object.entries(message) : null;
     this.allTransactionsArr = this.incomeArr.concat(this.expenseArr);
-    console.log(this.allTransactionsArr);
+    this.sortTransactions();
   }
 
   handleExpenses(message) {
     message ? this.expenseArr = Object.entries(message) : null;
     this.allTransactionsArr = this.expenseArr.concat(this.incomeArr);
-    console.log(this.allTransactionsArr);
+    this.sortTransactions();
+  }
+
+  ngOnDestroy() {
+    this.incomeSub.unsubscribe();
+    this.expenseSub.unsubscribe();
   }
 }
