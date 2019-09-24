@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { share } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { mergeAll } from 'rxjs/operators';
 
 interface AppState {
   appState: {
@@ -26,19 +28,16 @@ export class DashboardComponent implements OnInit {
   allTransactionsArr: object[] = [];
   show: string = "All";
   sortBy: string = "Date(Recent First)";
-  incomeSub;
-  expenseSub;
+  incomeSub: Subscription;
+  expenseSub: Subscription;
 
   ngOnInit() {
-    setTimeout(() => {
-      console.log(this.allTransactionsArr)
-    }, 3000)
     this.incomeSub = this.store.select(state => state.appState.incomes).subscribe(
       message => this.handleIncomes(message)
-    )
+    );
     this.expenseSub = this.store.select(state => state.appState.expenses).subscribe(
       message => this.handleExpenses(message)
-    )
+    );
   }
 
   sortTransactions() {

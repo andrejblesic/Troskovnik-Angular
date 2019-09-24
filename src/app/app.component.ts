@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpFetchService } from './http-fetch.service';
 import { HttpSendService } from './http-send.service';
+import { LoginService } from './login.service';
 import { Store } from '@ngrx/store';
 import { share, map } from 'rxjs/operators';
 
@@ -20,9 +21,12 @@ export class AppComponent {
   constructor(
     private httpFetchService: HttpFetchService,
     private httpSendService: HttpSendService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private loginService: LoginService
   ) { }
   title = 'troskovnik-angular';
+
+  loading: boolean = true;
 
   expenses: object;
   incomes: object;
@@ -46,11 +50,14 @@ export class AppComponent {
     }
   }
 
+  checkLoading(message) {
+    if (message.appState.incomes && message.appState.expenses && message.appState.income_categories && message.appState.expense_categories) {
+      this.loading = false;
+    }
+  }
+
   ngOnInit() {
-    // setTimeout(() => {
-    //   this.httpSendService.deleteIncomeCategory(6);
-    // }, 2000)
-    this.httpFetchService.login(this.userInfo);
+    this.loginService.login(this.userInfo);
     this.expenses = this.store.select(state => state.appState ? state.appState.expenses : null).pipe(
       share(),
       map(obj => {
@@ -71,6 +78,9 @@ export class AppComponent {
         return obj;
       })
     );
+    this.store.subscribe(
+      message => this.checkLoading(message)
+    )
     this.store.subscribe(
       message => console.log('STATE UPDATED, NEW STATE:', message)
     )

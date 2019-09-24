@@ -33,3 +33,11 @@
   width: 20%;
   padding-left: 6px;
 }
+
+.loading-gif {
+  display: inline-block;
+  width: 150px;
+  height: 150px;
+  position: relative;
+  left: calc(50% - 75px);
+}

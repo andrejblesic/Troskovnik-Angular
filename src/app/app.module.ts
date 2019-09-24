@@ -1,11 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth-interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpFetchService } from './http-fetch.service';
-import { HttpClientModule } from '@angular/common/http';
 import { CreateIncomeComponent } from './create-income/create-income.component';
 import { LoginComponent } from './login/login.component';
 import { CreateExpenseComponent } from './create-expense/create-expense.component';
@@ -36,7 +38,13 @@ import { CreateExpenseCategoryComponent } from './create-expense-category/create
     FormsModule,
     StoreModule.forRoot({appState: transactionReducer})
   ],
-  providers: [HttpFetchService],
+  providers: [HttpFetchService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

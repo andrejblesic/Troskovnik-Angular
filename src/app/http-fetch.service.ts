@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { allExpenses, allIncomes, accessToken, incomeCategories, expenseCategories } from './store/actions';
+import { allExpenses, allIncomes, incomeCategories, expenseCategories } from './store/actions';
 import { Store } from '@ngrx/store';
 
-const authUrl: string = 'https://troskovnik.omniapps.info/oauth/token/';
 const incomeUrl: string = 'https://troskovnik.omniapps.info/api/v1/incomes/';
 const expenseUrl: string = 'https://troskovnik.omniapps.info/api/v1/expenses/';
 const incomeCategoryUrl: string = 'https://troskovnik.omniapps.info/api/v1/income-categories/';
@@ -14,7 +13,13 @@ const httpOptions = {
 }
 
 interface AppState {
-  payload: object
+  appState: {
+    access_token: string,
+    incomes: object,
+    expenses: object,
+    income_categories: object,
+    expense_categories: object
+  }
 }
 
 @Injectable({
@@ -24,28 +29,8 @@ export class HttpFetchService {
 
   constructor(private http: HttpClient, private store: Store<AppState>) {}
 
-  access_token: string;
-
-  login(userInfo) {
-    let httpLogin = this.http.post(authUrl, userInfo);
-    httpLogin.subscribe(
-      message => this.setAccessToken(message),
-      error => console.log(error),
-      () => console.log('Login successful')
-    );
-  }
-
-  setAccessToken(message) {
-    this.access_token = message.access_token;
-    this.store.dispatch(accessToken({
-      access_token: this.access_token
-    }));
-    httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${message.access_token}`);
-    this.updateStore();
-  }
-
   updateIncomes() {
-    const httpIncomes = this.http.get(incomeUrl, httpOptions);
+    const httpIncomes = this.http.get(incomeUrl);
     httpIncomes.subscribe(
       message => this.dispatchIncomes(message),
       error => console.log(error),
@@ -54,7 +39,7 @@ export class HttpFetchService {
   }
 
   updateExpenses() {
-    const httpExpenses = this.http.get(expenseUrl, httpOptions);
+    const httpExpenses = this.http.get(expenseUrl);
     httpExpenses.subscribe(
       message => this.dispatchExpenses(message),
       error => console.log(error),
@@ -63,7 +48,7 @@ export class HttpFetchService {
   }
 
   updateIncomeCategories() {
-    const httpIncomeCategories = this.http.get(incomeCategoryUrl, httpOptions);
+    const httpIncomeCategories = this.http.get(incomeCategoryUrl);
     httpIncomeCategories.subscribe(
       message => this.dispatchIncomeCategories(message),
       error => console.log(error),
@@ -72,24 +57,24 @@ export class HttpFetchService {
   }
 
   updateExpenseCategories() {
-    const httpExpenseCategories = this.http.get(expenseCategoryUrl, httpOptions);
+    const httpExpenseCategories = this.http.get(expenseCategoryUrl);
     httpExpenseCategories.subscribe(
       message => this.dispatchExpenseCategories(message),
       error => console.log(error),
       () => console.log('Expense Categories Fetched')
-    )
+    );
   }
 
   dispatchIncomeCategories(message) {
     this.store.dispatch(incomeCategories({
       income_categories: message.data
-    }))
+    }));
   }
 
   dispatchExpenseCategories(message) {
     this.store.dispatch(expenseCategories({
       expense_categories: message.data
-    }))
+    }));
   }
 
   dispatchExpenses(message) {

@@ -30,7 +30,7 @@ export class HttpSendService {
   constructor(private store: Store<AppState>, private http: HttpClient, private service: HttpFetchService) { }
 
   sendIncome(incomeCategory, incomeEntryDate, incomeAmount, incomeDescription, incomeCategoryId) {
-    httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
+    //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
     let date = new Date();
     let fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
     let incomeJSON = {
@@ -50,7 +50,7 @@ export class HttpSendService {
       income_category_id: incomeCategoryId,
       updated_at: fullDate
     }
-    let postIncome = this.http.post(incomesUrl, incomeJSON, httpOptions);
+    let postIncome = this.http.post(incomesUrl, incomeJSON);
     postIncome.subscribe(
       message => this.service.updateIncomes(),
       error => console.log(error),
@@ -59,7 +59,7 @@ export class HttpSendService {
   }
 
   sendExpense(expenseCategory, expenseEntryDate, expenseAmount, expenseDescription, expenseCategoryId) {
-    httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
+    //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
     let date = new Date();
     let fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
     let expenseJSON = {
@@ -79,7 +79,7 @@ export class HttpSendService {
       expense_category_id: expenseCategoryId,
       updated_at: fullDate
     }
-    let postExpense = this.http.post(expensesUrl, expenseJSON, httpOptions);
+    let postExpense = this.http.post(expensesUrl, expenseJSON);
     postExpense.subscribe(
       message => this.service.updateExpenses(),
       error => console.log(error),
@@ -88,7 +88,7 @@ export class HttpSendService {
   }
 
   sendIncomeCategory(name) {
-    httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
+    //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
     let date = new Date();
     let fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
     let incomeCategoryJSON = {
@@ -98,14 +98,14 @@ export class HttpSendService {
       name: name,
       updated_at: fullDate
     }
-    let postIncomeCategory = this.http.post(incomeCategoryUrl, incomeCategoryJSON, httpOptions);
+    let postIncomeCategory = this.http.post(incomeCategoryUrl, incomeCategoryJSON);
     postIncomeCategory.subscribe(
       message => this.service.updateIncomeCategories()
     )
   }
 
   sendExpenseCategory(name) {
-    httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
+    //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
     let date = new Date();
     let fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
     let expenseCategoryJSON = {
@@ -115,23 +115,23 @@ export class HttpSendService {
       name: name,
       updated_at: fullDate
     }
-    let postExpenseCategory = this.http.post(expenseCategoryUrl, expenseCategoryJSON, httpOptions);
+    let postExpenseCategory = this.http.post(expenseCategoryUrl, expenseCategoryJSON);
     postExpenseCategory.subscribe(
       message => this.service.updateExpenseCategories()
     )
   }
 
   deleteIncome(id) {
-    httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
-    let deleteIncome = this.http.delete(incomesUrl + id, httpOptions);
+    //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
+    let deleteIncome = this.http.delete(incomesUrl + id);
     deleteIncome.subscribe(
       message => this.service.updateIncomes()
     )
   }
 
   deleteExpense(id) {
-    httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
-    let deleteExpense = this.http.delete(expensesUrl + id, httpOptions);
+    //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
+    let deleteExpense = this.http.delete(expensesUrl + id);
     deleteExpense.subscribe(
       message => this.service.updateExpenses()
     )
@@ -140,7 +140,7 @@ export class HttpSendService {
   //ONLY FOR DEVELOPMENT PURPOSES
   deleteIncomeCategory(num) {
     console.log("okida income");
-    httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
+    //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
     let deleteIncomeCategories = this.http.delete(`https://troskovnik.omniapps.info/api/v1/income-categories/${num.toString()}`, httpOptions);
     deleteIncomeCategories.subscribe(message => console.log(message));
   }
@@ -148,7 +148,7 @@ export class HttpSendService {
   //ONLY FOR DEVELOPMENT PURPOSES
   deleteExpenseCategory(num) {
     console.log("okida expense");
-    httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
+    //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
     let deleteExpenseCategories = this.http.delete(`https://troskovnik.omniapps.info/api/v1/expense-categories/${num.toString()}`, httpOptions);
     deleteExpenseCategories.subscribe(message => console.log(message));
   }
