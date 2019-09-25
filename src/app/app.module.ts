@@ -27,13 +27,18 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MaterialModule } from './material/material.module';
-
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-
 import { MatNativeDateModule } from '@angular/material';
-
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { RouterModule, Routes } from '@angular/router';
+
+const appRoutes: Routes = [
+  { path: 'incomes', component: IncomesComponent, data: { title: "Incomes" }},
+  { path: 'expenses', component: ExpensesComponent, data: { title: "Expenses" }},
+  { path: 'dashboard', component: DashboardComponent, data: { title: "Dashboard" }},
+  { path: 'login', component: LoginComponent, data: { title: "Login" }}
+]
 
 @NgModule({
   declarations: [
@@ -49,6 +54,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MainNavComponent
   ],
   imports: [
+    RouterModule.forRoot(
+      appRoutes
+    ),
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

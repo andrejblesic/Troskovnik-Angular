@@ -1,5 +1,9 @@
 <!-- Mat table -->
-<div class="mat-elevation-z8 incomes-table">
+<div *ngIf="loading" class="loading">
+  LOADING...
+</div>
+
+<div *ngIf="!loading" class="mat-elevation-z8 incomes-table">
   <table
     mat-table
     #table
