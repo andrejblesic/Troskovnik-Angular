@@ -18,6 +18,14 @@ import { transactionReducer } from './store/reducers';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CreateIncomeCategoryComponent } from './create-income-category/create-income-category.component';
 import { CreateExpenseCategoryComponent } from './create-expense-category/create-expense-category.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MainNavComponent } from './main-nav/main-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -29,14 +37,22 @@ import { CreateExpenseCategoryComponent } from './create-expense-category/create
     IncomesComponent,
     DashboardComponent,
     CreateIncomeCategoryComponent,
-    CreateExpenseCategoryComponent
+    CreateExpenseCategoryComponent,
+    MainNavComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    StoreModule.forRoot({appState: transactionReducer})
+    StoreModule.forRoot({appState: transactionReducer}),
+    BrowserAnimationsModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule
   ],
   providers: [HttpFetchService,
     {

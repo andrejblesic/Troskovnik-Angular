@@ -1,43 +1,51 @@
-<div *ngIf="loading" class="">
-  <img class="loading-gif" src="https://loading.io/spinners/rolling/lg.curve-bars-loading-indicator.gif" alt="">
-</div>
-<div *ngIf="!loading" class="">
-  <app-create-income-category></app-create-income-category>
-  <app-create-expense-category></app-create-expense-category>
-  <div class="main-wrapper">
-    <app-create-income></app-create-income>
-    <div class="information">
-      <div class="information-category">TYPE</div>
-      <div class="information-category">CATEGORY</div>
-      <div class="information-category">DESCRIPTION</div>
-      <div class="information-category">ENTRY DATE</div>
-      <div class="information-category">AMOUNT</div>
-      <div class="information-category"></div>
-    </div>
-    <div class="income-wrapper">
-      <app-incomes
-        (deleteEntry)="deleteEntry($event)"
-        [incomeArr]="incomes | async | keyvalue"
-        [incomeTotal]="totalIncomes">
-      </app-incomes>
-    </div>
-    <app-create-expense></app-create-expense>
-    <div class="information">
-      <div class="information-category">TYPE</div>
-      <div class="information-category">CATEGORY</div>
-      <div class="information-category">DESCRIPTION</div>
-      <div class="information-category">ENTRY DATE</div>
-      <div class="information-category">AMOUNT</div>
-      <div class="information-category"></div>
-    </div>
-    <div class="expense-wrapper">
-      <app-expenses
-        (deleteEntry)="deleteEntry($event)"
-        [expenseArr]="expenses | async | keyvalue"
-        [expenseTotal]="totalExpenses">
-      </app-expenses>
-    </div>
+<app-main-nav>
+  <div *ngIf="loading" class="">
+    <img
+      class="loading-gif"
+      src="https://loading.io/spinners/rolling/lg.curve-bars-loading-indicator.gif"
+      alt=""
+    />
   </div>
+  <div *ngIf="!loading" class="">
+    <app-create-income-category></app-create-income-category>
+    <app-create-expense-category></app-create-expense-category>
+    <div class="main-wrapper">
+      <app-create-income></app-create-income>
+      <div class="information">
+        <div class="information-category">TYPE</div>
+        <div class="information-category">CATEGORY</div>
+        <div class="information-category">DESCRIPTION</div>
+        <div class="information-category">ENTRY DATE</div>
+        <div class="information-category">AMOUNT</div>
+        <div class="information-category"></div>
+      </div>
+      <div class="income-wrapper">
+        <app-incomes
+          (deleteEntry)="deleteEntry($event)"
+          [incomeArr]="incomes | async | keyvalue"
+          [incomeTotal]="totalIncomes"
+        >
+        </app-incomes>
+      </div>
+      <app-create-expense></app-create-expense>
+      <div class="information">
+        <div class="information-category">TYPE</div>
+        <div class="information-category">CATEGORY</div>
+        <div class="information-category">DESCRIPTION</div>
+        <div class="information-category">ENTRY DATE</div>
+        <div class="information-category">AMOUNT</div>
+        <div class="information-category"></div>
+      </div>
+      <div class="expense-wrapper">
+        <app-expenses
+          (deleteEntry)="deleteEntry($event)"
+          [expenseArr]="expenses | async | keyvalue"
+          [expenseTotal]="totalExpenses"
+        >
+        </app-expenses>
+      </div>
+    </div>
 
-  <app-dashboard></app-dashboard>
-</div>
+    <app-dashboard></app-dashboard>
+  </div>
+</app-main-nav>
