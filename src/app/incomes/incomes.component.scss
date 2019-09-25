@@ -31,9 +31,36 @@
 }
 
 .income-total {
-  padding: 5px 10px;
-  font-family: 'Open Sans';
-  font-weight: 600;
+  font-weight: bold;
+}
+table {
+  width: 100%;
+}
+.full-width-table {
+  width: 100%;
+  min-width: 600px;
+}
+.incomes-table {
+  width: 95%;
+  margin-top: 1rem;
+  margin-left: calc(3.5% - 17px);
+
+  // margin-right: calc(2.5%);
+}
+.first-footer-row {
+  font-weight: bold;
+}
+.total-footer-cell {
+  padding-left: 27.5px;
+  // text-align: right;
+  font-weight: bold;
+}
+.amount-col {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  padding: 15px 0;
+  justify-content: space-between;
+}
+.delete-button {
+  cursor: pointer;
 }

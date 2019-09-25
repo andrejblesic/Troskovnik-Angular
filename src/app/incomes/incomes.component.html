@@ -1,13 +1,66 @@
-<div *ngFor="let item of incomeArr; trackBy: trackByFn; let i = index">
-  <div [ngClass]="item.fadeOut ? 'fade-out' : null" class="incomes-div">
-    <div class="income-field">Income</div>
-    <div class="income-field">{{incomeArr[i]?.value.income_category.name}}</div>
-    <div class="income-field">{{incomeArr[i]?.value.description}}</div>
-    <div class="income-field">{{incomeArr[i]?.value.entry_date}}</div>
-    <div class="income-field">{{incomeArr[i]?.value.amount}}</div>
-    <button data-id="income" id="{{incomeArr[i].value.id}}" (click)="deleteIncome($event); item.fadeOut = true" class="delete-button income-field" type="button" name="button">DELETE</button>
-  </div>
-</div>
-<div class="income-total">
-  <p>Total: {{incomeTotal | number: '.2'}}</p>
+<!-- Mat table -->
+<div class="mat-elevation-z8 incomes-table">
+  <table
+    mat-table
+    #table
+    [dataSource]="incomesArray"
+    mat-table
+    class="full-width-table"
+  >
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef>Category</th>
+      <td mat-cell *matCellDef="let row; let i = index">
+        {{
+          incomesArray[i]['1'].income_category
+            ? incomesArray[i]['1'].income_category.name
+            : null
+        }}
+        {{
+          incomesArray[i]['1'].expense_category
+            ? incomesArray[i]['1'].expense_category.name
+            : null
+        }}
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let row; let i = index">
+        {{ incomesArray[i]['1'].description }}
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="entryDate">
+      <th mat-header-cell *matHeaderCellDef>Entry Date</th>
+      <td mat-cell *matCellDef="let row; let i = index">
+        {{ incomesArray[i]['1'].entry_date }}
+      </td>
+      <td class="total-footer-cell" mat-footer-cell *matFooterCellDef>
+        Total:
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef>Amount</th>
+      <td class="amount-col" mat-cell *matCellDef="let row; let i = index">
+        {{ incomesArray[i]['1'].amount }}
+        <mat-icon
+          class="delete-button"
+          color="primary"
+          data-id="income"
+          id="{{ incomesArray[i]['1'].id }}"
+          (click)="deleteIncome($event)"
+          >highlight_off
+        </mat-icon>
+      </td>
+      <td class="income-total" mat-footer-cell *matFooterCellDef>
+        {{ incomeTotal | number: '.2' }}
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+  </table>
 </div>
