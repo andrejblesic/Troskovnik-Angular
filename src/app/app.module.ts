@@ -26,6 +26,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MaterialModule } from './material/material.module';
+
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+
+import { MatNativeDateModule } from '@angular/material';
+
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -45,16 +53,22 @@ import { MatListModule } from '@angular/material/list';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    StoreModule.forRoot({appState: transactionReducer}),
+    MaterialModule,
+    MatNativeDateModule,
+    StoreModule.forRoot({ appState: transactionReducer }),
     BrowserAnimationsModule,
     LayoutModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatDatepickerModule
   ],
-  providers: [HttpFetchService,
+  providers: [
+    HttpFetchService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
@@ -63,4 +77,4 @@ import { MatListModule } from '@angular/material/list';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

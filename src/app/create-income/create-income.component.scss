@@ -6,3 +6,27 @@
   padding: 10px;
   border-radius: 3px;
 }
+.create-income-card {
+  padding: 25px 25px 10px 25px;
+  max-width: 100%;
+  // margin-top: 1rem;
+  // margin-left: calc(3.5% - 17px);
+  // margin-right: calc(1.5% + 17px);
+  display: flex;
+  flex-direction: column;
+}
+.income-form {
+  max-width: 100%;
+}
+.income-form > * {
+  width: 100%;
+}
+.submit-button {
+  // margin-left: 1rem;
+
+  align-self: center;
+}
+.income-panel {
+  margin-left: calc(3.5% - 17px);
+  margin-right: calc(1.5% + 17px);
+}
