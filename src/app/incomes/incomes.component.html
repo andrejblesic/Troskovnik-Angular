@@ -3,6 +3,8 @@
   LOADING...
 </div>
 
+<app-create-income *ngIf="!loading"></app-create-income>
+
 <div *ngIf="!loading" class="mat-elevation-z8 incomes-table">
   <table
     mat-table
