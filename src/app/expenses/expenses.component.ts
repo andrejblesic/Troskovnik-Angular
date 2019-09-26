@@ -44,7 +44,6 @@ export class ExpensesComponent implements OnInit {
     });
     this.expenseArray = result;
     this.loading = false;
-    console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE", this.expenseTotal);
   }
 
   ngOnInit() {

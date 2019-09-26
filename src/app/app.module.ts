@@ -37,7 +37,8 @@ const appRoutes: Routes = [
   { path: 'incomes', component: IncomesComponent, data: { title: "Incomes" }},
   { path: 'expenses', component: ExpensesComponent, data: { title: "Expenses" }},
   { path: 'dashboard', component: DashboardComponent, data: { title: "Dashboard" }},
-  { path: 'login', component: LoginComponent, data: { title: "Login" }}
+  { path: 'login', component: LoginComponent, data: { title: "Login" }},
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
 ]
 
 @NgModule({
