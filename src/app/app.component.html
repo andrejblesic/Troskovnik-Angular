@@ -1,3 +1,7 @@
+<!-- <app-main-nav>
+  <router-outlet></router-outlet>
+</app-main-nav> -->
+
 <app-main-nav>
   <div *ngIf="loading" class="">
     <img
@@ -9,21 +13,18 @@
   <div *ngIf="!loading" class="">
     <app-create-income></app-create-income>
     <app-incomes
-      [incomeTotal]="totalIncomes"
-      [incomeDataSource]="incomeDataSource"
       (deleteEntry)="deleteEntry($event)"
     ></app-incomes>
     <app-create-income-category></app-create-income-category>
     <app-create-expense-category></app-create-expense-category>
     <div class="main-wrapper">
-      <!-- <app-expenses
+       <app-expenses
           (deleteEntry)="deleteEntry($event)"
           [expenseArr]="expenses | async | keyvalue"
           [expenseTotal]="totalExpenses"
         >
-        </app-expenses> -->
+        </app-expenses>
     </div>
-
     <app-dashboard></app-dashboard>
   </div>
 </app-main-nav>

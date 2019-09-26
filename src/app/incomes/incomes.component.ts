@@ -7,6 +7,19 @@ import {
   ViewChild
 } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { share } from 'rxjs/operators';
+import { HttpSendService } from '../http-send.service';
+
+interface AppState {
+  appState: {
+    access_token: string,
+    incomes: object,
+    expenses: object,
+    income_categories: object,
+    expense_categories: object
+  }
+}
 
 @Component({
   selector: 'app-incomes',
@@ -21,37 +34,39 @@ export class IncomesComponent implements OnInit {
     'amount'
   ];
 
-  constructor() {}
+  constructor(private store: Store<AppState>, private httpSendService: HttpSendService) {}
 
   @Input() incomeAmount: string;
   @Input() incomeEntryDate: string;
   @Input() incomeDescription: string;
-  @Input() incomeTotal: number;
-  @Input() incomeDataSource: Observable<any>;
-  @Output() deleteEntry = new EventEmitter<string[]>();
 
   incomesArray: object[] = [];
+  incomeTotal: number = 0;
+  loading: boolean = true;
 
   trackByFn(index, item) {
     return index;
   }
 
   deleteIncome($event) {
-    this.deleteEntry.next([
-      $event.target.id,
-      $event.target.getAttribute('data-id')
-    ]);
+    this.httpSendService.deleteIncome($event.target.id);
   }
+
   handleMessage(message) {
+    for (let item in message) {
+      this.incomeTotal += parseFloat(message[item].amount)
+    }
     let result = Object.keys(message).map(key => {
       return [Number(key), message[key]];
     });
     this.incomesArray = result;
-    console.log(result);
+    this.loading = false;
   }
+
   ngOnInit() {
-    setTimeout(() => {
-      this.incomeDataSource.subscribe(message => this.handleMessage(message));
-    }, 2000);
+    console.log("benis")
+    this.store.select(state => state.appState.incomes ? state.appState.incomes : null).subscribe(
+      message => message ? this.handleMessage(message) : null
+    );
   }
 }
