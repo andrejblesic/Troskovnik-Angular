@@ -84,6 +84,7 @@ export class HttpFetchService {
   }
 
   dispatchIncomes(message) {
+    console.log(message);
     message.data ? this.store.dispatch(allIncomes({
       incomes: message.data
     })) : null;

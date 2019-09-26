@@ -32,13 +32,16 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { RouterModule, Routes } from '@angular/router';
+import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
 
 const appRoutes: Routes = [
   { path: 'incomes', component: IncomesComponent, data: { title: "Incomes" }},
   { path: 'expenses', component: ExpensesComponent, data: { title: "Expenses" }},
   { path: 'dashboard', component: DashboardComponent, data: { title: "Dashboard" }},
   { path: 'login', component: LoginComponent, data: { title: "Login" }},
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: 'income_details/:id', component: TransactionDetailsComponent, data: {title: "Income Details", type: "income"}},
+  { path: 'expense_details/:id', component: TransactionDetailsComponent, data: {title: "Expense Details", type: "expense"}}
 ]
 
 @NgModule({
@@ -52,7 +55,8 @@ const appRoutes: Routes = [
     DashboardComponent,
     CreateIncomeCategoryComponent,
     CreateExpenseCategoryComponent,
-    MainNavComponent
+    MainNavComponent,
+    TransactionDetailsComponent
   ],
   imports: [
     RouterModule.forRoot(

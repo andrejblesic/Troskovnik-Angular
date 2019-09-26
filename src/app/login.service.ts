@@ -32,6 +32,7 @@ export class LoginService {
 
   setAccessToken(message) {
     localStorage.setItem("access_token", message.access_token);
+    console.log(message.access_token);
     this.service.updateStore();
   }
 }
