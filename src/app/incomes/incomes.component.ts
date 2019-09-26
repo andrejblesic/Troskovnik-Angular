@@ -36,10 +36,6 @@ export class IncomesComponent implements OnInit {
 
   constructor(private store: Store<AppState>, private httpSendService: HttpSendService) {}
 
-  @Input() incomeAmount: string;
-  @Input() incomeEntryDate: string;
-  @Input() incomeDescription: string;
-
   incomesArray: object[] = [];
   incomeTotal: number = 0;
   loading: boolean = true;
@@ -64,8 +60,7 @@ export class IncomesComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("benis")
-    this.store.select(state => state.appState.incomes ? state.appState.incomes : null).subscribe(
+    this.store.select(state => state.appState.incomes).subscribe(
       message => message ? this.handleMessage(message) : null
     );
   }
