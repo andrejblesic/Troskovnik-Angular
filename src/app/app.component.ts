@@ -29,20 +29,7 @@ export class AppComponent {
 
   loading: boolean = true;
 
-  expenses: object;
-  incomes: object;
-  totalIncomes: number = 0;
-  totalExpenses: number = 0;
-
-  incomeDataSource: Observable<any> = this.store.select(state =>
-    state.appState ? state.appState.incomes : null
-  );
-
-  expenseDataSource: Observable<any> = this.store.select(state =>
-    state.appState ? state.appState.expenses : null
-  );
-
-  userInfo = {
+  userInfo: Object = {
     grant_type: 'password',
     client_id: '2',
     client_secret: 'DhApJ7TQhVgtnjZEwYvNaSqrm4K9JU87TyrnNjcU',
@@ -70,34 +57,8 @@ export class AppComponent {
     }
   }
 
-  calcIncomeTotal(message) {
-    this.totalIncomes = 0;
-    for (let item in message) {
-      this.totalIncomes += parseFloat(message[item].amount);
-      console.log(this.totalIncomes);
-    }
-  }
-
   ngOnInit() {
     this.loginService.login(this.userInfo);
-    this.expenses = this.store
-      .select(state => (state.appState ? state.appState.expenses : null))
-      .pipe(
-        share(),
-        map(obj => {
-          this.totalExpenses = 0;
-          for (let item in obj) {
-            this.totalExpenses += parseFloat(obj[item].amount);
-          }
-          return obj;
-        })
-      );
-
-    this.incomeDataSource.subscribe(
-      message => this.calcIncomeTotal(message),
-      error => console.log(error),
-      () => console.log('completed')
-    );
     this.store.subscribe(message => this.checkLoading(message));
     this.store.subscribe(message =>
       console.log('STATE UPDATED, NEW STATE:', message)

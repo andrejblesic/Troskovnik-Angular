@@ -1,7 +1,5 @@
 <!-- Mat table -->
-<div *ngIf="loading" class="loading">
-  LOADING...
-</div>
+<mat-spinner class="loading-spinner" *ngIf="loading"></mat-spinner>
 
 <app-create-income *ngIf="!loading"></app-create-income>
 
