@@ -6,25 +6,29 @@
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
   >
-    <mat-toolbar>Menu</mat-toolbar>
+    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <mat-divider> </mat-divider>
     <mat-nav-list>
       <a
         mat-list-item
         [routerLink]="['/dashboard']"
         routerLinkActive="router-link-active"
-        >Dashboard</a
+        ><i class="material-icons"> dashboard </i>Dashboard</a
       >
       <a
         mat-list-item
         [routerLink]="['/incomes']"
         routerLinkActive="router-link-active"
-        >Incomes</a
+        ><i class="material-icons">
+          call_received
+        </i>
+        Incomes</a
       >
       <a
         mat-list-item
         [routerLink]="['/expenses']"
         routerLinkActive="router-link-active"
-        >Expenses</a
+        ><i class="material-icons"> call_made </i>Expenses</a
       >
     </mat-nav-list>
   </mat-sidenav>
@@ -38,7 +42,7 @@
       >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>Troskovnik v0.03</span>
+      <span>Troskovnik v0.04a</span>
     </mat-toolbar>
     <ng-content></ng-content>
   </mat-sidenav-content>
