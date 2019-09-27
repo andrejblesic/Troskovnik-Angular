@@ -13,12 +13,12 @@ import { HttpSendService } from '../http-send.service';
 
 interface AppState {
   appState: {
-    access_token: string,
-    incomes: object,
-    expenses: object,
-    income_categories: object,
-    expense_categories: object
-  }
+    access_token: string;
+    incomes: object;
+    expenses: object;
+    income_categories: object;
+    expense_categories: object;
+  };
 }
 
 @Component({
@@ -34,7 +34,10 @@ export class IncomesComponent implements OnInit {
     'amount'
   ];
 
-  constructor(private store: Store<AppState>, private httpSendService: HttpSendService) {}
+  constructor(
+    private store: Store<AppState>,
+    private httpSendService: HttpSendService
+  ) {}
 
   incomesArray: object[] = [];
   incomeTotal: number = 0;
@@ -51,7 +54,7 @@ export class IncomesComponent implements OnInit {
   handleMessage(message) {
     this.incomeTotal = 0;
     for (let item in message) {
-      this.incomeTotal += parseFloat(message[item].amount)
+      this.incomeTotal += parseFloat(message[item].amount);
     }
     let result = Object.keys(message).map(key => {
       return [Number(key), message[key]];
@@ -61,8 +64,8 @@ export class IncomesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.select(state => state.appState.incomes).subscribe(
-      message => message ? this.handleMessage(message) : null
-    );
+    this.store
+      .select(state => state.appState.incomes)
+      .subscribe(message => (message ? this.handleMessage(message) : null));
   }
 }
