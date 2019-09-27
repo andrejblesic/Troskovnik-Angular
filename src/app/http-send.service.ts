@@ -2,38 +2,23 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpFetchService } from './http-fetch.service';
+import { IAppState } from './models/income-expense-models';
 
 const incomesUrl: string = 'https://troskovnik.omniapps.info/api/v1/incomes/';
 const expensesUrl: string = 'https://troskovnik.omniapps.info/api/v1/expenses/';
-const incomeCategoryUrl: string = 'https://troskovnik.omniapps.info/api/v1/income-categories/';
-const expenseCategoryUrl: string = 'https://troskovnik.omniapps.info/api/v1/expense-categories/';
-
-interface AppState {
-  appState: {
-    access_token: string,
-    incomes: object,
-    expenses: object,
-    income_categories: object,
-    expense_categories: object
-  }
-}
-
-const httpOptions = {
-  headers: new HttpHeaders({})
-}
+const incomeCategoriesUrl: string = 'https://troskovnik.omniapps.info/api/v1/income-categories/';
+const expenseCategoriesUrl: string = 'https://troskovnik.omniapps.info/api/v1/expense-categories/';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpSendService {
 
-  constructor(private store: Store<AppState>, private http: HttpClient, private service: HttpFetchService) { }
+  constructor(private store: Store<IAppState>, private http: HttpClient, private service: HttpFetchService) { }
 
   sendIncome(incomeCategory, incomeEntryDate, incomeAmount, incomeDescription, incomeCategoryId, userName) {
-    //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
     let date = new Date();
     let fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
-    console.log(userName);
     let incomeJSON = {
       amount: incomeAmount,
       created_at: fullDate,
@@ -61,7 +46,6 @@ export class HttpSendService {
   }
 
   sendExpense(expenseCategory, expenseEntryDate, expenseAmount, expenseDescription, expenseCategoryId) {
-    //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
     let date = new Date();
     let fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
     let expenseJSON = {
@@ -90,7 +74,6 @@ export class HttpSendService {
   }
 
   sendIncomeCategory(name) {
-    //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
     let date = new Date();
     let fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
     let incomeCategoryJSON = {
@@ -100,14 +83,13 @@ export class HttpSendService {
       name: name,
       updated_at: fullDate
     }
-    let postIncomeCategory = this.http.post(incomeCategoryUrl, incomeCategoryJSON);
+    let postIncomeCategory = this.http.post(incomeCategoriesUrl, incomeCategoryJSON);
     postIncomeCategory.subscribe(
       message => this.service.fetchIncomeCategories()
     )
   }
 
   sendExpenseCategory(name) {
-    //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
     let date = new Date();
     let fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
     let expenseCategoryJSON = {
@@ -117,14 +99,13 @@ export class HttpSendService {
       name: name,
       updated_at: fullDate
     }
-    let postExpenseCategory = this.http.post(expenseCategoryUrl, expenseCategoryJSON);
+    let postExpenseCategory = this.http.post(expenseCategoriesUrl, expenseCategoryJSON);
     postExpenseCategory.subscribe(
       message => this.service.fetchExpenseCategories()
     )
   }
 
   deleteIncome(id) {
-    //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
     let deleteIncome = this.http.delete(incomesUrl + id);
     deleteIncome.subscribe(
       message => this.service.fetchIncomes()
@@ -132,7 +113,6 @@ export class HttpSendService {
   }
 
   deleteExpense(id) {
-    //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
     let deleteExpense = this.http.delete(expensesUrl + id);
     deleteExpense.subscribe(
       message => this.service.fetchExpenses()
@@ -140,18 +120,18 @@ export class HttpSendService {
   }
 
   //ONLY FOR DEVELOPMENT PURPOSES
-  deleteIncomeCategory(num) {
-    console.log("okida income");
-    //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
-    let deleteIncomeCategories = this.http.delete(`https://troskovnik.omniapps.info/api/v1/income-categories/${num.toString()}`, httpOptions);
-    deleteIncomeCategories.subscribe(message => console.log(message));
-  }
+  // deleteIncomeCategory(num) {
+  //   console.log("okida income");
+  //   httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
+  //   let deleteIncomeCategories = this.http.delete(`https://troskovnik.omniapps.info/api/v1/income-categories/${num.toString()}`, httpOptions);
+  //   deleteIncomeCategories.subscribe(message => console.log(message));
+  // }
 
   //ONLY FOR DEVELOPMENT PURPOSES
-  deleteExpenseCategory(num) {
-    console.log("okida expense");
-    //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
-    let deleteExpenseCategories = this.http.delete(`https://troskovnik.omniapps.info/api/v1/expense-categories/${num.toString()}`, httpOptions);
-    deleteExpenseCategories.subscribe(message => console.log(message));
-  }
+  // deleteExpenseCategory(num) {
+  //   console.log("okida expense");
+  //   //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
+  //   let deleteExpenseCategories = this.http.delete(`https://troskovnik.omniapps.info/api/v1/expense-categories/${num.toString()}`, httpOptions);
+  //   deleteExpenseCategories.subscribe(message => console.log(message));
+  // }
 }

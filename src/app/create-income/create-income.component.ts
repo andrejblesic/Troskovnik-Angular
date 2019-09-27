@@ -40,8 +40,8 @@ export class CreateIncomeComponent implements OnInit {
     this.incomeCategoryId = 1;
   }
 
-  logDate($event) {
-    console.log($event.target.value.getMonth());
+  setDate($event) {
+    console.log($event.target.value);
     this.incomeEntryDate = `${('0' + $event.target.value.getDate()).slice(
       -2
     )}/${('0' + ($event.target.value.getMonth() + 1)).slice(
