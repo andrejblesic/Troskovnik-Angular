@@ -4,14 +4,20 @@ import {
   IAllIncomes,
   IAccessToken,
   IExpenseCategories,
-  IIncomeCategories
+  IIncomeCategories,
+  IUserInfo
 } from '../models/income-expense-models';
 
-const ALL_EXPENSES = '[HttpService] All Expenses';
-const ALL_INCOMES = '[HttpService] All Incomes';
-const INCOME_CATEGORIES = '[HttpService] Income Categories';
-const EXPENSE_CATEGORIES = '[HttpService] Expense Categories';
-const ACCESS_TOKEN = '[HttpService] Access Token';
+const ALL_EXPENSES = '[HttpFetchService] All Expenses';
+const ALL_INCOMES = '[HttpFetchService] All Incomes';
+const INCOME_CATEGORIES = '[HttpFetchService] Income Categories';
+const EXPENSE_CATEGORIES = '[HttpFetchService] Expense Categories';
+const USER_INFO = '[HttpFetchService] User Info';
+
+export const userInfo = createAction(
+  USER_INFO,
+  props<IUserInfo>()
+)
 
 export const allExpenses = createAction(
   ALL_EXPENSES,
@@ -31,9 +37,4 @@ export const incomeCategories = createAction(
 export const expenseCategories = createAction(
   EXPENSE_CATEGORIES,
   props<IExpenseCategories>()
-)
-
-export const accessToken = createAction(
-  ACCESS_TOKEN,
-  props<IAccessToken>()
 )

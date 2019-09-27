@@ -29,10 +29,11 @@ export class HttpSendService {
 
   constructor(private store: Store<AppState>, private http: HttpClient, private service: HttpFetchService) { }
 
-  sendIncome(incomeCategory, incomeEntryDate, incomeAmount, incomeDescription, incomeCategoryId) {
+  sendIncome(incomeCategory, incomeEntryDate, incomeAmount, incomeDescription, incomeCategoryId, userName) {
     //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
     let date = new Date();
     let fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
+    console.log(userName);
     let incomeJSON = {
       amount: incomeAmount,
       created_at: fullDate,
@@ -40,6 +41,7 @@ export class HttpSendService {
       description: incomeDescription,
       entry_date: incomeEntryDate.replace(/\//g, "."),
       id: 1,
+      created_by: userName,
       income_category: {
         id: 1,
         name: incomeCategory,
@@ -52,7 +54,7 @@ export class HttpSendService {
     }
     let postIncome = this.http.post(incomesUrl, incomeJSON);
     postIncome.subscribe(
-      message => this.service.updateIncomes(),
+      message => this.service.fetchIncomes(),
       error => console.log(error),
       () => console.log('Income Sent')
     )
@@ -81,7 +83,7 @@ export class HttpSendService {
     }
     let postExpense = this.http.post(expensesUrl, expenseJSON);
     postExpense.subscribe(
-      message => this.service.updateExpenses(),
+      message => this.service.fetchExpenses(),
       error => console.log(error),
       () => console.log('Expense Sent')
     )
@@ -100,7 +102,7 @@ export class HttpSendService {
     }
     let postIncomeCategory = this.http.post(incomeCategoryUrl, incomeCategoryJSON);
     postIncomeCategory.subscribe(
-      message => this.service.updateIncomeCategories()
+      message => this.service.fetchIncomeCategories()
     )
   }
 
@@ -117,7 +119,7 @@ export class HttpSendService {
     }
     let postExpenseCategory = this.http.post(expenseCategoryUrl, expenseCategoryJSON);
     postExpenseCategory.subscribe(
-      message => this.service.updateExpenseCategories()
+      message => this.service.fetchExpenseCategories()
     )
   }
 
@@ -125,7 +127,7 @@ export class HttpSendService {
     //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
     let deleteIncome = this.http.delete(incomesUrl + id);
     deleteIncome.subscribe(
-      message => this.service.updateIncomes()
+      message => this.service.fetchIncomes()
     )
   }
 
@@ -133,7 +135,7 @@ export class HttpSendService {
     //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
     let deleteExpense = this.http.delete(expensesUrl + id);
     deleteExpense.subscribe(
-      message => this.service.updateExpenses()
+      message => this.service.fetchExpenses()
     )
   }
 

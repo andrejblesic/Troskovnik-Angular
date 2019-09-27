@@ -20,12 +20,11 @@ interface AppState {
 })
 export class AppComponent {
   constructor(
-    private httpFetchService: HttpFetchService,
-    private httpSendService: HttpSendService,
     private store: Store<AppState>,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private httpFetchService: HttpFetchService
   ) {}
-  
+
   title = 'troskovnik-angular';
 
   loading: boolean = true;
@@ -38,14 +37,6 @@ export class AppComponent {
     password: '1282Verbatim(',
     scope: ''
   };
-
-  deleteEntry(args) {
-    if (args[1] === 'income') {
-      this.httpSendService.deleteIncome(args[0]);
-    } else if (args[1] === 'expense') {
-      this.httpSendService.deleteExpense(args[0]);
-    }
-  }
 
   checkLoading(message) {
     if (
@@ -60,7 +51,6 @@ export class AppComponent {
 
   ngOnInit() {
     this.loginService.login(this.userInfo);
-    this.store.subscribe(message => this.checkLoading(message));
     this.store.subscribe(message =>
       console.log('STATE UPDATED, NEW STATE:', message)
     );

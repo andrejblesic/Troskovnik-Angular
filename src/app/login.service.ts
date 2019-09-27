@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { accessToken } from './store/actions';
 import { Store } from '@ngrx/store';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpFetchService } from './http-fetch.service';
+import * as jwtDecode from 'jwt-decode';
 
 const authUrl: string = 'https://troskovnik.omniapps.info/oauth/token/';
 
@@ -31,6 +31,8 @@ export class LoginService {
   }
 
   setAccessToken(message) {
+    let user_info = jwtDecode(message.access_token);
+    this.service.fetchUserInfo(user_info.sub);
     localStorage.setItem("access_token", message.access_token);
     this.service.updateStore();
   }
