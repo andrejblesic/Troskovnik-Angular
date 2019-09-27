@@ -49,6 +49,7 @@ export class IncomesComponent implements OnInit {
   }
 
   handleMessage(message) {
+    this.incomeTotal = 0;
     for (let item in message) {
       this.incomeTotal += parseFloat(message[item].amount)
     }

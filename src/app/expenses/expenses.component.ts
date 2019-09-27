@@ -25,8 +25,6 @@ export class ExpensesComponent implements OnInit {
   expenseArray: object[];
   loading: boolean = true;
 
-  fadeOut: boolean = false;
-
   trackByFn(item, index) {
     return index;
   }
@@ -36,6 +34,7 @@ export class ExpensesComponent implements OnInit {
   }
 
   handleMessage(message) {
+    this.expenseTotal = 0;
     for (let item in message) {
       this.expenseTotal += parseFloat(message[item].amount);
     }
