@@ -20,7 +20,9 @@
               ? incomesArray[i]['1'].income_category.name
               : null
           }}
-          <a routerLink="/income_details/{{i}}">Details</a>
+          <a routerLink="/income_details/{{ i }}"
+            ><mat-icon color="primary">description</mat-icon></a
+          >
         </div>
       </td>
       <td mat-footer-cell *matFooterCellDef></td>
