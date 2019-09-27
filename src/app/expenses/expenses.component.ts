@@ -32,7 +32,7 @@ export class ExpensesComponent implements OnInit {
   }
 
   deleteExpense($event) {
-    this.httpSendService.deleteIncome($event.target.id);
+    this.httpSendService.deleteExpense($event.target.id);
   }
 
   handleMessage(message) {
