@@ -1,3 +1,5 @@
+<app-create-expense-category></app-create-expense-category>
+<app-create-expense></app-create-expense>
 <div *ngFor="let item of expenseArray; trackBy: trackByFn; let i = index">
   <span [ngClass]="item.fadeOut ? 'fade-out' : null" class='expenses-div'>
     <div class="expense-field">Expense <a routerLink="/expense_details/{{i}}">Details</a></div>

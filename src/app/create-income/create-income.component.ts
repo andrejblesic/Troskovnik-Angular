@@ -4,16 +4,7 @@ import { Store } from '@ngrx/store';
 import { share } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
-
-interface AppState {
-  appState: {
-    access_token: string,
-    incomes: object,
-    expenses: object,
-    income_categories: object,
-    expense_categories: object
-  }
-}
+import { IAppState } from '../models/income-expense-models';
 
 @Component({
   selector: 'app-create-income',
@@ -22,19 +13,20 @@ interface AppState {
 })
 export class CreateIncomeComponent implements OnInit {
 
-  constructor(private service: HttpSendService, private store: Store<AppState>) { }
+  constructor(private service: HttpSendService, private store: Store<IAppState>) { }
 
- // date
+  // date
   date = new FormControl(new Date());
   serializedDate = new FormControl(new Date().toISOString());
   // date
 
   incomeCategory = "Razvoj softwarea";
   incomeEntryDate: string = "";
-  incomeAmount: string = "200.00";
-  incomeDescription: string = "Test Description";
+  incomeAmount: string = "";
+  incomeDescription: string = "";
   incomeCategories: Observable<any>;
   incomeCategoryId: number = 1;
+  userName: string;
 
   sendIncome() {
     this.service.sendIncome(
@@ -42,7 +34,8 @@ export class CreateIncomeComponent implements OnInit {
       this.incomeEntryDate,
       this.incomeAmount,
       this.incomeDescription,
-      this.incomeCategoryId
+      this.incomeCategoryId,
+      this.userName
     );
     this.incomeCategoryId = 1;
   }
@@ -60,9 +53,11 @@ export class CreateIncomeComponent implements OnInit {
     this.incomeCategoryId = parseInt($event);
   }
 
-
   ngOnInit() {
-    this.incomeCategories = this.store.select(state => state.appState.income_categories).pipe(share())
+    this.incomeCategories = this.store.select(state => state.appState.income_categories).pipe(share());
+    this.store.select(state => state.appState.user_info).subscribe(
+      message => message ? this.userName = message.name : null
+    )
   }
 
 }

@@ -14,7 +14,7 @@ export const transactionReducer = createReducer(
   initialState,
   on(actions.allExpenses, (state, action) => ({...state, expenses: {...action.expenses}})),
   on(actions.allIncomes, (state, action) => ({...state, incomes: {...action.incomes}})),
-  //on(actions.accessToken, (state, action) => ({...state, access_token: action.access_token})),
+  on(actions.userInfo, (state, action) => ({...state, user_info: action.user_info})),
   on(actions.incomeCategories, (state, action) => ({...state, income_categories: action.income_categories})),
   on(actions.expenseCategories, (state, action) => ({...state, expense_categories: action.expense_categories}))
 )

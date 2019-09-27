@@ -3,16 +3,7 @@ import { HttpSendService } from '../http-send.service';
 import { Store } from '@ngrx/store';
 import { share } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-
-interface AppState {
-  appState: {
-    access_token: string,
-    incomes: object,
-    expenses: object,
-    income_categories: object,
-    expense_categories: object
-  }
-}
+import { IAppState } from '../models/income-expense-models';
 
 @Component({
   selector: 'app-create-expense',
@@ -21,7 +12,7 @@ interface AppState {
 })
 export class CreateExpenseComponent implements OnInit {
 
-  constructor(private store: Store<AppState>, private service: HttpSendService) { }
+  constructor(private store: Store<IAppState>, private service: HttpSendService) { }
 
   expenseCategory: string;
   expenseEntryDate: string = "";

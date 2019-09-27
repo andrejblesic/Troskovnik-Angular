@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { allExpenses, allIncomes, incomeCategories, expenseCategories } from './store/actions';
+import { allExpenses, allIncomes, incomeCategories, expenseCategories, userInfo } from './store/actions';
 import { Store } from '@ngrx/store';
 
 const incomeUrl: string = 'https://troskovnik.omniapps.info/api/v1/incomes/';
 const expenseUrl: string = 'https://troskovnik.omniapps.info/api/v1/expenses/';
 const incomeCategoryUrl: string = 'https://troskovnik.omniapps.info/api/v1/income-categories/';
 const expenseCategoryUrl: string = 'https://troskovnik.omniapps.info/api/v1/expense-categories/';
+const userUrl: string = 'https://troskovnik.omniapps.info/api/v1/users/'
 
 const httpOptions = {
   headers: new HttpHeaders({})
@@ -29,7 +30,7 @@ export class HttpFetchService {
 
   constructor(private http: HttpClient, private store: Store<AppState>) {}
 
-  updateIncomes() {
+  fetchIncomes() {
     const httpIncomes = this.http.get(incomeUrl);
     httpIncomes.subscribe(
       message => this.dispatchIncomes(message),
@@ -38,7 +39,7 @@ export class HttpFetchService {
     );
   }
 
-  updateExpenses() {
+  fetchExpenses() {
     const httpExpenses = this.http.get(expenseUrl);
     httpExpenses.subscribe(
       message => this.dispatchExpenses(message),
@@ -47,7 +48,7 @@ export class HttpFetchService {
     );
   }
 
-  updateIncomeCategories() {
+  fetchIncomeCategories() {
     const httpIncomeCategories = this.http.get(incomeCategoryUrl);
     httpIncomeCategories.subscribe(
       message => this.dispatchIncomeCategories(message),
@@ -56,13 +57,25 @@ export class HttpFetchService {
     );
   }
 
-  updateExpenseCategories() {
+  fetchExpenseCategories() {
     const httpExpenseCategories = this.http.get(expenseCategoryUrl);
     httpExpenseCategories.subscribe(
       message => this.dispatchExpenseCategories(message),
       error => console.log(error),
       () => console.log('Expense Categories Fetched')
     );
+  }
+
+  fetchUserInfo(id) {
+    const httpUserInfo = this.http.get(userUrl + id);
+    httpUserInfo.subscribe(
+      message => this.dispatchUserInfo(message)
+    )
+  }
+
+  dispatchUserInfo(message) {
+    console.log(message);
+    this.store.dispatch(userInfo({user_info:<number> message.data}));
   }
 
   dispatchIncomeCategories(message) {
@@ -91,9 +104,9 @@ export class HttpFetchService {
   }
 
   updateStore() {
-    this.updateIncomes();
-    this.updateExpenses();
-    this.updateExpenseCategories();
-    this.updateIncomeCategories();
+    this.fetchIncomes();
+    this.fetchExpenses();
+    this.fetchExpenseCategories();
+    this.fetchIncomeCategories();
   }
 }
