@@ -2,36 +2,23 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { allExpenses, allIncomes, incomeCategories, expenseCategories, userInfo } from './store/actions';
 import { Store } from '@ngrx/store';
+import { IAppState } from './models/income-expense-models';
 
-const incomeUrl: string = 'https://troskovnik.omniapps.info/api/v1/incomes/';
-const expenseUrl: string = 'https://troskovnik.omniapps.info/api/v1/expenses/';
-const incomeCategoryUrl: string = 'https://troskovnik.omniapps.info/api/v1/income-categories/';
-const expenseCategoryUrl: string = 'https://troskovnik.omniapps.info/api/v1/expense-categories/';
-const userUrl: string = 'https://troskovnik.omniapps.info/api/v1/users/'
-
-const httpOptions = {
-  headers: new HttpHeaders({})
-}
-
-interface AppState {
-  appState: {
-    access_token: string,
-    incomes: object,
-    expenses: object,
-    income_categories: object,
-    expense_categories: object
-  }
-}
+const incomesUrl: string = 'https://troskovnik.omniapps.info/api/v1/incomes/';
+const expensesUrl: string = 'https://troskovnik.omniapps.info/api/v1/expenses/';
+const incomeCategoriesUrl: string = 'https://troskovnik.omniapps.info/api/v1/income-categories/';
+const expenseCategoriesUrl: string = 'https://troskovnik.omniapps.info/api/v1/expense-categories/';
+const userUrl: string = 'https://troskovnik.omniapps.info/api/v1/users/';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpFetchService {
 
-  constructor(private http: HttpClient, private store: Store<AppState>) {}
+  constructor(private http: HttpClient, private store: Store<IAppState>) {}
 
   fetchIncomes() {
-    const httpIncomes = this.http.get(incomeUrl);
+    const httpIncomes = this.http.get(incomesUrl);
     httpIncomes.subscribe(
       message => this.dispatchIncomes(message),
       error => console.log(error),
@@ -40,7 +27,7 @@ export class HttpFetchService {
   }
 
   fetchExpenses() {
-    const httpExpenses = this.http.get(expenseUrl);
+    const httpExpenses = this.http.get(expensesUrl);
     httpExpenses.subscribe(
       message => this.dispatchExpenses(message),
       error => console.log(error),
@@ -49,7 +36,7 @@ export class HttpFetchService {
   }
 
   fetchIncomeCategories() {
-    const httpIncomeCategories = this.http.get(incomeCategoryUrl);
+    const httpIncomeCategories = this.http.get(incomeCategoriesUrl);
     httpIncomeCategories.subscribe(
       message => this.dispatchIncomeCategories(message),
       error => console.log(error),
@@ -58,7 +45,7 @@ export class HttpFetchService {
   }
 
   fetchExpenseCategories() {
-    const httpExpenseCategories = this.http.get(expenseCategoryUrl);
+    const httpExpenseCategories = this.http.get(expenseCategoriesUrl);
     httpExpenseCategories.subscribe(
       message => this.dispatchExpenseCategories(message),
       error => console.log(error),
