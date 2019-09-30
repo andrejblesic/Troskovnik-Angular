@@ -9,19 +9,126 @@
     <option value="Expenses">Expenses</option>
   </select>
   Sort By:
-  <select [(ngModel)]="sortBy" (change)=sortTransactions() class="" name="sort-by">
+  <select
+    [(ngModel)]="sortBy"
+    (change)="sortTransactions()"
+    class=""
+    name="sort-by"
+  >
     <option value="Date(Recent First)">Date(Recent First)</option>
     <option value="Date(Old First)">Date(Old First)</option>
   </select>
   <div *ngFor="let item of allTransactionsArr" class="transaction">
-    <p *ngIf="show === 'All' ? item[1] : (show === 'Expenses' ? item[1].expense_category : item[1].income_category)">
+    <p
+      *ngIf="
+        show === 'All'
+          ? item[1]
+          : show === 'Expenses'
+          ? item[1].expense_category
+          : item[1].income_category
+      "
+    >
       <span *ngIf="item[1].income_category">Income |</span>
       <span *ngIf="item[1].expense_category">Expense |</span>
-      {{item[1]?.expense_category?.name}}
-      {{item[1]?.income_category?.name}} |
-      {{item[1]?.description}} |
-      {{item[1]?.entry_date}} |
-      {{item[1]?.amount}}
+      {{ item[1]?.expense_category?.name }}
+      {{ item[1]?.income_category?.name }} | {{ item[1]?.description }} |
+      {{ item[1]?.entry_date }} |
+      {{ item[1]?.amount }}
     </p>
   </div>
+</div>
+<!--  material table  -->
+<mat-spinner class="loading-spinner" *ngIf="loading"></mat-spinner>
+
+<div *ngIf="!loading" class="mat-elevation-z8 incomes-table">
+  <table
+    mat-table
+    #table
+    [dataSource]="allTransactionsArr"
+    mat-table
+    class="full-width-table"
+  >
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef>Type</th>
+      <td mat-cell *matCellDef="let row; let i = index">
+        <span *ngIf="allTransactionsArr[i]['1'].income_category">Income</span>
+        <span *ngIf="allTransactionsArr[i]['1'].expense_category">Expense</span>
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef>Category</th>
+      <td mat-cell *matCellDef="let row; let i = index">
+        {{
+          allTransactionsArr[i]['1'].income_category
+            ? allTransactionsArr[i]['1'].income_category.name
+            : allTransactionsArr[i]['1'].expense_category.name
+        }}
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let row; let i = index">
+        {{ allTransactionsArr[i]['1'].description }}
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="entryDate">
+      <th mat-header-cell *matHeaderCellDef>Entry Date</th>
+      <td mat-cell *matCellDef="let row; let i = index">
+        {{ allTransactionsArr[i]['1'].entry_date }}
+      </td>
+      <td class="total-footer-cell" mat-footer-cell *matFooterCellDef>
+        Total:
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef>Amount</th>
+      <td class="amount-col" mat-cell *matCellDef="let row; let i = index">
+        {{ allTransactionsArr[i]['1'].amount }}
+        <div>
+          <mat-icon
+            *ngIf="allTransactionsArr[i]['1'].income_category"
+            routerLink="/income_details/{{ i }}"
+            class="details-button"
+            color="info"
+            [matTooltipShowDelay]="500"
+            matTooltip="Details"
+            >description</mat-icon
+          >
+
+          <mat-icon
+            *ngIf="allTransactionsArr[i]['1'].expense_category"
+            routerLink="/expense_details/{{ i }}"
+            class="details-button"
+            color="info"
+            [matTooltipShowDelay]="500"
+            matTooltip="Details"
+            >description</mat-icon
+          >
+
+          <mat-icon
+            [matTooltipShowDelay]="500"
+            matTooltip="Delete"
+            class="delete-button"
+            color="warn"
+            data-id="income"
+            id="{{ allTransactionsArr[i]['1'].id }}"
+            >highlight_off
+          </mat-icon>
+        </div>
+      </td>
+      <td class="income-total" mat-footer-cell *matFooterCellDef>
+        TEST
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+  </table>
 </div>
