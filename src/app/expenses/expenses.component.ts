@@ -1,15 +1,15 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { HttpSendService } from '../http-send.service';
 
 interface AppState {
   appState: {
-    access_token: string,
-    incomes: object,
-    expenses: object,
-    income_categories: object,
-    expense_categories: object
-  }
+    access_token: string;
+    incomes: object;
+    expenses: object;
+    income_categories: object;
+    expense_categories: object;
+  };
 }
 
 @Component({
@@ -18,8 +18,17 @@ interface AppState {
   styleUrls: ['./expenses.component.scss']
 })
 export class ExpensesComponent implements OnInit {
+  displayedColumns: string[] = [
+    'category',
+    'description',
+    'entryDate',
+    'amount'
+  ];
 
-  constructor(private store: Store<AppState>, private httpSendService: HttpSendService) { }
+  constructor(
+    private store: Store<AppState>,
+    private httpSendService: HttpSendService
+  ) {}
 
   expenseTotal: number = 0;
   expenseArray: object[];
@@ -46,8 +55,8 @@ export class ExpensesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.select(state => state.appState.expenses).subscribe(
-      message => message ? this.handleMessage(message) : null
-    );
+    this.store
+      .select(state => state.appState.expenses)
+      .subscribe(message => (message ? this.handleMessage(message) : null));
   }
 }
