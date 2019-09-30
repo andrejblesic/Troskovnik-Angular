@@ -7,8 +7,7 @@ import { HttpSendService } from '../http-send.service';
   styleUrls: ['./create-expense-category.component.scss']
 })
 export class CreateExpenseCategoryComponent implements OnInit {
-
-  constructor(private service: HttpSendService) { }
+  constructor(private service: HttpSendService) {}
 
   expenseCategoryName: string;
 
@@ -16,7 +15,5 @@ export class CreateExpenseCategoryComponent implements OnInit {
     this.service.sendExpenseCategory(this.expenseCategoryName);
   }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

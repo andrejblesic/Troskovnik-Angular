@@ -2,7 +2,27 @@
 
 .create-expense {
   font-family: 'Open Sans';
-  border: 1px solid rgba(0,0,0,0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 10px;
   border-radius: 3px;
+}
+.create-expense-card {
+  padding: 25px 25px 10px 25px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.expense-form {
+  max-width: 100%;
+}
+.expense-form > * {
+  width: 100%;
+}
+.submit-button {
+  align-self: center;
+}
+.expense-panel {
+  margin-left: calc(3.5% - 17px);
+  margin-right: calc(1.5% + 17px);
+  border-radius: 0 !important;
 }

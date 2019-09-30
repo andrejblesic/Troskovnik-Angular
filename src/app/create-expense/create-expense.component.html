@@ -1,12 +1,78 @@
-<div class="create-expense">
-  <form class="">
-    <p>Create Expense</p>
-    <select (change)="setExpenseCategoryId($event)" class="select-expense-category" name="select-expense-category">
-      <option *ngFor="let item of (expenseCategories | async); let i = index" id="{{item.id}}" value="{{item.id}}">{{item.name}}</option>
-    </select>
-    <input (change)="logDate($event)" required placeholder="Entry Date*" type="date" name="expenseEntryDate" value="">
-    <input [(ngModel)]="expenseAmount" required placeholder="Amount*" type="text" name="expenseAmount" value="">
-    <input [(ngModel)]="expenseDescription" placeholder="Description" type="text" name="expenseDescription" value="">
-    <button (click)="sendExpense()" type="button" name="button">SUBMIT</button>
-  </form>
-</div>
+<mat-expansion-panel class="expense-panel mat-elevation-z8 ">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Add New Expense
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <div class="create-expense-card">
+    <form class="expense-form">
+      <mat-form-field>
+        <mat-label>Category</mat-label>
+
+        <mat-select
+          [(ngModel)]="expenseCategory"
+          (valueChange)="setExpenseCategoryId($event)"
+          name="select-expense-category"
+          class="select-input-category"
+          value="expenseCategory"
+        >
+          <mat-option
+            *ngFor="let item of expenseCategories | async; let i = index"
+            id="{{ item.id }}"
+            value="{{ item.id }}"
+          >
+            {{ item.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          name="expenseEntryDate"
+          required
+          value=""
+          matInput
+          [matDatepicker]="picker"
+          placeholder="Entry Date"
+          (dateInput)="logDate($event)"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          matInput
+          [(ngModel)]="expenseAmount"
+          required
+          placeholder="Amount"
+          type="number"
+          name="expenseAmount"
+          value=""
+        />
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input
+          matInput
+          [(ngModel)]="expenseDescription"
+          placeholder="Description"
+          type="text"
+          name="expenseDescription"
+          value=""
+        />
+      </mat-form-field>
+    </form>
+    <button
+      class="submit-button"
+      (click)="sendExpense()"
+      mat-raised-button
+      color="primary"
+    >
+      Submit
+    </button>
+  </div>
+
+  <mat-expansion-panel> </mat-expansion-panel
+></mat-expansion-panel>
