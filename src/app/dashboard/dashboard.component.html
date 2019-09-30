@@ -87,7 +87,7 @@
     <ng-container matColumnDef="amount">
       <th mat-header-cell *matHeaderCellDef>Amount</th>
       <td class="amount-col" mat-cell *matCellDef="let row; let i = index">
-        {{ allTransactionsArr[i]['1'].amount }}
+        <span>{{ allTransactionsArr[i]['1'].amount }}</span>
         <div>
           <mat-icon
             *ngIf="allTransactionsArr[i]['1'].income_category"
@@ -108,20 +108,20 @@
             matTooltip="Details"
             >description</mat-icon
           >
-
           <mat-icon
             [matTooltipShowDelay]="500"
+            (click)="deleteTransaction($event)"
             matTooltip="Delete"
             class="delete-button"
             color="warn"
-            data-id="income"
+            attr.data-target="{{ allTransactionsArr[i]['1'].income_category ? 'income' : 'expense' }}"
             id="{{ allTransactionsArr[i]['1'].id }}"
             >highlight_off
           </mat-icon>
         </div>
       </td>
       <td class="income-total" mat-footer-cell *matFooterCellDef>
-        TEST
+        {{total | number: '.2'}}
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
