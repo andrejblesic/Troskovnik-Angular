@@ -34,6 +34,7 @@ export class TransactionDetailsComponent implements OnInit {
   transactionCategory: string;
   type: string;
   id: Observable<any>;
+  loading: boolean = true;
 
   handleIncome(message) {
     if (message) {
@@ -41,6 +42,7 @@ export class TransactionDetailsComponent implements OnInit {
       this.transactionAmount = parseFloat(message.amount);
       this.transactionEntryDate = message.entry_date;
       this.transactionCategory = message.income_category.name;
+      this.loading = false;
     }
   }
 
