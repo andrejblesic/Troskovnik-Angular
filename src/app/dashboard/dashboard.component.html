@@ -1,39 +1,3 @@
-<div *ngIf="!loading">
-  Show:
-  <select (change)="showTransactions($event)" class="show-categories" name="">
-    <option value="All">All</option>
-    <option value="Incomes">Incomes</option>
-    <option value="Expenses">Expenses</option>
-  </select>
-  Sort By:
-  <select
-    [(ngModel)]="sortBy"
-    (change)="sortTransactions()"
-    class=""
-    name="sort-by"
-  >
-    <option value="Date(Recent First)">Date(Recent First)</option>
-    <option value="Date(Old First)">Date(Old First)</option>
-  </select>
-  <div *ngFor="let item of allTransactionsArr" class="transaction">
-    <p
-      *ngIf="
-        show === 'All'
-          ? item[1]
-          : show === 'Expenses'
-          ? item[1].expense_category
-          : item[1].income_category
-      "
-    >
-      <span *ngIf="item[1].income_category">Income |</span>
-      <span *ngIf="item[1].expense_category">Expense |</span>
-      {{ item[1]?.expense_category?.name }}
-      {{ item[1]?.income_category?.name }} | {{ item[1]?.description }} |
-      {{ item[1]?.entry_date }} |
-      {{ item[1]?.amount }}
-    </p>
-  </div>
-</div>
 <!--  material table  -->
 <mat-spinner class="loading-spinner" *ngIf="loading"></mat-spinner>
 
@@ -88,10 +52,27 @@
       <th mat-header-cell *matHeaderCellDef>Amount</th>
       <td class="amount-col" mat-cell *matCellDef="let row; let i = index">
         {{ allTransactionsArr[i]['1'].amount }}
+
         <div>
+          <i
+            *ngIf="allTransactionsArr[i]['1'].expense_category"
+            class="material-icons expense-arrow"
+            [matTooltipShowDelay]="500"
+            matTooltip="Expense"
+          >
+            arrow_downward
+          </i>
+          <i
+            *ngIf="allTransactionsArr[i]['1'].income_category"
+            class="material-icons income-arrow"
+            [matTooltipShowDelay]="500"
+            matTooltip="Income"
+          >
+            arrow_upward
+          </i>
           <mat-icon
             *ngIf="allTransactionsArr[i]['1'].income_category"
-            routerLink="/income_details/{{ allTransactionsArr[i]['0'] }}"
+            routerLink="/income_details/{{ i }}"
             class="details-button"
             color="info"
             [matTooltipShowDelay]="500"
@@ -101,7 +82,7 @@
 
           <mat-icon
             *ngIf="allTransactionsArr[i]['1'].expense_category"
-            routerLink="/expense_details/{{ allTransactionsArr[i]['0'] }}"
+            routerLink="/expense_details/{{ i }}"
             class="details-button"
             color="info"
             [matTooltipShowDelay]="500"
