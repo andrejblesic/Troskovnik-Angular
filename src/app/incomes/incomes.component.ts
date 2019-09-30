@@ -1,14 +1,7 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild
-} from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+
 import { Store } from '@ngrx/store';
-import { share } from 'rxjs/operators';
+
 import { HttpSendService } from '../http-send.service';
 
 interface AppState {
