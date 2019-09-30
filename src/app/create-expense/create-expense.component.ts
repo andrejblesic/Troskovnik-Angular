@@ -32,7 +32,7 @@ export class CreateExpenseComponent implements OnInit {
     this.expenseCategoryId = 1;
   }
 
-  logDate($event) {
+  setDate($event) {
     this.expenseEntryDate = $event.target.value.split("-").reverse().join("/");
   }
 

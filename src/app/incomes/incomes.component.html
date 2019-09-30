@@ -48,13 +48,10 @@
       <td class="amount-col" mat-cell *matCellDef="let row; let i = index">
         {{ incomesArray[i]['1'].amount }}
         <div>
-          <mat-button-toggle color="primary" (click)="openDialog()"
-            >TEST</mat-button-toggle
-          >
           <mat-icon
             class="details-button"
             routerLink="/income_details/{{ i }}"
-            color="accent"
+            color="info"
             [matTooltipShowDelay]="500"
             matTooltip="Details"
             >description</mat-icon
