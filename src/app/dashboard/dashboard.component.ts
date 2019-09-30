@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { HttpSendService } from '../http-send.service';
 
 interface AppState {
   appState: {
@@ -25,11 +26,14 @@ export class DashboardComponent implements OnInit {
     'entryDate',
     'amount'
   ];
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private service: HttpSendService) {}
 
   incomeArr: object[] = [];
   expenseArr: object[] = [];
   allTransactionsArr: object[] = [];
+  incomeTotal: number;
+  expenseTotal: number;
+  total: number;
   show: string = 'All';
   sortBy: string = 'Date(Recent First)';
   incomeSub: Subscription;
@@ -46,6 +50,15 @@ export class DashboardComponent implements OnInit {
     this.expenseSub = this.store
       .select(state => state.appState.expenses)
       .subscribe(message => this.handleExpenses(message));
+  }
+
+  deleteTransaction($event) {
+    console.log($event.target.id);
+    if ($event.target.getAttribute('data-target') === 'income') {
+      this.service.deleteIncome($event.target.id);
+    } else if ($event.target.getAttribute('data-target') === 'expense') {
+      this.service.deleteExpense($event.target.id);
+    }
   }
 
   sortTransactions() {
@@ -93,21 +106,31 @@ export class DashboardComponent implements OnInit {
   }
 
   handleIncomes(message) {
+    this.incomeTotal = 0;
+    for (let item in message) {
+      message ? this.incomeTotal += parseFloat(message[item].amount) : null;
+    }
     if (this.allTransactionsArr.length) {
       this.loading = false;
     }
     message ? (this.incomeArr = Object.entries(message)) : null;
     this.allTransactionsArr = this.incomeArr.concat(this.expenseArr);
     this.sortTransactions();
+    this.total = this.incomeTotal - this.expenseTotal;
   }
 
   handleExpenses(message) {
+    this.expenseTotal = 0;
+    for (let item in message) {
+      message ? this.expenseTotal += parseFloat(message[item].amount) : null;
+    }
     if (this.allTransactionsArr.length) {
       this.loading = false;
     }
     message ? (this.expenseArr = Object.entries(message)) : null;
     this.allTransactionsArr = this.expenseArr.concat(this.incomeArr);
     this.sortTransactions();
+    this.total = this.incomeTotal - this.expenseTotal;
   }
 
   ngOnDestroy() {
