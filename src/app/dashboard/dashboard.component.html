@@ -1,6 +1,3 @@
-<div *ngIf="loading" class="loading">
-  LOADING...
-</div>
 <div *ngIf="!loading">
   Show:
   <select (change)="showTransactions($event)" class="show-categories" name="">
@@ -94,7 +91,7 @@
         <div>
           <mat-icon
             *ngIf="allTransactionsArr[i]['1'].income_category"
-            routerLink="/income_details/{{ i }}"
+            routerLink="/income_details/{{ allTransactionsArr[i]['0'] }}"
             class="details-button"
             color="info"
             [matTooltipShowDelay]="500"
@@ -104,7 +101,7 @@
 
           <mat-icon
             *ngIf="allTransactionsArr[i]['1'].expense_category"
-            routerLink="/expense_details/{{ i }}"
+            routerLink="/expense_details/{{ allTransactionsArr[i]['0'] }}"
             class="details-button"
             color="info"
             [matTooltipShowDelay]="500"

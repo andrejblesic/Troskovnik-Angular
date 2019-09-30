@@ -37,6 +37,9 @@ export class DashboardComponent implements OnInit {
   loading: boolean = true;
 
   ngOnInit() {
+    setTimeout(() => {
+      console.log(this.allTransactionsArr);
+    }, 3000)
     this.incomeSub = this.store
       .select(state => state.appState.incomes)
       .subscribe(message => this.handleIncomes(message));
