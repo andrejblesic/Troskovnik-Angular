@@ -41,17 +41,13 @@ export class CreateExpenseComponent implements OnInit {
   }
 
 
-  logDate($event) {
+  setDate($event) {
     console.log($event.target.value.getMonth());
     this.expenseEntryDate = `${('0' + $event.target.value.getDate()).slice(
       -2
     )}/${('0' + ($event.target.value.getMonth() + 1)).slice(
       -2
     )}/${$event.target.value.getFullYear()}`;
-  }
-    
-  setDate($event) {
-    this.expenseEntryDate = $event.target.value.split("-").reverse().join("/");
   }
 
   setExpenseCategoryId($event) {
