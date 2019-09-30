@@ -1,4 +1,8 @@
-{{transactionCategory}} |
-{{transactionDescription}} |
-{{transactionEntryDate}} |
-{{transactionAmount}}
+<mat-spinner class="loading-spinner" *ngIf="loading"></mat-spinner>
+<div *ngIf="!loading" class="">
+  {{type === "income" ? "Income" : "Expense"}} |
+  {{transactionCategory}} |
+  {{transactionDescription}} |
+  {{transactionEntryDate}} |
+  {{transactionAmount}}
+</div>
