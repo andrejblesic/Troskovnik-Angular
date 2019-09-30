@@ -52,6 +52,7 @@ export class TransactionDetailsComponent implements OnInit {
       this.transactionAmount = parseFloat(message.amount);
       this.transactionEntryDate = message.entry_date;
       this.transactionCategory = message.expense_category.name;
+      this.loading = false;
     }
   }
 

@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth-interceptor';
 
+import { MAT_DATE_LOCALE } from '@angular/material';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpFetchService } from './http-fetch.service';
@@ -86,7 +87,8 @@ const appRoutes: Routes = [
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
+    { provide: MAT_DATE_LOCALE, useValue: 'de' }
   ],
   bootstrap: [AppComponent]
 })
