@@ -50,6 +50,8 @@ export class IncomesComponent implements OnInit {
           return compareAmounts(a, b, isAsc);
         case 'entry-date':
           return compareDates(a, b, isAsc);
+        case 'category':
+          return compareCategories(a, b, isAsc)
       }
     });
   }
@@ -101,5 +103,13 @@ function compareDates(a, b, isAsc) {
     return timeStampA - timeStampB;
   } else {
     return timeStampB - timeStampA;
+  }
+}
+
+function compareCategories(a, b, isAsc) {
+  if (isAsc) {
+    return a[1].income_category.name > b[1].income_category.name ? -1 : 1;
+  } else {
+    return b[1].income_category.name < a[1].income_category.name ? 1 : -1;
   }
 }

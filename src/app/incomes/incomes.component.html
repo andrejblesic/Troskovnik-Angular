@@ -12,7 +12,7 @@
     class="full-width-table"
   >
     <ng-container matColumnDef="category">
-      <th mat-header-cell *matHeaderCellDef>Category</th>
+      <th mat-header-cell mat-sort-header="category" *matHeaderCellDef>Category</th>
       <td mat-cell *matCellDef="let row; let i = index">
         <div class="">
           {{
