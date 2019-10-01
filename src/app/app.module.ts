@@ -34,6 +34,8 @@ import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { RouterModule, Routes } from '@angular/router';
 import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
+import { ChartsModule } from 'ng2-charts';
+import { BarChartComponent } from './bar-chart/bar-chart.component';
 
 const appRoutes: Routes = [
   { path: 'incomes', component: IncomesComponent, data: { title: "Incomes" }},
@@ -57,7 +59,8 @@ const appRoutes: Routes = [
     CreateIncomeCategoryComponent,
     CreateExpenseCategoryComponent,
     MainNavComponent,
-    TransactionDetailsComponent
+    TransactionDetailsComponent,
+    BarChartComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -79,7 +82,8 @@ const appRoutes: Routes = [
     MatListModule,
     MatPaginatorModule,
     MatSortModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    ChartsModule
   ],
   providers: [
     HttpFetchService,

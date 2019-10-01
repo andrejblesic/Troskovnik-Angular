@@ -1,6 +1,6 @@
 <!--  material table  -->
 <mat-spinner class="loading-spinner" *ngIf="loading"></mat-spinner>
-
+<app-bar-chart *ngIf="!loading"></app-bar-chart>
 <div *ngIf="!loading" class="mat-elevation-z8 incomes-table">
   <table
     mat-table
