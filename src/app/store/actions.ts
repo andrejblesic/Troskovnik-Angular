@@ -5,7 +5,8 @@ import {
   IAccessToken,
   IExpenseCategories,
   IIncomeCategories,
-  IUserInfo
+  IUserInfo,
+  IDateRange
 } from '../models/income-expense-models';
 
 const ALL_EXPENSES = '[HttpFetchService] All Expenses';
@@ -13,6 +14,7 @@ const ALL_INCOMES = '[HttpFetchService] All Incomes';
 const INCOME_CATEGORIES = '[HttpFetchService] Income Categories';
 const EXPENSE_CATEGORIES = '[HttpFetchService] Expense Categories';
 const USER_INFO = '[HttpFetchService] User Info';
+const DATE_RANGE = '[Date Range Picker] Date Range';
 
 export const userInfo = createAction(
   USER_INFO,
@@ -37,4 +39,9 @@ export const incomeCategories = createAction(
 export const expenseCategories = createAction(
   EXPENSE_CATEGORIES,
   props<IExpenseCategories>()
+)
+
+export const dateRange = createAction(
+  DATE_RANGE,
+  props<IDateRange>()
 )

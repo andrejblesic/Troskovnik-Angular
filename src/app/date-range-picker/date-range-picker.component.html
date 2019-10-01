@@ -1,0 +1,9 @@
+<mat-form-field>
+   <input matInput
+       placeholder="Choose a date"
+       [satDatepicker]="picker"
+       [value]="date"
+       (dateInput)="setDateRange($event)">
+   <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
+   <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+ </mat-form-field>

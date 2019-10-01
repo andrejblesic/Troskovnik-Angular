@@ -15,11 +15,16 @@ export interface IIncomeCategories {
 }
 
 export interface IAccessToken {
-  access_token:string;
+  access_token:string
 }
 
 export interface IUserInfo {
-  user_info:Object;
+  user_info:Object
+}
+
+export interface IDateRange {
+  startDate: number,
+  endDate: number,
 }
 
 interface userInfo {
@@ -39,6 +44,7 @@ interface userInfo {
 
 export interface IAppState {
   appState: {
+    dateRange: IDateRange,
     user_info: userInfo,
     incomes: object,
     expenses: object,
