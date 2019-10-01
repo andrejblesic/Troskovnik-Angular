@@ -73,7 +73,7 @@
           </i>
           <mat-icon
             *ngIf="filteredTransactionsArr[i]['1'].income_category"
-            routerLink="/income_details/{{ filteredTransactionsArr[i]['0'] }}"
+            [routerLink]="['/income_details/', filteredTransactionsArr[i]['0']]"
             class="details-button"
             color="info"
             [matTooltipShowDelay]="500"

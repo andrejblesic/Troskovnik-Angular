@@ -33,7 +33,7 @@ export class TransactionDetailsComponent implements OnInit {
   transactionEntryDate: string;
   transactionCategory: string;
   type: string;
-  id: Observable<any>;
+  id: string;
   loading: boolean = true;
 
   handleIncome(message) {
@@ -56,26 +56,18 @@ export class TransactionDetailsComponent implements OnInit {
     }
   }
 
-  handleId(id) {
+  ngOnInit() {
+    console.log(this.route.snapshot)
+    this.type = this.route.snapshot.data.type;
+    this.id = this.route.snapshot.params.id;
     if (this.type === 'income') {
-      this.store.select(state => state.appState.incomes ? state.appState.incomes[id] : null).subscribe(
+      this.store.select(state => state.appState.incomes ? state.appState.incomes[this.id] : null).subscribe(
         message => this.handleIncome(message)
       );
     } else if (this.type === 'expense') {
-      this.store.select(state => state.appState.expenses ? state.appState.expenses[id] : null).subscribe(
+      this.store.select(state => state.appState.expenses ? state.appState.expenses[this.id] : null).subscribe(
         message => this.handleExpense(message)
       );
     }
-  }
-
-  ngOnInit() {
-    this.type = this.route.snapshot.data.type;
-    this.id = this.route.paramMap.pipe(
-      switchMap((params: ParamMap) =>
-        params.get('id'))
-      );
-    this.id.subscribe(
-      message => this.handleId(message)
-    )
   }
 }
