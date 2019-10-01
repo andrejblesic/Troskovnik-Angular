@@ -2,16 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { HttpSendService } from '../http-send.service';
-
-interface AppState {
-  appState: {
-    access_token: Object;
-    incomes: Object;
-    expenses: Object;
-    expenseCategories: string[];
-    incomeCategories: string[];
-  };
-}
+import { Sort } from '@angular/material/sort';
+import { IAppState } from '../models/income-expense-models';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,11 +18,12 @@ export class DashboardComponent implements OnInit {
     'entryDate',
     'amount'
   ];
-  constructor(private store: Store<AppState>, private service: HttpSendService) {}
+  constructor(private store: Store<IAppState>, private service: HttpSendService) { }
 
   incomeArr: object[] = [];
   expenseArr: object[] = [];
   allTransactionsArr: object[] = [];
+  filteredTransactionsArr: object[] = [];
   incomeTotal: number;
   expenseTotal: number;
   total: number;
@@ -38,12 +31,14 @@ export class DashboardComponent implements OnInit {
   sortBy: string = 'Date(Recent First)';
   incomeSub: Subscription;
   expenseSub: Subscription;
+  dateRange: object;
   loading: boolean = true;
+  currentSort: Sort;
 
   ngOnInit() {
-    setTimeout(() => {
-      console.log(this.allTransactionsArr);
-    }, 3000)
+    this.store.select(state => state.appState.dateRange).subscribe(
+      message => this.filterTransactions(message)
+    )
     this.incomeSub = this.store
       .select(state => state.appState.incomes)
       .subscribe(message => this.handleIncomes(message));
@@ -52,52 +47,23 @@ export class DashboardComponent implements OnInit {
       .subscribe(message => this.handleExpenses(message));
   }
 
+  filterTransactions(message) {
+    this.filteredTransactionsArr = this.allTransactionsArr;
+    this.filteredTransactionsArr = this.allTransactionsArr.filter((item) => {
+      let date = item[1].entry_date.split(".");
+      [date[0], date[1], date[2]] = [date[1], date[0], date[2]];
+      date = date.join("/");
+      date = new Date(date).getTime();
+      return date >= message.startDate && date <= message.endDate;
+    })
+  }
+
   deleteTransaction($event) {
     console.log($event.target.id);
     if ($event.target.getAttribute('data-target') === 'income') {
       this.service.deleteIncome($event.target.id);
     } else if ($event.target.getAttribute('data-target') === 'expense') {
       this.service.deleteExpense($event.target.id);
-    }
-  }
-
-  sortTransactions() {
-    if (this.sortBy === 'Date(Old First)') {
-      this.allTransactionsArr.sort((a, b) => {
-        let date1: number = new Date(
-          a[1].entry_date.slice(6) +
-            '-' +
-            a[1].entry_date.slice(3, 5) +
-            '-' +
-            a[1].entry_date.slice(0, 2)
-        ).getTime();
-        let date2: number = new Date(
-          b[1].entry_date.slice(6) +
-            '-' +
-            b[1].entry_date.slice(3, 5) +
-            '-' +
-            b[1].entry_date.slice(0, 2)
-        ).getTime();
-        return date1 - date2;
-      });
-    } else if (this.sortBy === 'Date(Recent First)') {
-      this.allTransactionsArr.sort((a, b) => {
-        let date1 = new Date(
-          a[1].entry_date.slice(6) +
-            '-' +
-            a[1].entry_date.slice(3, 5) +
-            '-' +
-            a[1].entry_date.slice(0, 2)
-        ).getTime();
-        let date2 = new Date(
-          b[1].entry_date.slice(6) +
-            '-' +
-            b[1].entry_date.slice(3, 5) +
-            '-' +
-            b[1].entry_date.slice(0, 2)
-        ).getTime();
-        return date2 - date1;
-      });
     }
   }
 
@@ -115,8 +81,28 @@ export class DashboardComponent implements OnInit {
     }
     message ? (this.incomeArr = Object.entries(message)) : null;
     this.allTransactionsArr = this.incomeArr.concat(this.expenseArr);
-    this.sortTransactions();
+    this.filteredTransactionsArr = this.allTransactionsArr;
     this.total = this.incomeTotal - this.expenseTotal;
+  }
+
+  sortData(sort: Sort) {
+    this.currentSort = sort;
+    const data = this.allTransactionsArr.slice();
+    if (!sort || !sort.active || sort.direction === '') {
+      this.allTransactionsArr = data;
+      return;
+    }
+    this.allTransactionsArr = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'amount':
+          return compareAmounts(a, b, isAsc);
+        case 'entry-date':
+          return compareDates(a, b, isAsc);
+        case 'category':
+          return compareCategories(a, b, isAsc);
+      }
+    });
   }
 
   handleExpenses(message) {
@@ -129,12 +115,42 @@ export class DashboardComponent implements OnInit {
     }
     message ? (this.expenseArr = Object.entries(message)) : null;
     this.allTransactionsArr = this.expenseArr.concat(this.incomeArr);
-    this.sortTransactions();
+    this.filteredTransactionsArr = this.allTransactionsArr;
     this.total = this.incomeTotal - this.expenseTotal;
   }
 
   ngOnDestroy() {
     this.incomeSub.unsubscribe();
     this.expenseSub.unsubscribe();
+  }
+}
+
+let compareAmounts = (a, b, isAsc) => {
+  if (isAsc) {
+    return parseFloat(a[1].amount) - parseFloat(b[1].amount);
+  } else {
+    return parseFloat(b[1].amount) - parseFloat(a[1].amount);
+  }
+}
+
+let compareDates = (a, b, isAsc) => {
+  let date1 = a[1].entry_date.split('.');
+  date1 = [date1[0], date1[1], date1[2]] = [date1[1], date1[0], date1[2]];
+  let timeStampA = new Date(date1.join('.')).getTime();
+  let date2 = b[1].entry_date.split('.');
+  date2 = [date2[0], date2[1], date2[2]] = [date2[1], date2[0], date2[2]];
+  let timeStampB = new Date(date2.join('.')).getTime();
+  if (isAsc) {
+    return timeStampA - timeStampB;
+  } else {
+    return timeStampB - timeStampA;
+  }
+}
+
+let compareCategories = (a, b, isAsc) => {
+  if (isAsc) {
+    return (a[1].expense_category ? a[1].expense_category.name : a[1].income_category.name) > (b[1].expense_category ? b[1].expense_category.name : b[1].income_category.name) ? -1 : 1;
+  } else {
+    return (b[1].expense_category ? b[1].expense_category.name : b[1].income_category.name) < (a[1].expense_category ? a[1].expense_category.name : a[1].income_category.name) ? 1 : -1;
   }
 }

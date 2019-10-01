@@ -36,6 +36,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
 import { ChartsModule } from 'ng2-charts';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
+import { DateAdapter, MAT_DATE_FORMATS, SatDatepickerModule } from 'saturn-datepicker';
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateRangePickerComponent } from './date-range-picker/date-range-picker.component';
 
 const appRoutes: Routes = [
   { path: 'incomes', component: IncomesComponent, data: { title: "Incomes" }},
@@ -60,7 +63,8 @@ const appRoutes: Routes = [
     CreateExpenseCategoryComponent,
     MainNavComponent,
     TransactionDetailsComponent,
-    BarChartComponent
+    BarChartComponent,
+    DateRangePickerComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -83,7 +87,8 @@ const appRoutes: Routes = [
     MatPaginatorModule,
     MatSortModule,
     MatDatepickerModule,
-    ChartsModule
+    ChartsModule,
+    SatDatepickerModule
   ],
   providers: [
     HttpFetchService,
@@ -92,7 +97,9 @@ const appRoutes: Routes = [
       useClass: AuthInterceptor,
       multi: true
     },
-    { provide: MAT_DATE_LOCALE, useValue: 'de' }
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
   ],
   bootstrap: [AppComponent]
 })
