@@ -13,13 +13,13 @@
         mat-list-item
         [routerLink]="['/dashboard']"
         routerLinkActive="router-link-active"
-        ><i class="material-icons"> dashboard </i>Dashboard</a
+        ><i class="material-icons navbar-icon"> dashboard </i>Dashboard</a
       >
       <a
         mat-list-item
         [routerLink]="['/incomes']"
         routerLinkActive="router-link-active"
-        ><i class="material-icons">
+        ><i class="material-icons navbar-icon">
           call_received
         </i>
         Incomes</a
@@ -28,8 +28,17 @@
         mat-list-item
         [routerLink]="['/expenses']"
         routerLinkActive="router-link-active"
-        ><i class="material-icons"> call_made </i>Expenses</a
+        ><i class="material-icons navbar-icon"> call_made </i>Expenses</a
       >
+      <mat-divider> </mat-divider>
+
+      <a mat-list-item [matMenuTriggerFor]="menu"
+        ><i class="material-icons navbar-icon"> note_add </i>Add New Category</a
+      >
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>New Income Category</button>
+        <button mat-menu-item>New Expense Category</button>
+      </mat-menu>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

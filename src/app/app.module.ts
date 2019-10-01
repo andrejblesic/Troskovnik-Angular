@@ -34,6 +34,8 @@ import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { RouterModule, Routes } from '@angular/router';
 import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
+import { ChartsModule } from 'ng2-charts';
+import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { DateAdapter, MAT_DATE_FORMATS, SatDatepickerModule } from 'saturn-datepicker';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateRangePickerComponent } from './date-range-picker/date-range-picker.component';
@@ -61,6 +63,7 @@ const appRoutes: Routes = [
     CreateExpenseCategoryComponent,
     MainNavComponent,
     TransactionDetailsComponent,
+    BarChartComponent,
     DateRangePickerComponent
   ],
   imports: [
@@ -84,6 +87,7 @@ const appRoutes: Routes = [
     MatPaginatorModule,
     MatSortModule,
     MatDatepickerModule,
+    ChartsModule,
     SatDatepickerModule
   ],
   providers: [
