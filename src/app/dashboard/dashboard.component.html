@@ -1,30 +1,33 @@
 <!--  material table  -->
 <mat-spinner class="loading-spinner" *ngIf="loading"></mat-spinner>
 
+
+<app-date-range-picker *ngIf="!loading"></app-date-range-picker>
 <div *ngIf="!loading" class="mat-elevation-z8 incomes-table">
   <table
+    matSort (matSortChange)='sortData($event)'
     mat-table
     #table
-    [dataSource]="allTransactionsArr"
+    [dataSource]="filteredTransactionsArr"
     mat-table
     class="full-width-table"
   >
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef>Type</th>
       <td mat-cell *matCellDef="let row; let i = index">
-        <span *ngIf="allTransactionsArr[i]['1'].income_category">Income</span>
-        <span *ngIf="allTransactionsArr[i]['1'].expense_category">Expense</span>
+        <span *ngIf="filteredTransactionsArr[i]['1'].income_category">Income</span>
+        <span *ngIf="filteredTransactionsArr[i]['1'].expense_category">Expense</span>
       </td>
       <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
 
     <ng-container matColumnDef="category">
-      <th mat-header-cell *matHeaderCellDef>Category</th>
+      <th mat-header-cell mat-sort-header="category" *matHeaderCellDef>Category</th>
       <td mat-cell *matCellDef="let row; let i = index">
         {{
-          allTransactionsArr[i]['1'].income_category
-            ? allTransactionsArr[i]['1'].income_category.name
-            : allTransactionsArr[i]['1'].expense_category.name
+          filteredTransactionsArr[i]['1'].income_category
+            ? filteredTransactionsArr[i]['1'].income_category.name
+            : filteredTransactionsArr[i]['1'].expense_category.name
         }}
       </td>
       <td mat-footer-cell *matFooterCellDef></td>
@@ -33,15 +36,15 @@
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef>Description</th>
       <td mat-cell *matCellDef="let row; let i = index">
-        {{ allTransactionsArr[i]['1'].description }}
+        {{ filteredTransactionsArr[i]['1'].description }}
       </td>
       <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
 
     <ng-container matColumnDef="entryDate">
-      <th mat-header-cell *matHeaderCellDef>Entry Date</th>
+      <th mat-header-cell mat-sort-header="entry-date" *matHeaderCellDef>Entry Date</th>
       <td mat-cell *matCellDef="let row; let i = index">
-        {{ allTransactionsArr[i]['1'].entry_date }}
+        {{ filteredTransactionsArr[i]['1'].entry_date }}
       </td>
       <td class="total-footer-cell" mat-footer-cell *matFooterCellDef>
         Total:
@@ -49,12 +52,12 @@
     </ng-container>
 
     <ng-container matColumnDef="amount">
-      <th mat-header-cell *matHeaderCellDef>Amount</th>
+      <th mat-header-cell mat-sort-header="amount" *matHeaderCellDef>Amount</th>
       <td class="amount-col" mat-cell *matCellDef="let row; let i = index">
-        <span>{{ allTransactionsArr[i]['1'].amount }}</span>
+        <span>{{ filteredTransactionsArr[i]['1'].amount }}</span>
         <div>
           <i
-            *ngIf="allTransactionsArr[i]['1'].expense_category"
+            *ngIf="filteredTransactionsArr[i]['1'].expense_category"
             class="material-icons expense-arrow"
             [matTooltipShowDelay]="500"
             matTooltip="Expense"
@@ -62,7 +65,7 @@
             arrow_downward
           </i>
           <i
-            *ngIf="allTransactionsArr[i]['1'].income_category"
+            *ngIf="filteredTransactionsArr[i]['1'].income_category"
             class="material-icons income-arrow"
             [matTooltipShowDelay]="500"
             matTooltip="Income"
@@ -70,8 +73,8 @@
             arrow_upward
           </i>
           <mat-icon
-            *ngIf="allTransactionsArr[i]['1'].income_category"
-            routerLink="/income_details/{{ allTransactionsArr[i]['0'] }}"
+            *ngIf="filteredTransactionsArr[i]['1'].income_category"
+            routerLink="/income_details/{{ filteredTransactionsArr[i]['0'] }}"
             class="details-button"
             color="info"
             [matTooltipShowDelay]="500"
@@ -80,8 +83,8 @@
           >
 
           <mat-icon
-            *ngIf="allTransactionsArr[i]['1'].expense_category"
-            routerLink="/expense_details/{{ allTransactionsArr[i]['0'] }}"
+            *ngIf="filteredTransactionsArr[i]['1'].expense_category"
+            routerLink="/expense_details/{{ filteredTransactionsArr[i]['0'] }}"
             class="details-button"
             color="info"
             [matTooltipShowDelay]="500"
@@ -94,8 +97,8 @@
             matTooltip="Delete"
             class="delete-button"
             color="warn"
-            attr.data-target="{{ allTransactionsArr[i]['1'].income_category ? 'income' : 'expense' }}"
-            id="{{ allTransactionsArr[i]['1'].id }}"
+            attr.data-target="{{ filteredTransactionsArr[i]['1'].income_category ? 'income' : 'expense' }}"
+            id="{{ filteredTransactionsArr[i]['1'].id }}"
             >highlight_off
           </mat-icon>
         </div>

@@ -5,7 +5,7 @@ import { Sort } from '@angular/material/sort';
 
 interface AppState {
   appState: {
-    access_token: string;
+    dateRange: object;
     incomes: object;
     expenses: object;
     income_categories: object;
