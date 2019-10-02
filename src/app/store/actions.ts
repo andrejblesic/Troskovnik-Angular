@@ -5,9 +5,9 @@ import {
   IAccessToken,
   IExpenseCategories,
   IIncomeCategories,
-  IUserInfo,
-  IDateRange
+  IUserInfo
 } from '../models/income-expense-models';
+import {IDateRange} from '../models/general-models';
 
 const ALL_EXPENSES = '[HttpFetchService] All Expenses';
 const ALL_INCOMES = '[HttpFetchService] All Incomes';
@@ -19,29 +19,29 @@ const DATE_RANGE = '[Date Range Picker] Date Range';
 export const userInfo = createAction(
   USER_INFO,
   props<IUserInfo>()
-)
+);
 
 export const allExpenses = createAction(
   ALL_EXPENSES,
   props<IAllExpenses>()
-)
+);
 
 export const allIncomes = createAction(
   ALL_INCOMES,
   props<IAllIncomes>()
-)
+);
 
 export const incomeCategories = createAction(
   INCOME_CATEGORIES,
   props<IIncomeCategories>()
-)
+);
 
 export const expenseCategories = createAction(
   EXPENSE_CATEGORIES,
   props<IExpenseCategories>()
-)
+);
 
 export const dateRange = createAction(
   DATE_RANGE,
   props<IDateRange>()
-)
+);

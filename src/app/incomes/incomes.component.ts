@@ -2,16 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { HttpSendService } from '../http-send.service';
 import { Sort } from '@angular/material/sort';
-
-interface AppState {
-  appState: {
-    access_token: string;
-    incomes: object;
-    expenses: object;
-    income_categories: object;
-    expense_categories: object;
-  };
-}
+import { IAppState } from '../models/general-models';
 
 @Component({
   selector: 'app-incomes',
@@ -27,7 +18,7 @@ export class IncomesComponent implements OnInit {
   ];
 
   constructor(
-    private store: Store<AppState>,
+    private store: Store<IAppState>,
     private httpSendService: HttpSendService
   ) {}
 

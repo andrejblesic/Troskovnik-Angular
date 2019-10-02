@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { HttpSendService } from '../http-send.service';
-import { IAppState } from '../models/income-expense-models';
+import { IAppState } from '../models/general-models';
 
 @Component({
   selector: 'app-dashboard',

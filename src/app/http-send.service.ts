@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpFetchService } from './http-fetch.service';
-import { IAppState } from './models/income-expense-models';
+import { IAppState } from './models/general-models';
 
 const incomesUrl = 'https://troskovnik.omniapps.info/api/v1/incomes/';
 const expensesUrl = 'https://troskovnik.omniapps.info/api/v1/expenses/';

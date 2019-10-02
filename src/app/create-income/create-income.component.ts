@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { share } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { IAppState } from '../models/income-expense-models';
+import { IAppState } from '../models/general-models';
 
 @Component({
   selector: 'app-create-income',
