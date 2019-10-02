@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpSendService } from '../http-send.service';
 import { Store } from '@ngrx/store';
 import { share } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { IAppState } from '../models/income-expense-models';
 
@@ -15,10 +15,8 @@ export class CreateIncomeComponent implements OnInit {
 
   constructor(private service: HttpSendService, private store: Store<IAppState>) { }
 
-  // date
   date = new FormControl(new Date());
   serializedDate = new FormControl(new Date().toISOString());
-  // date
 
   incomeCategory = "Razvoj softwarea";
   incomeEntryDate: string = "";
@@ -27,6 +25,7 @@ export class CreateIncomeComponent implements OnInit {
   incomeCategories: Observable<any>;
   incomeCategoryId: number = 1;
   userName: string;
+  userSub: Subscription;
 
   sendIncome() {
     this.service.sendIncome(
@@ -55,9 +54,13 @@ export class CreateIncomeComponent implements OnInit {
 
   ngOnInit() {
     this.incomeCategories = this.store.select(state => state.appState.income_categories).pipe(share());
-    this.store.select(state => state.appState.user_info).subscribe(
+    this.userSub = this.store.select(state => state.appState.user_info).subscribe(
       message => message ? this.userName = message.name : null
     )
+  }
+
+  ngOnDestroy() {
+    this.userSub.unsubscribe();
   }
 
 }

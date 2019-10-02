@@ -39,6 +39,7 @@ import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { DateAdapter, MAT_DATE_FORMATS, SatDatepickerModule } from 'saturn-datepicker';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateRangePickerComponent } from './date-range-picker/date-range-picker.component';
+import { TransactionTableComponent } from './transaction-table/transaction-table.component';
 
 const appRoutes: Routes = [
   { path: 'incomes', component: IncomesComponent, data: { title: "Incomes" }},
@@ -64,7 +65,8 @@ const appRoutes: Routes = [
     MainNavComponent,
     TransactionDetailsComponent,
     BarChartComponent,
-    DateRangePickerComponent
+    DateRangePickerComponent,
+    TransactionTableComponent
   ],
   imports: [
     RouterModule.forRoot(
