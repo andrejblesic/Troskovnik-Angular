@@ -12,7 +12,7 @@ interface AppState {
     expenses: object,
     income_categories: object,
     expense_categories: object
-  }
+  };
 }
 
 @Component({
@@ -34,7 +34,7 @@ export class TransactionDetailsComponent implements OnInit {
   transactionCategory: string;
   type: string;
   id: string;
-  loading: boolean = true;
+  loading = true;
 
   handleIncome(message) {
     if (message) {
@@ -57,7 +57,6 @@ export class TransactionDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.route.snapshot)
     this.type = this.route.snapshot.data.type;
     this.id = this.route.snapshot.params.id;
     if (this.type === 'income') {

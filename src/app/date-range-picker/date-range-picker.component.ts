@@ -25,9 +25,9 @@ export class DateRangePickerComponent implements OnInit {
   endDate: number;
 
   setDateRange($event) {
-    let startDate = $event.target.value.begin._d.getTime();
-    let endDate = $event.target.value.end._d.getTime();
-    this.store.dispatch(dateRange({startDate: startDate, endDate: endDate}))
+    const startDate = $event.target.value.begin._d.getTime();
+    const endDate = $event.target.value.end._d.getTime();
+    this.store.dispatch(dateRange({startDate, endDate}));
   }
 
   ngOnInit() {

@@ -9,7 +9,7 @@ import { IAppState } from '../models/income-expense-models';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   constructor(private store: Store<IAppState>, private service: HttpSendService) { }
 
   incomeArr: object[] = [];
@@ -22,12 +22,12 @@ export class DashboardComponent implements OnInit {
   incomeSub: Subscription;
   expenseSub: Subscription;
   dateRange: object;
-  loading: boolean = true;
+  loading = true;
 
   ngOnInit() {
     this.store.select(state => state.appState.dateRange).subscribe(
       message => this.filterTransactions(message)
-    )
+    );
     this.incomeSub = this.store
       .select(state => state.appState.incomes)
       .subscribe(message => this.handleIncomes(message));
@@ -41,13 +41,13 @@ export class DashboardComponent implements OnInit {
     this.expenseTotal = 0;
     this.filteredTransactionsArr = this.allTransactionsArr;
     this.filteredTransactionsArr = this.allTransactionsArr.filter((item) => {
-      let date = item[1].entry_date.split(".");
+      let date = item[1].entry_date.split('.');
       [date[0], date[1], date[2]] = [date[1], date[0], date[2]];
-      date = date.join("/");
+      date = date.join('/');
       date = new Date(date).getTime();
       return date >= message.startDate && date <= message.endDate;
     });
-    for (let item in this.filteredTransactionsArr) {
+    for (const item in this.filteredTransactionsArr) {
       if (this.filteredTransactionsArr[item][1].income_category) {
         this.incomeTotal += parseFloat(this.filteredTransactionsArr[item][1].amount);
       } else if (this.filteredTransactionsArr[item][1].expense_category) {
@@ -68,13 +68,17 @@ export class DashboardComponent implements OnInit {
 
   handleIncomes(message) {
     this.incomeTotal = 0;
-    for (let item in message) {
-      message ? this.incomeTotal += parseFloat(message[item].amount) : null;
+    for (const item in message) {
+      if (message.hasOwnProperty(item)) {
+        this.incomeTotal += parseFloat(message[item].amount);
+      }
     }
     if (this.allTransactionsArr.length) {
       this.loading = false;
     }
-    message ? (this.incomeArr = Object.entries(message)) : null;
+    if (message) {
+      this.incomeArr = Object.entries(message);
+    }
     this.allTransactionsArr = this.incomeArr.concat(this.expenseArr);
     this.filteredTransactionsArr = this.allTransactionsArr;
     this.total = this.incomeTotal - this.expenseTotal;
@@ -82,13 +86,17 @@ export class DashboardComponent implements OnInit {
 
   handleExpenses(message) {
     this.expenseTotal = 0;
-    for (let item in message) {
-      message ? this.expenseTotal += parseFloat(message[item].amount) : null;
+    for (const item in message) {
+      if (message.hasOwnProperty(item)) {
+        this.expenseTotal += parseFloat(message[item].amount);
+      }
     }
     if (this.allTransactionsArr.length) {
       this.loading = false;
     }
-    message ? (this.expenseArr = Object.entries(message)) : null;
+    if (message) {
+      this.expenseArr = Object.entries(message);
+    }
     this.allTransactionsArr = this.expenseArr.concat(this.incomeArr);
     this.filteredTransactionsArr = this.allTransactionsArr;
     this.total = this.incomeTotal - this.expenseTotal;

@@ -21,9 +21,9 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
   serializedDate = new FormControl(new Date().toISOString());
 
   expenseCategory: string;
-  expenseEntryDate: string = '';
-  expenseAmount: string = '';
-  expenseDescription: string = '';
+  expenseEntryDate = '';
+  expenseAmount = '';
+  expenseDescription = '';
   expenseCategories: Observable<any>;
   expenseCategoryId: number;
   userName: string;
@@ -51,13 +51,13 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
   }
 
   setExpenseCategoryId($event) {
-    this.expenseCategoryId = parseInt($event);
+    this.expenseCategoryId = parseInt($event, 10);
   }
 
   ngOnInit() {
     this.userSub = this.store.select(state => state.appState.user_info).subscribe(
       message => message ? this.userName = message.name : null
-    )
+    );
     this.expenseCategories = this.store
       .select(state => state.appState.expense_categories)
       .pipe(share());

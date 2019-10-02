@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { allExpenses, allIncomes, incomeCategories, expenseCategories, userInfo } from './store/actions';
 import { Store } from '@ngrx/store';
-import { IAppState } from './models/income-expense-models';
+import { IAppState, IUserInfo } from './models/income-expense-models';
+// import { userInfo } from './models/income-expense-models';
 
-const incomesUrl: string = 'https://troskovnik.omniapps.info/api/v1/incomes/';
-const expensesUrl: string = 'https://troskovnik.omniapps.info/api/v1/expenses/';
-const incomeCategoriesUrl: string = 'https://troskovnik.omniapps.info/api/v1/income-categories/';
-const expenseCategoriesUrl: string = 'https://troskovnik.omniapps.info/api/v1/expense-categories/';
-const userUrl: string = 'https://troskovnik.omniapps.info/api/v1/users/';
+const incomesUrl = 'https://troskovnik.omniapps.info/api/v1/incomes/';
+const expensesUrl = 'https://troskovnik.omniapps.info/api/v1/expenses/';
+const incomeCategoriesUrl = 'https://troskovnik.omniapps.info/api/v1/income-categories/';
+const expenseCategoriesUrl = 'https://troskovnik.omniapps.info/api/v1/expense-categories/';
+const userUrl = 'https://troskovnik.omniapps.info/api/v1/users/';
 
 @Injectable({
   providedIn: 'root'
@@ -57,12 +58,12 @@ export class HttpFetchService {
     const httpUserInfo = this.http.get(userUrl + id);
     httpUserInfo.subscribe(
       message => this.dispatchUserInfo(message)
-    )
+    );
   }
 
   dispatchUserInfo(message) {
     console.log(message);
-    this.store.dispatch(userInfo({user_info:<number> message.data}));
+    this.store.dispatch(userInfo({user_info: <IUserInfo> message.data}));
   }
 
   dispatchIncomeCategories(message) {
@@ -78,16 +79,19 @@ export class HttpFetchService {
   }
 
   dispatchExpenses(message) {
-    message.data ? this.store.dispatch(allExpenses({
-      expenses: message.data
-    })) : null;
+    if (message.data) {
+      this.store.dispatch(allExpenses({
+        expenses: message.data
+      }));
+    }
   }
 
   dispatchIncomes(message) {
-    console.log(message);
-    message.data ? this.store.dispatch(allIncomes({
-      incomes: message.data
-    })) : null;
+    if (message.data) {
+      this.store.dispatch(allIncomes({
+        incomes: message.data
+      }));
+    }
   }
 
   updateStore() {

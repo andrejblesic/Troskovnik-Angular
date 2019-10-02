@@ -4,10 +4,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpFetchService } from './http-fetch.service';
 import { IAppState } from './models/income-expense-models';
 
-const incomesUrl: string = 'https://troskovnik.omniapps.info/api/v1/incomes/';
-const expensesUrl: string = 'https://troskovnik.omniapps.info/api/v1/expenses/';
-const incomeCategoriesUrl: string = 'https://troskovnik.omniapps.info/api/v1/income-categories/';
-const expenseCategoriesUrl: string = 'https://troskovnik.omniapps.info/api/v1/expense-categories/';
+const incomesUrl = 'https://troskovnik.omniapps.info/api/v1/incomes/';
+const expensesUrl = 'https://troskovnik.omniapps.info/api/v1/expenses/';
+const incomeCategoriesUrl = 'https://troskovnik.omniapps.info/api/v1/income-categories/';
+const expenseCategoriesUrl = 'https://troskovnik.omniapps.info/api/v1/expense-categories/';
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +17,14 @@ export class HttpSendService {
   constructor(private store: Store<IAppState>, private http: HttpClient, private service: HttpFetchService) { }
 
   sendIncome(incomeCategory, incomeEntryDate, incomeAmount, incomeDescription, incomeCategoryId, userName) {
-    let date = new Date();
-    let fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
-    let incomeJSON = {
+    const date = new Date();
+    const fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
+    const incomeJSON = {
       amount: incomeAmount,
       created_at: fullDate,
       deleted_at: null,
       description: incomeDescription,
-      entry_date: incomeEntryDate.replace(/\//g, "."),
+      entry_date: incomeEntryDate.replace(/\//g, '.'),
       id: 1,
       created_by: userName,
       income_category: {
@@ -36,24 +36,24 @@ export class HttpSendService {
       },
       income_category_id: incomeCategoryId,
       updated_at: fullDate
-    }
-    let postIncome = this.http.post(incomesUrl, incomeJSON);
+    };
+    const postIncome = this.http.post(incomesUrl, incomeJSON);
     postIncome.subscribe(
       message => this.service.fetchIncomes(),
       error => console.log(error),
       () => console.log('Income Sent')
-    )
+    );
   }
 
   sendExpense(expenseCategory, expenseEntryDate, expenseAmount, expenseDescription, expenseCategoryId) {
-    let date = new Date();
-    let fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
-    let expenseJSON = {
+    const date = new Date();
+    const fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
+    const expenseJSON = {
       amount: expenseAmount,
       created_at: fullDate,
       deleted_at: null,
       description: expenseDescription,
-      entry_date: expenseEntryDate.replace(/\//g, "."),
+      entry_date: expenseEntryDate.replace(/\//g, '.'),
       id: 1,
       expense_category: {
         id: 1,
@@ -64,62 +64,62 @@ export class HttpSendService {
       },
       expense_category_id: expenseCategoryId,
       updated_at: fullDate
-    }
-    let postExpense = this.http.post(expensesUrl, expenseJSON);
+    };
+    const postExpense = this.http.post(expensesUrl, expenseJSON);
     postExpense.subscribe(
       message => this.service.fetchExpenses(),
       error => console.log(error),
       () => console.log('Expense Sent')
-    )
+    );
   }
 
   sendIncomeCategory(name) {
-    let date = new Date();
-    let fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
-    let incomeCategoryJSON = {
+    const date = new Date();
+    const fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
+    const incomeCategoryJSON = {
       created_at: fullDate,
       deleted_at: null,
       id: 1,
-      name: name,
+      name,
       updated_at: fullDate
-    }
-    let postIncomeCategory = this.http.post(incomeCategoriesUrl, incomeCategoryJSON);
+    };
+    const postIncomeCategory = this.http.post(incomeCategoriesUrl, incomeCategoryJSON);
     postIncomeCategory.subscribe(
       message => this.service.fetchIncomeCategories()
-    )
+    );
   }
 
   sendExpenseCategory(name) {
-    let date = new Date();
-    let fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
-    let expenseCategoryJSON = {
+    const date = new Date();
+    const fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
+    const expenseCategoryJSON = {
       created_at: fullDate,
       deleted_at: null,
       id: 1,
-      name: name,
+      name,
       updated_at: fullDate
-    }
-    let postExpenseCategory = this.http.post(expenseCategoriesUrl, expenseCategoryJSON);
+    };
+    const postExpenseCategory = this.http.post(expenseCategoriesUrl, expenseCategoryJSON);
     postExpenseCategory.subscribe(
       message => this.service.fetchExpenseCategories()
-    )
+    );
   }
 
   deleteIncome(id) {
-    let deleteIncome = this.http.delete(incomesUrl + id);
+    const deleteIncome = this.http.delete(incomesUrl + id);
     deleteIncome.subscribe(
       message => this.service.fetchIncomes()
-    )
+    );
   }
 
   deleteExpense(id) {
-    let deleteExpense = this.http.delete(expensesUrl + id);
+    const deleteExpense = this.http.delete(expensesUrl + id);
     deleteExpense.subscribe(
       message => this.service.fetchExpenses()
-    )
+    );
   }
 
-  //ONLY FOR DEVELOPMENT PURPOSES
+  // ONLY FOR DEVELOPMENT PURPOSES
   // deleteIncomeCategory(num) {
   //   console.log("okida income");
   //   httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
@@ -127,7 +127,7 @@ export class HttpSendService {
   //   deleteIncomeCategories.subscribe(message => console.log(message));
   // }
 
-  //ONLY FOR DEVELOPMENT PURPOSES
+  // ONLY FOR DEVELOPMENT PURPOSES
   // deleteExpenseCategory(num) {
   //   console.log("okida expense");
   //   //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);

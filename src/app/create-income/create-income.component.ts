@@ -11,19 +11,19 @@ import { IAppState } from '../models/income-expense-models';
   templateUrl: './create-income.component.html',
   styleUrls: ['./create-income.component.scss']
 })
-export class CreateIncomeComponent implements OnInit {
+export class CreateIncomeComponent implements OnInit, OnDestroy {
 
   constructor(private service: HttpSendService, private store: Store<IAppState>) { }
 
   date = new FormControl(new Date());
   serializedDate = new FormControl(new Date().toISOString());
 
-  incomeCategory = "Razvoj softwarea";
-  incomeEntryDate: string = "";
-  incomeAmount: string = "";
-  incomeDescription: string = "";
+  incomeCategory = 'Razvoj softwarea';
+  incomeEntryDate = '';
+  incomeAmount = '';
+  incomeDescription = '';
   incomeCategories: Observable<any>;
-  incomeCategoryId: number = 1;
+  incomeCategoryId = 1;
   userName: string;
   userSub: Subscription;
 
@@ -49,14 +49,14 @@ export class CreateIncomeComponent implements OnInit {
   }
 
   setIncomeCategoryId($event) {
-    this.incomeCategoryId = parseInt($event);
+    this.incomeCategoryId = parseInt($event, 10);
   }
 
   ngOnInit() {
     this.incomeCategories = this.store.select(state => state.appState.income_categories).pipe(share());
     this.userSub = this.store.select(state => state.appState.user_info).subscribe(
       message => message ? this.userName = message.name : null
-    )
+    );
   }
 
   ngOnDestroy() {

@@ -42,14 +42,14 @@ import { DateRangePickerComponent } from './date-range-picker/date-range-picker.
 import { TransactionTableComponent } from './transaction-table/transaction-table.component';
 
 const appRoutes: Routes = [
-  { path: 'incomes', component: IncomesComponent, data: { title: "Incomes" }},
-  { path: 'expenses', component: ExpensesComponent, data: { title: "Expenses" }},
-  { path: 'dashboard', component: DashboardComponent, data: { title: "Dashboard" }},
-  { path: 'login', component: LoginComponent, data: { title: "Login" }},
+  { path: 'incomes', component: IncomesComponent, data: { title: 'Incomes' }},
+  { path: 'expenses', component: ExpensesComponent, data: { title: 'Expenses' }},
+  { path: 'dashboard', component: DashboardComponent, data: { title: 'Dashboard' }},
+  { path: 'login', component: LoginComponent, data: { title: 'Login' }},
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: 'income_details/:id', component: TransactionDetailsComponent, data: {title: "Income Details", type: "income"}},
-  { path: 'expense_details/:id', component: TransactionDetailsComponent, data: {title: "Expense Details", type: "expense"}}
-]
+  { path: 'income_details/:id', component: TransactionDetailsComponent, data: {title: 'Income Details', type: 'income'}},
+  { path: 'expense_details/:id', component: TransactionDetailsComponent, data: {title: 'Expense Details', type: 'expense'}}
+];
 
 @NgModule({
   declarations: [
