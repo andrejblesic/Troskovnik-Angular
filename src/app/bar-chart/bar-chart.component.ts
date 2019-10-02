@@ -55,7 +55,14 @@ export class BarChartComponent implements OnInit {
     { data: [], label: 'Expenses' },
     { data: [], label: 'Incomes' }
   ];
-
+  public doughnutChartLabels = [
+    'Expenses Q1',
+    'Expenses Q2',
+    'Expenses Q3',
+    'Expenses Q4'
+  ];
+  public doughnutChartData = [1200, 450, 330, 900];
+  public doughnutChartType = 'doughnut';
   handleIncomes(message) {
     this.incomeTotal = 0;
     // tslint:disable-next-line: forin
