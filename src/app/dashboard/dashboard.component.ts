@@ -10,6 +10,7 @@ import { IAppState } from '../models/income-expense-models';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+
   constructor(private store: Store<IAppState>, private service: HttpSendService) { }
 
   incomeArr: object[] = [];
@@ -21,14 +22,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   total: number;
   incomeSub: Subscription;
   expenseSub: Subscription;
-  dateRange: {startDate: number, endDate: number};
+  dateRange = {startDate: 0, endDate: Infinity};
   show = 'All';
   loading = true;
 
   ngOnInit() {
-    this.store.select(state => state.appState.dateRange).subscribe(
-      message => this.setDateRange(message)
-    );
+    console.log(this.dateRange);
     this.incomeSub = this.store
       .select(state => state.appState.incomes)
       .subscribe(message => this.handleIncomes(message));

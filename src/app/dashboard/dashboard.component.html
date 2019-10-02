@@ -2,6 +2,7 @@
 <mat-spinner class="loading-spinner" *ngIf="loading"></mat-spinner>
 <app-bar-chart *ngIf="!loading"></app-bar-chart>
 <app-date-range-picker *ngIf="!loading"></app-date-range-picker>
+Show:
 <select (change)="showTransactions($event)" class="" name="">
   <option value="All">All</option>
   <option value="Incomes">Incomes</option>
