@@ -21,12 +21,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   total: number;
   incomeSub: Subscription;
   expenseSub: Subscription;
-  dateRange: object;
+  dateRange: {startDate: number, endDate: number};
+  show = 'All';
   loading = true;
 
   ngOnInit() {
     this.store.select(state => state.appState.dateRange).subscribe(
-      message => this.filterTransactions(message)
+      message => this.setDateRange(message)
     );
     this.incomeSub = this.store
       .select(state => state.appState.incomes)
@@ -36,7 +37,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .subscribe(message => this.handleExpenses(message));
   }
 
-  filterTransactions(message) {
+  showTransactions($event) {
+    this.show = $event.target.value;
+    this.filterTransactions();
+  }
+
+  setDateRange(message) {
+    this.dateRange = message;
+    this.filterTransactions();
+  }
+
+  filterTransactions() {
     this.incomeTotal = 0;
     this.expenseTotal = 0;
     this.filteredTransactionsArr = this.allTransactionsArr;
@@ -45,7 +56,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       [date[0], date[1], date[2]] = [date[1], date[0], date[2]];
       date = date.join('/');
       date = new Date(date).getTime();
-      return date >= message.startDate && date <= message.endDate;
+      return date >= this.dateRange.startDate && date <= this.dateRange.endDate;
     });
     for (const item in this.filteredTransactionsArr) {
       if (this.filteredTransactionsArr[item][1].income_category) {
@@ -53,6 +64,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
       } else if (this.filteredTransactionsArr[item][1].expense_category) {
         this.expenseTotal += parseFloat(this.filteredTransactionsArr[item][1].amount);
       }
+    }
+    if (this.show === 'Incomes') {
+      this.filteredTransactionsArr = this.filteredTransactionsArr.filter((item) => {
+        return item[1].income_category;
+      });
+    } else if (this.show === 'Expenses') {
+      this.filteredTransactionsArr = this.filteredTransactionsArr.filter((item) => {
+        return item[1].expense_category;
+      });
     }
     this.total = this.incomeTotal - this.expenseTotal;
   }

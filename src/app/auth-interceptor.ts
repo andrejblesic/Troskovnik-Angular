@@ -14,7 +14,7 @@ interface AppState {
     expenses: object,
     income_categories: object,
     expense_categories: object
-  }
+  };
 }
 
 @Injectable()
@@ -28,7 +28,6 @@ export class AuthInterceptor implements HttpInterceptor {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
       }
     });
-
     return next.handle(request);
   }
 }
