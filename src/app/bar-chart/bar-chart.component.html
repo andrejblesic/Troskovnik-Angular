@@ -65,8 +65,8 @@
       </mat-card>
     </mat-grid-tile>
   </mat-grid-list>
-  <div>
-    <div class="bar-chart">
+  <mat-grid-list cols="2" rowHeight="500px">
+    <mat-grid-tile>
       <canvas
         baseChart
         [datasets]="barChartData"
@@ -75,6 +75,14 @@
         [legend]="barChartLegend"
         [chartType]="barChartType"
       ></canvas>
-    </div>
-  </div>
+    </mat-grid-tile>
+    <!-- chart 2 --><mat-grid-tile>
+      <canvas
+        baseChart
+        [data]="doughnutChartData"
+        [labels]="doughnutChartLabels"
+        [chartType]="doughnutChartType"
+      ></canvas>
+    </mat-grid-tile>
+  </mat-grid-list>
 </mat-expansion-panel>
