@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpSendService } from '../http-send.service';
 import { Store } from '@ngrx/store';
 import { share } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { IAppState } from '../models/income-expense-models';
 
@@ -11,16 +11,14 @@ import { IAppState } from '../models/income-expense-models';
   templateUrl: './create-expense.component.html',
   styleUrls: ['./create-expense.component.scss']
 })
-export class CreateExpenseComponent implements OnInit {
+export class CreateExpenseComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<IAppState>,
     private service: HttpSendService
   ) {}
 
-  // date
   date = new FormControl(new Date());
   serializedDate = new FormControl(new Date().toISOString());
-  // date
 
   expenseCategory: string;
   expenseEntryDate: string = '';
@@ -28,6 +26,8 @@ export class CreateExpenseComponent implements OnInit {
   expenseDescription: string = '';
   expenseCategories: Observable<any>;
   expenseCategoryId: number;
+  userName: string;
+  userSub: Subscription;
 
   sendExpense() {
     this.service.sendExpense(
@@ -55,8 +55,15 @@ export class CreateExpenseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userSub = this.store.select(state => state.appState.user_info).subscribe(
+      message => message ? this.userName = message.name : null
+    )
     this.expenseCategories = this.store
       .select(state => state.appState.expense_categories)
       .pipe(share());
+  }
+
+  ngOnDestroy() {
+    this.userSub.unsubscribe();
   }
 }

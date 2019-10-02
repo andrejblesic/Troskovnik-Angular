@@ -1,0 +1,100 @@
+<div  class="mat-elevation-z8 incomes-table">
+  <table
+    matSort (matSortChange)='sortData($event)'
+    mat-table
+    #table
+    [dataSource]="filteredTransactionsArr"
+    mat-table
+    class="full-width-table"
+  >
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef>Type</th>
+      <td mat-cell *matCellDef="let row; let i = index">
+        <span *ngIf="filteredTransactionsArr[i]['1'].income_category">Income</span>
+        <span *ngIf="filteredTransactionsArr[i]['1'].expense_category">Expense</span>
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="category">
+      <th mat-header-cell mat-sort-header="category" *matHeaderCellDef>Category</th>
+      <td mat-cell *matCellDef="let row; let i = index">
+        {{
+          filteredTransactionsArr[i]['1'].income_category
+            ? filteredTransactionsArr[i]['1'].income_category.name
+            : filteredTransactionsArr[i]['1'].expense_category.name
+        }}
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let row; let i = index">
+        {{ filteredTransactionsArr[i]['1'].description }}
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="entryDate">
+      <th mat-header-cell mat-sort-header="entry-date" *matHeaderCellDef>Entry Date</th>
+      <td mat-cell *matCellDef="let row; let i = index">
+        {{ filteredTransactionsArr[i]['1'].entry_date }}
+      </td>
+      <td class="total-footer-cell" mat-footer-cell *matFooterCellDef>
+        Total:
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell mat-sort-header="amount" *matHeaderCellDef>Amount</th>
+      <td class="amount-col" mat-cell *matCellDef="let row; let i = index">
+        <span>{{ filteredTransactionsArr[i]['1'].amount }}</span>
+        <div>
+          <i
+            *ngIf="filteredTransactionsArr[i]['1'].expense_category"
+            class="material-icons expense-arrow"
+            [matTooltipShowDelay]="500"
+            matTooltip="Expense"
+          >
+            arrow_downward
+          </i>
+          <i
+            *ngIf="filteredTransactionsArr[i]['1'].income_category"
+            class="material-icons income-arrow"
+            [matTooltipShowDelay]="500"
+            matTooltip="Income"
+          >
+            arrow_upward
+          </i>
+          <mat-icon
+            *ngIf="filteredTransactionsArr[i]['1'].income_category"
+            [routerLink]="['/income_details/', filteredTransactionsArr[i]['0']]"
+            class="details-button"
+            color="info"
+            [matTooltipShowDelay]="500"
+            matTooltip="Details"
+            >description</mat-icon
+          >
+
+          <mat-icon
+            *ngIf="filteredTransactionsArr[i]['1'].expense_category"
+            routerLink="/expense_details/{{ filteredTransactionsArr[i]['0'] }}"
+            class="details-button"
+            color="info"
+            [matTooltipShowDelay]="500"
+            matTooltip="Details"
+            >description</mat-icon
+          >
+
+        </div>
+      </td>
+      <td class="income-total" mat-footer-cell *matFooterCellDef>
+        {{total | number: '.2'}}
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+  </table>
+</div>
