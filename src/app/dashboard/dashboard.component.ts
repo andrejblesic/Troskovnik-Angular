@@ -10,8 +10,10 @@ import { IAppState } from '../models/general-models';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-
-  constructor(private store: Store<IAppState>, private service: HttpSendService) { }
+  constructor(
+    private store: Store<IAppState>,
+    private service: HttpSendService
+  ) {}
 
   incomeArr: object[] = [];
   expenseArr: object[] = [];
@@ -22,21 +24,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
   total: number;
   incomeSub: Subscription;
   expenseSub: Subscription;
-  dateRange = {startDate: 0, endDate: Infinity};
+  dateRange = { startDate: 0, endDate: Infinity };
   show = 'All';
   loading = true;
+  totalTransactions: number;
 
   ngOnInit() {
+    setTimeout(() => {
+      console.log(this.totalTransactions);
+    }, 3000);
     console.log(this.dateRange);
-    this.store.select(state => state.appState.dateRange).subscribe(
-      message => this.setDateRange(message)
-    );
+    this.store
+      .select(state => state.appState.dateRange)
+      .subscribe(message => this.setDateRange(message));
     this.incomeSub = this.store
       .select(state => state.appState.incomes)
       .subscribe(message => this.handleIncomes(message));
     this.expenseSub = this.store
       .select(state => state.appState.expenses)
       .subscribe(message => this.handleExpenses(message));
+    console.log(this.allTransactionsArr.length);
   }
 
   showTransactions($event) {
@@ -54,21 +61,39 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.incomeTotal = 0;
     this.expenseTotal = 0;
     this.filteredTransactionsArr = this.allTransactionsArr;
-    this.filteredTransactionsArr = this.allTransactionsArr.filter((item) => {
+    this.filteredTransactionsArr = this.allTransactionsArr.filter(item => {
       let date = item[1].entry_date.split('.');
       [date[0], date[1], date[2]] = [date[1], date[0], date[2]];
       date = date.join('/');
       date = new Date(date).getTime();
       return date >= self.dateRange.startDate && date <= self.dateRange.endDate;
     });
+
+    for (const item in this.filteredTransactionsArr) {
+      if (this.filteredTransactionsArr[item][1].income_category) {
+        this.incomeTotal += parseFloat(
+          this.filteredTransactionsArr[item][1].amount
+        );
+      } else if (this.filteredTransactionsArr[item][1].expense_category) {
+        this.expenseTotal += parseFloat(
+          this.filteredTransactionsArr[item][1].amount
+        );
+      }
+    }
+
+
     if (this.show === 'Incomes') {
-      this.filteredTransactionsArr = this.filteredTransactionsArr.filter((item) => {
-        return item[1].income_category;
-      });
+      this.filteredTransactionsArr = this.filteredTransactionsArr.filter(
+        item => {
+          return item[1].income_category;
+        }
+      );
     } else if (this.show === 'Expenses') {
-      this.filteredTransactionsArr = this.filteredTransactionsArr.filter((item) => {
-        return item[1].expense_category;
-      });
+      this.filteredTransactionsArr = this.filteredTransactionsArr.filter(
+        item => {
+          return item[1].expense_category;
+        }
+      );
     }
     for (const item in this.filteredTransactionsArr) {
       if (this.filteredTransactionsArr[item][1].income_category) {
@@ -103,6 +128,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.incomeArr = Object.entries(message);
     }
     this.allTransactionsArr = this.incomeArr.concat(this.expenseArr);
+    this.totalTransactions = this.allTransactionsArr.length;
     this.filteredTransactionsArr = this.allTransactionsArr;
     this.total = this.incomeTotal - this.expenseTotal;
   }
@@ -121,6 +147,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.expenseArr = Object.entries(message);
     }
     this.allTransactionsArr = this.expenseArr.concat(this.incomeArr);
+    this.totalTransactions = this.allTransactionsArr.length;
     this.filteredTransactionsArr = this.allTransactionsArr;
     this.total = this.incomeTotal - this.expenseTotal;
   }
