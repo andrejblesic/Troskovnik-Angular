@@ -78,3 +78,37 @@
 
   <mat-expansion-panel> </mat-expansion-panel
 ></mat-expansion-panel>
+
+
+<mat-expansion-panel class="income-panel mat-elevation-z8 ">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Add New Income Category
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <div class="create-income-card">
+    <form class="income-form">
+      <mat-form-field class="full-width">
+        <input
+          matInput
+          [(ngModel)]="newIncomeCategory"
+          placeholder="New Income Category"
+          type="text"
+          name="newIncomeCategory"
+          value=""
+        />
+      </mat-form-field>
+    </form>
+    <button
+      class="submit-button"
+      (click)="sendIncomeCategory()"
+      mat-raised-button
+      color="primary"
+    >
+      Submit
+    </button>
+  </div>
+
+  <mat-expansion-panel> </mat-expansion-panel
+></mat-expansion-panel>

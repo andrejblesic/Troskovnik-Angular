@@ -26,6 +26,7 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
   expenseDescription = '';
   expenseCategories: Observable<any>;
   expenseCategoryId: number;
+  newExpenseCategory: string;
   userName: string;
   userSub: Subscription;
 
@@ -40,6 +41,9 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
     this.expenseCategoryId = 1;
   }
 
+  sendExpenseCategory() {
+    this.service.sendExpenseCategory(this.newExpenseCategory);
+  }
 
   setDate($event) {
     console.log($event.target.value.getMonth());

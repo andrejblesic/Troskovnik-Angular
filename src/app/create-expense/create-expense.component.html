@@ -77,3 +77,37 @@
 
   <mat-expansion-panel> </mat-expansion-panel
 ></mat-expansion-panel>
+
+
+<mat-expansion-panel class="expense-panel mat-elevation-z8 ">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Add New Expense Category
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <div class="create-expense-card">
+    <form class="expense-form">
+      <mat-form-field class="full-width">
+        <input
+          matInput
+          [(ngModel)]="newExpenseCategory"
+          placeholder="New Expense Category"
+          type="text"
+          name="newExpenseCategory"
+          value=""
+        />
+      </mat-form-field>
+    </form>
+    <button
+      class="submit-button"
+      (click)="sendExpenseCategory()"
+      mat-raised-button
+      color="primary"
+    >
+      Submit
+    </button>
+  </div>
+
+  <mat-expansion-panel> </mat-expansion-panel
+></mat-expansion-panel>
