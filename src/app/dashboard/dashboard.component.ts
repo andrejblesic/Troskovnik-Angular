@@ -43,7 +43,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   showTransactions($event) {
-    this.show = $event.target.value;
+    this.show = $event;
     this.filterTransactions();
   }
 
@@ -53,7 +53,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   clearDateRange() {
-    this.store.dispatch(clearDateRange({startDate: 0, endDate: Infinity}));
+    this.store.dispatch(clearDateRange({ startDate: 0, endDate: Infinity }));
   }
 
   filterTransactions() {
