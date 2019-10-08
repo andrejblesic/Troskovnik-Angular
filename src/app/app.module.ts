@@ -21,7 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
+
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -34,19 +34,42 @@ import { RouterModule, Routes } from '@angular/router';
 import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
 import { ChartsModule } from 'ng2-charts';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
-import { DateAdapter, MAT_DATE_FORMATS, SatDatepickerModule } from 'saturn-datepicker';
-import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  SatDatepickerModule
+} from 'saturn-datepicker';
+import {
+  MAT_MOMENT_DATE_FORMATS,
+  MomentDateAdapter
+} from '@angular/material-moment-adapter';
 import { DateRangePickerComponent } from './date-range-picker/date-range-picker.component';
 import { TransactionTableComponent } from './transaction-table/transaction-table.component';
 
 const appRoutes: Routes = [
-  { path: 'incomes', component: IncomesComponent, data: { title: 'Incomes' }},
-  { path: 'expenses', component: ExpensesComponent, data: { title: 'Expenses' }},
-  { path: 'dashboard', component: DashboardComponent, data: { title: 'Dashboard' }},
-  { path: 'login', component: LoginComponent, data: { title: 'Login' }},
+  { path: 'incomes', component: IncomesComponent, data: { title: 'Incomes' } },
+  {
+    path: 'expenses',
+    component: ExpensesComponent,
+    data: { title: 'Expenses' }
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    data: { title: 'Dashboard' }
+  },
+  { path: 'login', component: LoginComponent, data: { title: 'Login' } },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: 'income_details/:id', component: TransactionDetailsComponent, data: {title: 'Income Details', type: 'income'}},
-  { path: 'expense_details/:id', component: TransactionDetailsComponent, data: {title: 'Expense Details', type: 'expense'}}
+  {
+    path: 'income_details/:id',
+    component: TransactionDetailsComponent,
+    data: { title: 'Income Details', type: 'income' }
+  },
+  {
+    path: 'expense_details/:id',
+    component: TransactionDetailsComponent,
+    data: { title: 'Expense Details', type: 'expense' }
+  }
 ];
 
 @NgModule({
@@ -65,9 +88,7 @@ const appRoutes: Routes = [
     TransactionTableComponent
   ],
   imports: [
-    RouterModule.forRoot(
-      appRoutes
-    ),
+    RouterModule.forRoot(appRoutes),
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -78,7 +99,7 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     LayoutModule,
     MatToolbarModule,
-    MatButtonModule,
+
     MatSidenavModule,
     MatIconModule,
     MatListModule,
@@ -96,8 +117,12 @@ const appRoutes: Routes = [
       multi: true
     },
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE]
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS }
   ],
   bootstrap: [AppComponent]
 })
