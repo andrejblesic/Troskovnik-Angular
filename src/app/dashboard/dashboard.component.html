@@ -16,6 +16,8 @@
   </mat-form-field>
 </mat-card>
 <app-bar-chart
+  [incomeTotal]="incomeTotal"
+  [expenseTotal]="expenseTotal"
   [totalTransactions]="totalTransactions"
   *ngIf="!loading"
 ></app-bar-chart>
