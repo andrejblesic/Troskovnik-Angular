@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { HttpSendService } from '../http-send.service';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable, from, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 interface AppState {
   appState: {
@@ -18,7 +19,7 @@ interface AppState {
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.scss']
 })
-export class BarChartComponent implements OnInit {
+export class BarChartComponent implements OnInit, OnChanges {
   constructor(
     private store: Store<AppState>,
     private httpSendService: HttpSendService
@@ -29,13 +30,12 @@ export class BarChartComponent implements OnInit {
   incomeArr: object[] = [];
   expenseArr: object[] = [];
   allTransactionsArr: object[] = [];
-  incomeTotal: number;
-  expenseTotal: number;
+  @Input() incomeTotal: number;
+  @Input() expenseTotal: number;
   total: number;
   transactions: number;
-
-  incomeSub: Subscription;
-  expenseSub: Subscription;
+  // incomeSub: Subscription;
+  // expenseSub: Subscription;
 
   public barChartOptions = {
     scaleShowVerticalLines: false,
@@ -56,50 +56,25 @@ export class BarChartComponent implements OnInit {
   public barChartLegend = true;
 
   public barChartData = [
-    { data: [], label: 'Expenses' },
-    { data: [], label: 'Incomes' }
+    { data: [this.expenseTotal], label: 'Expenses' },
+    { data: [this.incomeTotal], label: 'Incomes' }
   ];
   public doughnutChartLabels = [
     'Expenses Q1',
     'Expenses Q2',
     'Expenses Q3',
-    'Expenses Q4'
+    'Expenses Q4',
   ];
   public doughnutChartData = [1200, 450, 330, 900];
   public doughnutChartType = 'doughnut';
 
-  handleIncomes(message) {
-    this.incomeTotal = 0;
-    for (const item in message) {
-      message ? (this.incomeTotal += parseFloat(message[item].amount)) : null;
-    }
+  ngOnChanges(changes) {
     this.barChartData[1].data = [this.incomeTotal];
-    console.log(this.incomeTotal);
-  }
-
-  handleExpenses(message) {
-    this.expenseTotal = 0;
-    for (const item in message) {
-      message ? (this.expenseTotal += parseFloat(message[item].amount)) : null;
-    }
     this.barChartData[0].data = [this.expenseTotal];
-    console.log(this.expenseTotal);
   }
 
   ngOnInit() {
-    this.incomeSub = this.store
-      .select(state => state.appState.incomes)
-      .subscribe(message => this.handleIncomes(message));
-
-    this.expenseSub = this.store
-      .select(state => state.appState.expenses)
-      .subscribe(message => this.handleExpenses(message));
-    this.total = this.incomeTotal - this.expenseTotal;
-  }
-
-  // tslint:disable-next-line: use-lifecycle-interface
-  ngOnDestroy() {
-    this.incomeSub.unsubscribe();
-    this.expenseSub.unsubscribe();
+    this.barChartData[1].data = [this.incomeTotal];
+    this.barChartData[0].data = [this.expenseTotal];
   }
 }

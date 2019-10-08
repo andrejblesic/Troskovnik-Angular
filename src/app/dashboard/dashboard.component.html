@@ -1,6 +1,8 @@
 <!--  material table  -->
 <mat-spinner class="loading-spinner" *ngIf="loading"></mat-spinner>
 <app-bar-chart
+  [incomeTotal]="incomeTotal"
+  [expenseTotal]="expenseTotal"
   [totalTransactions]="totalTransactions"
   *ngIf="!loading"
 ></app-bar-chart>
