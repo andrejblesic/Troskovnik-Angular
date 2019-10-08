@@ -47,9 +47,7 @@ table {
   width: 28% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
-
   word-break: break-word;
-
   -ms-hyphens: auto;
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
@@ -66,12 +64,11 @@ table {
 .datepicker {
   margin-left: calc(3.5% - 17px);
   margin-right: calc(1.5% + 17px);
-
   border-radius: 0 !important;
 }
 .show-input {
   margin-right: 10px;
 }
-.benis {
+.clear-date {
   margin-left: 10px;
 }

@@ -57,7 +57,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   filterTransactions() {
-    const self = this;
     this.incomeTotal = 0;
     this.expenseTotal = 0;
     this.filteredTransactionsArr = this.allTransactionsArr;
@@ -66,7 +65,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       [date[0], date[1], date[2]] = [date[1], date[0], date[2]];
       date = date.join('/');
       date = new Date(date).getTime();
-      return date >= self.dateRange.startDate && date <= self.dateRange.endDate;
+      return date >= this.dateRange.startDate && date <= this.dateRange.endDate;
     });
     if (this.show === 'Incomes') {
       this.filteredTransactionsArr = this.filteredTransactionsArr.filter(
