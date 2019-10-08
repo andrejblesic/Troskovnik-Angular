@@ -2,11 +2,7 @@
 <mat-spinner class="loading-spinner" *ngIf="loading"></mat-spinner>
 
 <mat-card class="datepicker">
-  <app-date-range-picker *ngIf="!loading"></app-date-range-picker>
-  <button mat-button color="accent" (click)="clearDateRange()">
-    Clear date range
-  </button>
-  <mat-form-field>
+  <mat-form-field class="show-input">
     <mat-label>Show:</mat-label>
     <mat-select (valueChange)="showTransactions($event)">
       <mat-option value="All">All</mat-option>
@@ -14,6 +10,10 @@
       <mat-option value="Expenses">Expenses</mat-option>
     </mat-select>
   </mat-form-field>
+  <app-date-range-picker *ngIf="!loading"></app-date-range-picker>
+  <button class="benis" mat-stroked-button color="accent" (click)="clearDateRange()">
+    Clear date range
+  </button>
 </mat-card>
 <app-bar-chart
   [incomeTotal]="incomeTotal"

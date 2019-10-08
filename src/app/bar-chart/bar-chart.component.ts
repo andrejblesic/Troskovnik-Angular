@@ -33,7 +33,6 @@ export class BarChartComponent implements OnInit, OnChanges {
   @Input() incomeTotal: number;
   @Input() expenseTotal: number;
   total: number;
-  transactions: number;
   // incomeSub: Subscription;
   // expenseSub: Subscription;
 
@@ -71,6 +70,7 @@ export class BarChartComponent implements OnInit, OnChanges {
   ngOnChanges(changes) {
     this.barChartData[1].data = [this.incomeTotal];
     this.barChartData[0].data = [this.expenseTotal];
+    this.total = this.incomeTotal - this.expenseTotal;
   }
 
   ngOnInit() {

@@ -92,6 +92,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         );
       }
     }
+    this.totalTransactions = this.filteredTransactionsArr.length;
     this.total = this.incomeTotal - this.expenseTotal;
   }
 

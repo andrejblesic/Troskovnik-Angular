@@ -30,17 +30,6 @@
         routerLinkActive="router-link-active"
         ><i class="material-icons navbar-icon"> call_made </i>Expenses</a
       >
-      <mat-divider> </mat-divider>
-
-      <a mat-list-item [matMenuTriggerFor]="menu"
-        ><i class="material-icons navbar-icon"> note_add </i>Add New Category</a
-      >
-      <mat-menu #menu="matMenu">
-        <button (click)="showFiller = !showFiller" mat-menu-item>
-          New Income Category
-        </button>
-        <button mat-menu-item>New Expense Category</button>
-      </mat-menu>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
