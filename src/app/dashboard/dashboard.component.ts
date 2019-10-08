@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { HttpSendService } from '../http-send.service';
 import { IAppState } from '../models/general-models';
+import { clearDateRange } from '../store/actions';
 
 @Component({
   selector: 'app-dashboard',
@@ -49,6 +50,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   setDateRange(message) {
     this.dateRange = message;
     this.filterTransactions();
+  }
+
+  clearDateRange() {
+    this.store.dispatch(clearDateRange({startDate: 0, endDate: Infinity}));
   }
 
   filterTransactions() {

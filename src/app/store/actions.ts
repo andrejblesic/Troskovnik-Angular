@@ -15,6 +15,7 @@ const INCOME_CATEGORIES = '[HttpFetchService] Income Categories';
 const EXPENSE_CATEGORIES = '[HttpFetchService] Expense Categories';
 const USER_INFO = '[HttpFetchService] User Info';
 const DATE_RANGE = '[Date Range Picker] Date Range';
+const CLEAR_DATE_RANGE = '[Date Range Picker] Clear Date Range';
 
 export const userInfo = createAction(
   USER_INFO,
@@ -43,5 +44,10 @@ export const expenseCategories = createAction(
 
 export const dateRange = createAction(
   DATE_RANGE,
+  props<IDateRange>()
+);
+
+export const clearDateRange = createAction(
+  CLEAR_DATE_RANGE,
   props<IDateRange>()
 );
