@@ -15,7 +15,7 @@
           />
 
           <mat-card-title>Incomes:</mat-card-title>
-          <mat-card-subtitle>$50.000</mat-card-subtitle>
+          <mat-card-subtitle>${{ incomeTotal }}</mat-card-subtitle>
         </mat-card-header>
       </mat-card>
     </mat-grid-tile>
@@ -30,7 +30,7 @@
           />
 
           <mat-card-title>Expenses:</mat-card-title>
-          <mat-card-subtitle>$30.000</mat-card-subtitle>
+          <mat-card-subtitle>${{ expenseTotal }}</mat-card-subtitle>
         </mat-card-header>
       </mat-card>
     </mat-grid-tile>
@@ -44,8 +44,8 @@
             src="https://img.icons8.com/color/96/000000/love-for-money.png"
           />
 
-          <mat-card-title>Total:</mat-card-title>
-          <mat-card-subtitle>$20.000</mat-card-subtitle>
+          <mat-card-title>Balance:</mat-card-title>
+          <mat-card-subtitle>${{ total }}</mat-card-subtitle>
         </mat-card-header>
       </mat-card>
     </mat-grid-tile>
@@ -60,7 +60,7 @@
           />
 
           <mat-card-title>Total Transactions:</mat-card-title>
-          <mat-card-subtitle>1234</mat-card-subtitle>
+          <mat-card-subtitle> {{ totalTransactions }} </mat-card-subtitle>
         </mat-card-header>
       </mat-card>
     </mat-grid-tile>

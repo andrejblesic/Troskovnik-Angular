@@ -1,6 +1,9 @@
 <!--  material table  -->
 <mat-spinner class="loading-spinner" *ngIf="loading"></mat-spinner>
-<app-bar-chart *ngIf="!loading"></app-bar-chart>
+<app-bar-chart
+  [totalTransactions]="totalTransactions"
+  *ngIf="!loading"
+></app-bar-chart>
 <app-date-range-picker *ngIf="!loading"></app-date-range-picker>
 Show:
 <select (change)="showTransactions($event)" class="" name="">
@@ -12,5 +15,6 @@ Show:
   [expenseTotal]="expenseTotal"
   [incomeTotal]="incomeTotal"
   [total]="total"
-  [filteredTransactionsArr]="filteredTransactionsArr">
+  [filteredTransactionsArr]="filteredTransactionsArr"
+>
 </app-transaction-table>
