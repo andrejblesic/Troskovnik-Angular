@@ -30,10 +30,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   totalTransactions: number;
 
   ngOnInit() {
-    setTimeout(() => {
-      console.log(this.totalTransactions);
-    }, 3000);
-    console.log(this.dateRange);
     this.store
       .select(state => state.appState.dateRange)
       .subscribe(message => this.setDateRange(message));
@@ -43,7 +39,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.expenseSub = this.store
       .select(state => state.appState.expenses)
       .subscribe(message => this.handleExpenses(message));
-    console.log(this.allTransactionsArr.length);
   }
 
   showTransactions($event) {
@@ -68,20 +63,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       date = new Date(date).getTime();
       return date >= self.dateRange.startDate && date <= self.dateRange.endDate;
     });
-
-    for (const item in this.filteredTransactionsArr) {
-      if (this.filteredTransactionsArr[item][1].income_category) {
-        this.incomeTotal += parseFloat(
-          this.filteredTransactionsArr[item][1].amount
-        );
-      } else if (this.filteredTransactionsArr[item][1].expense_category) {
-        this.expenseTotal += parseFloat(
-          this.filteredTransactionsArr[item][1].amount
-        );
-      }
-    }
-
-
     if (this.show === 'Incomes') {
       this.filteredTransactionsArr = this.filteredTransactionsArr.filter(
         item => {
@@ -97,16 +78,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     for (const item in this.filteredTransactionsArr) {
       if (this.filteredTransactionsArr[item][1].income_category) {
-        this.incomeTotal += parseFloat(this.filteredTransactionsArr[item][1].amount);
+        this.incomeTotal += parseFloat(
+          this.filteredTransactionsArr[item][1].amount
+        );
       } else if (this.filteredTransactionsArr[item][1].expense_category) {
-        this.expenseTotal += parseFloat(this.filteredTransactionsArr[item][1].amount);
+        this.expenseTotal += parseFloat(
+          this.filteredTransactionsArr[item][1].amount
+        );
       }
     }
     this.total = this.incomeTotal - this.expenseTotal;
   }
 
   deleteTransaction($event) {
-    console.log($event.target.id);
     if ($event.target.getAttribute('data-target') === 'income') {
       this.service.deleteIncome($event.target.id);
     } else if ($event.target.getAttribute('data-target') === 'expense') {
