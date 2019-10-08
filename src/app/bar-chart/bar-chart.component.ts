@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { HttpSendService } from '../http-send.service';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -24,12 +24,16 @@ export class BarChartComponent implements OnInit {
     private httpSendService: HttpSendService
   ) {}
 
+  @Input() totalTransactions: number;
+
   incomeArr: object[] = [];
   expenseArr: object[] = [];
   allTransactionsArr: object[] = [];
   incomeTotal: number;
   expenseTotal: number;
   total: number;
+  transactions: number;
+
   incomeSub: Subscription;
   expenseSub: Subscription;
 
@@ -63,11 +67,10 @@ export class BarChartComponent implements OnInit {
   ];
   public doughnutChartData = [1200, 450, 330, 900];
   public doughnutChartType = 'doughnut';
+
   handleIncomes(message) {
     this.incomeTotal = 0;
-    // tslint:disable-next-line: forin
     for (const item in message) {
-      // tslint:disable-next-line: no-unused-expression
       message ? (this.incomeTotal += parseFloat(message[item].amount)) : null;
     }
     this.barChartData[1].data = [this.incomeTotal];
@@ -76,9 +79,7 @@ export class BarChartComponent implements OnInit {
 
   handleExpenses(message) {
     this.expenseTotal = 0;
-    // tslint:disable-next-line: forin
     for (const item in message) {
-      // tslint:disable-next-line: no-unused-expression
       message ? (this.expenseTotal += parseFloat(message[item].amount)) : null;
     }
     this.barChartData[0].data = [this.expenseTotal];
@@ -93,6 +94,7 @@ export class BarChartComponent implements OnInit {
     this.expenseSub = this.store
       .select(state => state.appState.expenses)
       .subscribe(message => this.handleExpenses(message));
+    this.total = this.incomeTotal - this.expenseTotal;
   }
 
   // tslint:disable-next-line: use-lifecycle-interface

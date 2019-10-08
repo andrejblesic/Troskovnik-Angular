@@ -36,7 +36,9 @@
         ><i class="material-icons navbar-icon"> note_add </i>Add New Category</a
       >
       <mat-menu #menu="matMenu">
-        <button mat-menu-item>New Income Category</button>
+        <button (click)="showFiller = !showFiller" mat-menu-item>
+          New Income Category
+        </button>
         <button mat-menu-item>New Expense Category</button>
       </mat-menu>
     </mat-nav-list>
