@@ -18,7 +18,7 @@ interface AppState {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private loginService: LoginService,
@@ -27,9 +27,9 @@ export class AppComponent {
 
   title = 'troskovnik-angular';
 
-  loading: boolean = true;
+  loading = true;
 
-  userInfo: Object = {
+  userInfo = {
     grant_type: 'password',
     client_id: '2',
     client_secret: 'DhApJ7TQhVgtnjZEwYvNaSqrm4K9JU87TyrnNjcU',

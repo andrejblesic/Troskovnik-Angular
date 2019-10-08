@@ -23,8 +23,8 @@ export class IncomesComponent implements OnInit {
   ) {}
 
   incomesArray: object[] = [];
-  incomeTotal: number = 0;
-  loading: boolean = true;
+  incomeTotal = 0;
+  loading = true;
   currentSort: Sort;
 
   sortData(sort: Sort) {
@@ -36,13 +36,13 @@ export class IncomesComponent implements OnInit {
     }
     this.incomesArray = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
-      switch(sort.active) {
+      switch (sort.active) {
         case 'amount':
           return compareAmounts(a, b, isAsc);
         case 'entry-date':
           return compareDates(a, b, isAsc);
         case 'category':
-          return compareCategories(a, b, isAsc)
+          return compareCategories(a, b, isAsc);
       }
     });
   }
@@ -57,10 +57,12 @@ export class IncomesComponent implements OnInit {
 
   handleMessage(message) {
     this.incomeTotal = 0;
-    for (let item in message) {
-      this.incomeTotal += parseFloat(message[item].amount);
+    for (const item in message) {
+      if (message.hasOwnProperty(item)) {
+        this.incomeTotal += parseFloat(message[item].amount);
+      }
     }
-    let result = Object.keys(message).map(key => {
+    const result = Object.keys(message).map(key => {
       return [Number(key), message[key]];
     });
     this.incomesArray = result;
@@ -75,32 +77,32 @@ export class IncomesComponent implements OnInit {
   }
 }
 
-function compareAmounts(a, b, isAsc) {
+const compareAmounts = (a, b, isAsc) => {
   if (isAsc) {
     return parseFloat(a[1].amount) - parseFloat(b[1].amount);
   } else {
     return parseFloat(b[1].amount) - parseFloat(a[1].amount);
   }
-}
+};
 
-function compareDates(a, b, isAsc) {
+const compareDates = (a, b, isAsc) => {
   let date1 = a[1].entry_date.split('.');
   date1 = [date1[0], date1[1], date1[2]] = [date1[1], date1[0], date1[2]];
-  let timeStampA = new Date(date1.join('.')).getTime();
+  const timeStampA = new Date(date1.join('.')).getTime();
   let date2 = b[1].entry_date.split('.');
   date2 = [date2[0], date2[1], date2[2]] = [date2[1], date2[0], date2[2]];
-  let timeStampB = new Date(date2.join('.')).getTime();
+  const timeStampB = new Date(date2.join('.')).getTime();
   if (isAsc) {
     return timeStampA - timeStampB;
   } else {
     return timeStampB - timeStampA;
   }
-}
+};
 
-function compareCategories(a, b, isAsc) {
+const compareCategories = (a, b, isAsc) => {
   if (isAsc) {
     return a[1].income_category.name > b[1].income_category.name ? -1 : 1;
   } else {
     return b[1].income_category.name < a[1].income_category.name ? 1 : -1;
   }
-}
+};

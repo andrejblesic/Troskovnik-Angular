@@ -24,6 +24,7 @@ export class CreateIncomeComponent implements OnInit, OnDestroy {
   incomeDescription = '';
   incomeCategories: Observable<any>;
   incomeCategoryId = 1;
+  newIncomeCategory: string;
   userName: string;
   userSub: Subscription;
 
@@ -37,6 +38,10 @@ export class CreateIncomeComponent implements OnInit, OnDestroy {
       this.userName
     );
     this.incomeCategoryId = 1;
+  }
+
+  sendIncomeCategory() {
+    this.service.sendIncomeCategory(this.newIncomeCategory);
   }
 
   setDate($event) {

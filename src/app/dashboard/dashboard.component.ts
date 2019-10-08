@@ -68,6 +68,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       date = new Date(date).getTime();
       return date >= self.dateRange.startDate && date <= self.dateRange.endDate;
     });
+
     for (const item in this.filteredTransactionsArr) {
       if (this.filteredTransactionsArr[item][1].income_category) {
         this.incomeTotal += parseFloat(
@@ -79,6 +80,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         );
       }
     }
+
+
     if (this.show === 'Incomes') {
       this.filteredTransactionsArr = this.filteredTransactionsArr.filter(
         item => {
@@ -91,6 +94,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
           return item[1].expense_category;
         }
       );
+    }
+    for (const item in this.filteredTransactionsArr) {
+      if (this.filteredTransactionsArr[item][1].income_category) {
+        this.incomeTotal += parseFloat(this.filteredTransactionsArr[item][1].amount);
+      } else if (this.filteredTransactionsArr[item][1].expense_category) {
+        this.expenseTotal += parseFloat(this.filteredTransactionsArr[item][1].amount);
+      }
     }
     this.total = this.incomeTotal - this.expenseTotal;
   }

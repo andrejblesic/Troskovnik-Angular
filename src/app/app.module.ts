@@ -17,8 +17,6 @@ import { IncomesComponent } from './incomes/incomes.component';
 import { StoreModule } from '@ngrx/store';
 import { transactionReducer } from './store/reducers';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { CreateIncomeCategoryComponent } from './create-income-category/create-income-category.component';
-import { CreateExpenseCategoryComponent } from './create-expense-category/create-expense-category.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -60,8 +58,6 @@ const appRoutes: Routes = [
     ExpensesComponent,
     IncomesComponent,
     DashboardComponent,
-    CreateIncomeCategoryComponent,
-    CreateExpenseCategoryComponent,
     MainNavComponent,
     TransactionDetailsComponent,
     BarChartComponent,
