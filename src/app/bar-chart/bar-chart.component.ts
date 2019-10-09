@@ -37,7 +37,7 @@ export class BarChartComponent implements OnInit, OnChanges {
   public barChartOptions = {
     scaleShowVerticalLines: false,
     responsive: true,
-
+    maintainAspectRatio: false,
     scales: {
       yAxes: [
         {
@@ -66,7 +66,7 @@ export class BarChartComponent implements OnInit, OnChanges {
   public doughnutChartData = [];
   public doughnutChartType = 'doughnut';
 
-  updateChart() {
+updateChart() {
     this.doughnutChartData = [];
     this.doughnutChartLabels = [];
     for (const transaction of this.filteredTransactionsArr) {
