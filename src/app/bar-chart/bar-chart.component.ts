@@ -37,7 +37,7 @@ export class BarChartComponent implements OnInit, OnChanges {
   public barChartOptions = {
     scaleShowVerticalLines: false,
     responsive: true,
-
+    maintainAspectRatio: false,
     scales: {
       yAxes: [
         {
@@ -72,16 +72,28 @@ export class BarChartComponent implements OnInit, OnChanges {
     console.log(this.filteredTransactionsArr);
     for (const transaction in this.filteredTransactionsArr) {
       if (this.filteredTransactionsArr[transaction][1].expense_category) {
-        if (this.doughnutChartLabels.indexOf(this.filteredTransactionsArr[transaction][1].expense_category.name) < 0) {
-          this.doughnutChartLabels.push(this.filteredTransactionsArr[transaction][1].expense_category.name);
+        if (
+          this.doughnutChartLabels.indexOf(
+            this.filteredTransactionsArr[transaction][1].expense_category.name
+          ) < 0
+        ) {
+          this.doughnutChartLabels.push(
+            this.filteredTransactionsArr[transaction][1].expense_category.name
+          );
           this.doughnutChartData.push(0);
         }
       }
     }
     for (let i = 0; i < this.filteredTransactionsArr.length; i++) {
       for (let j = 0; j < this.doughnutChartLabels.length; j++) {
-        if (this.filteredTransactionsArr[i][1].expense_category && this.filteredTransactionsArr[i][1].expense_category.name === this.doughnutChartLabels[j]) {
-          this.doughnutChartData[j] += parseFloat(this.filteredTransactionsArr[i][1].amount);
+        if (
+          this.filteredTransactionsArr[i][1].expense_category &&
+          this.filteredTransactionsArr[i][1].expense_category.name ===
+            this.doughnutChartLabels[j]
+        ) {
+          this.doughnutChartData[j] += parseFloat(
+            this.filteredTransactionsArr[i][1].amount
+          );
         }
       }
     }
