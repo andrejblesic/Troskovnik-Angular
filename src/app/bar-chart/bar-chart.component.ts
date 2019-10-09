@@ -39,12 +39,18 @@ export class BarChartComponent implements OnInit, OnChanges {
   public barChartOptions = {
     scaleShowVerticalLines: false,
     responsive: true,
+
     scales: {
       yAxes: [
         {
           ticks: {
             beginAtZero: true
           }
+        }
+      ],
+      xAxes: [
+        {
+          barPercentage: 0.2
         }
       ]
     }
@@ -62,7 +68,7 @@ export class BarChartComponent implements OnInit, OnChanges {
     'Expenses Q1',
     'Expenses Q2',
     'Expenses Q3',
-    'Expenses Q4',
+    'Expenses Q4'
   ];
   public doughnutChartData = [1200, 450, 330, 900];
   public doughnutChartType = 'doughnut';
