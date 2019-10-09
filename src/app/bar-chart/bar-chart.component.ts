@@ -37,12 +37,18 @@ export class BarChartComponent implements OnInit, OnChanges {
   public barChartOptions = {
     scaleShowVerticalLines: false,
     responsive: true,
+
     scales: {
       yAxes: [
         {
           ticks: {
             beginAtZero: true
           }
+        }
+      ],
+      xAxes: [
+        {
+          barPercentage: 0.2
         }
       ]
     }
