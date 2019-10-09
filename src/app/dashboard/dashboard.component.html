@@ -1,7 +1,6 @@
-<!--  material table  -->
 <mat-spinner class="loading-spinner" *ngIf="loading"></mat-spinner>
 
-<mat-card class="datepicker">
+<mat-card *ngIf="!loading" class="datepicker">
   <mat-form-field class="show-input">
     <mat-label>Show:</mat-label>
     <mat-select (valueChange)="showTransactions($event)">
@@ -16,6 +15,7 @@
   </button>
 </mat-card>
 <app-bar-chart
+  [filteredTransactionsArr]="filteredTransactionsArr"
   [incomeTotal]="incomeTotal"
   [expenseTotal]="expenseTotal"
   [totalTransactions]="totalTransactions"
@@ -26,5 +26,6 @@
   [incomeTotal]="incomeTotal"
   [total]="total"
   [filteredTransactionsArr]="filteredTransactionsArr"
+  *ngIf="!loading"
 >
 </app-transaction-table>
