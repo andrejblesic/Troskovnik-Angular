@@ -28,13 +28,14 @@ export class BarChartComponent implements OnInit, OnChanges {
   @Input() incomeTotal: number;
   @Input() expenseTotal: number;
   @Input() filteredTransactionsArr: object[];
+  @Input() show: string;
 
   incomeArr: object[] = [];
   expenseArr: object[] = [];
   allTransactionsArr: object[] = [];
   total: number;
 
-  public barChartOptions = {
+  barChartOptions = {
     scaleShowVerticalLines: false,
     responsive: true,
     maintainAspectRatio: false,
@@ -54,33 +55,49 @@ export class BarChartComponent implements OnInit, OnChanges {
     }
   };
 
-  public barChartLabels = ['Expenses and Incomes'];
-  public barChartType = 'bar';
-  public barChartLegend = true;
+  barChartLabels = ['Expenses and Incomes'];
+  barChartType = 'bar';
+  barChartLegend = true;
 
-  public barChartData = [
+  barChartData = [
     { data: [this.expenseTotal], label: 'Expenses' },
     { data: [this.incomeTotal], label: 'Incomes' }
   ];
-  public doughnutChartLabels = [];
-  public doughnutChartData = [];
-  public doughnutChartType = 'doughnut';
+  expenseDoughnutChartLabels = [];
+  expenseDoughnutChartData = [];
+
+  incomeDoughnutChartLabels = [];
+  incomeDoughnutChartData = [];
+
+  doughnutChartType = 'doughnut';
 
 updateChart() {
-    this.doughnutChartData = [];
-    this.doughnutChartLabels = [];
+    this.expenseDoughnutChartData = [];
+    this.expenseDoughnutChartLabels = [];
+    this.incomeDoughnutChartData = [];
+    this.incomeDoughnutChartLabels = [];
     for (const transaction of this.filteredTransactionsArr) {
       if (transaction[1].expense_category) {
-        if (this.doughnutChartLabels.indexOf(transaction[1].expense_category.name) < 0) {
-          this.doughnutChartLabels.push(transaction[1].expense_category.name);
-          this.doughnutChartData.push(0);
+        if (this.expenseDoughnutChartLabels.indexOf(transaction[1].expense_category.name) < 0) {
+          this.expenseDoughnutChartLabels.push(transaction[1].expense_category.name);
+          this.expenseDoughnutChartData.push(0);
+        }
+      } else if (transaction[1].income_category) {
+        if (this.incomeDoughnutChartLabels.indexOf(transaction[1].income_category.name) < 0) {
+          this.incomeDoughnutChartLabels.push(transaction[1].income_category.name);
+          this.incomeDoughnutChartData.push(0);
         }
       }
     }
     for (const transaction of this.filteredTransactionsArr) {
-      for (let j = 0; j < this.doughnutChartLabels.length; j++) {
-        if (transaction[1].expense_category && transaction[1].expense_category.name === this.doughnutChartLabels[j]) {
-          this.doughnutChartData[j] += parseFloat(transaction[1].amount);
+      for (let j = 0; j < this.expenseDoughnutChartLabels.length; j++) {
+        if (transaction[1].expense_category && transaction[1].expense_category.name === this.expenseDoughnutChartLabels[j]) {
+          this.expenseDoughnutChartData[j] += parseFloat(transaction[1].amount);
+        }
+      }
+      for (let j = 0; j < this.incomeDoughnutChartLabels.length; j++) {
+        if (transaction[1].income_category && transaction[1].income_category.name === this.incomeDoughnutChartLabels[j]) {
+          this.incomeDoughnutChartData[j] += parseFloat(transaction[1].amount);
         }
       }
     }
@@ -94,7 +111,5 @@ updateChart() {
   }
 
   ngOnInit() {
-    // this.barChartData[1].data = [this.incomeTotal];
-    // this.barChartData[0].data = [this.expenseTotal];
   }
 }

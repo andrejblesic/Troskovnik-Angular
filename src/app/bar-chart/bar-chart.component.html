@@ -65,12 +65,12 @@
       </mat-card>
     </mat-grid-tile>
   </mat-grid-list>
-  <mat-grid-list cols="5" rowHeight="500px">
+  <mat-grid-list *ngIf="show === 'All'" cols="5" rowHeight="500px">
     <mat-grid-tile colspan="2">
       <canvas
         baseChart
-        [data]="doughnutChartData"
-        [labels]="doughnutChartLabels"
+        [data]="incomeDoughnutChartData"
+        [labels]="incomeDoughnutChartLabels"
         [chartType]="doughnutChartType"
       ></canvas>
     </mat-grid-tile>
@@ -87,9 +87,49 @@
     <mat-grid-tile colspan="2">
       <canvas
         baseChart
-        [data]="doughnutChartData"
-        [labels]="doughnutChartLabels"
+        [data]="expenseDoughnutChartData"
+        [labels]="expenseDoughnutChartLabels"
         [chartType]="doughnutChartType"
+      ></canvas>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <mat-grid-list *ngIf="show === 'Incomes'" cols="5" rowHeight="620px">
+    <mat-grid-tile colspan="3">
+      <canvas
+        baseChart
+        [data]="incomeDoughnutChartData"
+        [labels]="incomeDoughnutChartLabels"
+        [chartType]="doughnutChartType"
+      ></canvas>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2">
+      <canvas
+        baseChart
+        [datasets]="barChartData"
+        [labels]="barChartLabels"
+        [options]="barChartOptions"
+        [legend]="barChartLegend"
+        [chartType]="barChartType"
+      ></canvas>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <mat-grid-list *ngIf="show === 'Expenses'" cols="5" rowHeight="620px">
+    <mat-grid-tile colspan="3">
+      <canvas
+        baseChart
+        [data]="expenseDoughnutChartData"
+        [labels]="expenseDoughnutChartLabels"
+        [chartType]="doughnutChartType"
+      ></canvas>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2">
+      <canvas
+        baseChart
+        [datasets]="barChartData"
+        [labels]="barChartLabels"
+        [options]="barChartOptions"
+        [legend]="barChartLegend"
+        [chartType]="barChartType"
       ></canvas>
     </mat-grid-tile>
   </mat-grid-list>
