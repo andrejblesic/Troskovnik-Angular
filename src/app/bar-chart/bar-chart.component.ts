@@ -1,8 +1,7 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { HttpSendService } from '../http-send.service';
 import { Store } from '@ngrx/store';
-import { Subscription, Observable, from, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 interface AppState {
   appState: {
@@ -26,15 +25,14 @@ export class BarChartComponent implements OnInit, OnChanges {
   ) {}
 
   @Input() totalTransactions: number;
+  @Input() incomeTotal: number;
+  @Input() expenseTotal: number;
+  @Input() filteredTransactionsArr: object[];
 
   incomeArr: object[] = [];
   expenseArr: object[] = [];
   allTransactionsArr: object[] = [];
-  @Input() incomeTotal: number;
-  @Input() expenseTotal: number;
   total: number;
-  // incomeSub: Subscription;
-  // expenseSub: Subscription;
 
   public barChartOptions = {
     scaleShowVerticalLines: false,
@@ -64,23 +62,40 @@ export class BarChartComponent implements OnInit, OnChanges {
     { data: [this.expenseTotal], label: 'Expenses' },
     { data: [this.incomeTotal], label: 'Incomes' }
   ];
-  public doughnutChartLabels = [
-    'Expenses Q1',
-    'Expenses Q2',
-    'Expenses Q3',
-    'Expenses Q4'
-  ];
-  public doughnutChartData = [1200, 450, 330, 900];
+  public doughnutChartLabels = [];
+  public doughnutChartData = [];
   public doughnutChartType = 'doughnut';
+
+  updateChart() {
+    this.doughnutChartData = [];
+    this.doughnutChartLabels = [];
+    console.log(this.filteredTransactionsArr);
+    for (const transaction in this.filteredTransactionsArr) {
+      if (this.filteredTransactionsArr[transaction][1].expense_category) {
+        if (this.doughnutChartLabels.indexOf(this.filteredTransactionsArr[transaction][1].expense_category.name) < 0) {
+          this.doughnutChartLabels.push(this.filteredTransactionsArr[transaction][1].expense_category.name);
+          this.doughnutChartData.push(0);
+        }
+      }
+    }
+    for (let i = 0; i < this.filteredTransactionsArr.length; i++) {
+      for (let j = 0; j < this.doughnutChartLabels.length; j++) {
+        if (this.filteredTransactionsArr[i][1].expense_category && this.filteredTransactionsArr[i][1].expense_category.name === this.doughnutChartLabels[j]) {
+          this.doughnutChartData[j] += parseFloat(this.filteredTransactionsArr[i][1].amount);
+        }
+      }
+    }
+  }
 
   ngOnChanges(changes) {
     this.barChartData[1].data = [this.incomeTotal];
     this.barChartData[0].data = [this.expenseTotal];
     this.total = this.incomeTotal - this.expenseTotal;
+    this.updateChart();
   }
 
   ngOnInit() {
-    this.barChartData[1].data = [this.incomeTotal];
-    this.barChartData[0].data = [this.expenseTotal];
+    // this.barChartData[1].data = [this.incomeTotal];
+    // this.barChartData[0].data = [this.expenseTotal];
   }
 }
