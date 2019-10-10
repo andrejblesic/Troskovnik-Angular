@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { allExpenses, allIncomes, incomeCategories, expenseCategories, userInfo } from './store/actions';
 import { Store } from '@ngrx/store';
-//import { IUserInfo } from './models/income-expense-models';
 import { IAppState, IUserInfo } from './models/general-models';
 
 const incomesUrl = 'https://troskovnik.omniapps.info/api/v1/incomes/';

@@ -15,7 +15,7 @@
           />
 
           <mat-card-title>Incomes:</mat-card-title>
-          <mat-card-subtitle>${{ incomeTotal }}</mat-card-subtitle>
+          <mat-card-subtitle>${{ incomeTotal | number: '.2' }}</mat-card-subtitle>
         </mat-card-header>
       </mat-card>
     </mat-grid-tile>
@@ -28,9 +28,8 @@
             mat-card-avatar
             src="https://img.icons8.com/color/96/000000/initiate-money-transfer.png"
           />
-
           <mat-card-title>Expenses:</mat-card-title>
-          <mat-card-subtitle>${{ expenseTotal }}</mat-card-subtitle>
+          <mat-card-subtitle>${{ expenseTotal | number: '.2' }}</mat-card-subtitle>
         </mat-card-header>
       </mat-card>
     </mat-grid-tile>
@@ -43,9 +42,8 @@
             mat-card-avatar
             src="https://img.icons8.com/color/96/000000/love-for-money.png"
           />
-
           <mat-card-title>Balance:</mat-card-title>
-          <mat-card-subtitle>${{ total }}</mat-card-subtitle>
+          <mat-card-subtitle>${{ total | number: '.2' }}</mat-card-subtitle>
         </mat-card-header>
       </mat-card>
     </mat-grid-tile>
@@ -58,7 +56,6 @@
             mat-card-avatar
             src="https://img.icons8.com/color/96/000000/split-transaction.png"
           />
-
           <mat-card-title>Total Transactions:</mat-card-title>
           <mat-card-subtitle> {{ totalTransactions }} </mat-card-subtitle>
         </mat-card-header>
@@ -73,6 +70,7 @@
         [labels]="incomeDoughnutChartLabels"
         [chartType]="doughnutChartType"
       ></canvas>
+      <h5>Incomes</h5>
     </mat-grid-tile>
     <mat-grid-tile colspan="1">
       <canvas
@@ -91,6 +89,7 @@
         [labels]="expenseDoughnutChartLabels"
         [chartType]="doughnutChartType"
       ></canvas>
+      <h5>Expenses</h5>
     </mat-grid-tile>
   </mat-grid-list>
   <mat-grid-list *ngIf="show === 'Incomes'" cols="5" rowHeight="620px">

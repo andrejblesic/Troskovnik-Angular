@@ -60,8 +60,8 @@ export class BarChartComponent implements OnInit, OnChanges {
   barChartLegend = true;
 
   barChartData = [
-    { data: [this.expenseTotal], label: 'Expenses' },
-    { data: [this.incomeTotal], label: 'Incomes' }
+    { data: [this.incomeTotal], label: 'Incomes' },
+    { data: [this.expenseTotal], label: 'Expenses' }
   ];
   expenseDoughnutChartLabels = [];
   expenseDoughnutChartData = [];
@@ -104,8 +104,8 @@ updateChart() {
   }
 
   ngOnChanges(changes) {
-    this.barChartData[1].data = [this.incomeTotal];
-    this.barChartData[0].data = [this.expenseTotal];
+    this.barChartData[0].data = [this.incomeTotal];
+    this.barChartData[1].data = [this.expenseTotal];
     this.total = this.incomeTotal - this.expenseTotal;
     this.updateChart();
   }

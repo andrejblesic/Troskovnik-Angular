@@ -18,7 +18,12 @@ export class HttpSendService {
 
   sendIncome(incomeCategory, incomeEntryDate, incomeAmount, incomeDescription, incomeCategoryId, userName) {
     const date = new Date();
-    const fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
+    const fullDate = `${date.getFullYear()}
+    -${('0' + (date.getMonth() + 1)).slice(-2)}
+    -${('0' + date.getDate()).slice(-2)}
+     ${('0' + date.getHours()).slice(-2)}
+    :${('0' + date.getMinutes()).slice(-2)}
+    :${('0' + date.getSeconds()).slice(-2)}`;
     const incomeJSON = {
       amount: incomeAmount,
       created_at: fullDate,
@@ -47,7 +52,12 @@ export class HttpSendService {
 
   sendExpense(expenseCategory, expenseEntryDate, expenseAmount, expenseDescription, expenseCategoryId) {
     const date = new Date();
-    const fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
+    const fullDate = `${date.getFullYear()}
+    -${('0' + (date.getMonth() + 1)).slice(-2)}
+    -${('0' + date.getDate()).slice(-2)}
+     ${('0' + date.getHours()).slice(-2)}
+    :${('0' + date.getMinutes()).slice(-2)}
+    :${('0' + date.getSeconds()).slice(-2)}`;
     const expenseJSON = {
       amount: expenseAmount,
       created_at: fullDate,
@@ -75,7 +85,12 @@ export class HttpSendService {
 
   sendIncomeCategory(name) {
     const date = new Date();
-    const fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
+    const fullDate = `${date.getFullYear()}
+    -${('0' + (date.getMonth() + 1)).slice(-2)}
+    -${('0' + date.getDate()).slice(-2)}
+     ${('0' + date.getHours()).slice(-2)}
+    :${('0' + date.getMinutes()).slice(-2)}
+    :${('0' + date.getSeconds()).slice(-2)}`;
     const incomeCategoryJSON = {
       created_at: fullDate,
       deleted_at: null,
@@ -91,7 +106,12 @@ export class HttpSendService {
 
   sendExpenseCategory(name) {
     const date = new Date();
-    const fullDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
+    const fullDate = `${date.getFullYear()}
+    -${('0' + (date.getMonth() + 1)).slice(-2)}
+    -${('0' + date.getDate()).slice(-2)}
+     ${('0' + date.getHours()).slice(-2)}
+    :${('0' + date.getMinutes()).slice(-2)}
+    :${('0' + date.getSeconds()).slice(-2)}`;
     const expenseCategoryJSON = {
       created_at: fullDate,
       deleted_at: null,
@@ -120,18 +140,15 @@ export class HttpSendService {
   }
 
   // ONLY FOR DEVELOPMENT PURPOSES
-  // deleteIncomeCategory(num) {
-  //   console.log("okida income");
-  //   httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
-  //   let deleteIncomeCategories = this.http.delete(`https://troskovnik.omniapps.info/api/v1/income-categories/${num.toString()}`, httpOptions);
-  //   deleteIncomeCategories.subscribe(message => console.log(message));
-  // }
+  deleteIncomeCategory(num) {
+    console.log('income category deleted');
+    const deleteIncomeCategories = this.http.delete(`https://troskovnik.omniapps.info/api/v1/income-categories/${num}`);
+    deleteIncomeCategories.subscribe(message => console.log(message));
+  }
 
-  // ONLY FOR DEVELOPMENT PURPOSES
-  // deleteExpenseCategory(num) {
-  //   console.log("okida expense");
-  //   //httpOptions.headers = httpOptions.headers.set('Authorization', `Bearer ${this.service.access_token}`);
-  //   let deleteExpenseCategories = this.http.delete(`https://troskovnik.omniapps.info/api/v1/expense-categories/${num.toString()}`, httpOptions);
-  //   deleteExpenseCategories.subscribe(message => console.log(message));
-  // }
+  deleteExpenseCategory(num) {
+    console.log('okida expense');
+    const deleteExpenseCategories = this.http.delete(`https://troskovnik.omniapps.info/api/v1/expense-categories/${num}`);
+    deleteExpenseCategories.subscribe(message => console.log(message));
+  }
 }
