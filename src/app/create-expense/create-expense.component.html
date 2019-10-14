@@ -6,7 +6,7 @@
   </mat-expansion-panel-header>
 
   <div class="create-expense-card">
-    <form class="expense-form">
+    <form class="expense-form" #createExpenseForm="ngForm">
       <mat-form-field>
         <mat-label>Category</mat-label>
 
@@ -70,6 +70,7 @@
       (click)="sendExpense()"
       mat-raised-button
       color="primary"
+      (click)="createExpenseForm.reset()"
     >
       Submit
     </button>
@@ -77,7 +78,6 @@
 
   <mat-expansion-panel> </mat-expansion-panel
 ></mat-expansion-panel>
-
 
 <mat-expansion-panel class="expense-panel mat-elevation-z8 ">
   <mat-expansion-panel-header>
@@ -87,7 +87,7 @@
   </mat-expansion-panel-header>
 
   <div class="create-expense-card">
-    <form class="expense-form">
+    <form class="expense-form" #createExpenseCategory="ngForm">
       <mat-form-field class="full-width">
         <input
           matInput
@@ -102,6 +102,7 @@
     <button
       class="submit-button"
       (click)="sendExpenseCategory()"
+      (click)="createExpenseCategory.reset()"
       mat-raised-button
       color="primary"
     >

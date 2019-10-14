@@ -6,24 +6,38 @@ import { IAppState } from './models/general-models';
 
 const incomesUrl = 'https://troskovnik.omniapps.info/api/v1/incomes/';
 const expensesUrl = 'https://troskovnik.omniapps.info/api/v1/expenses/';
-const incomeCategoriesUrl = 'https://troskovnik.omniapps.info/api/v1/income-categories/';
-const expenseCategoriesUrl = 'https://troskovnik.omniapps.info/api/v1/expense-categories/';
+const incomeCategoriesUrl =
+  'https://troskovnik.omniapps.info/api/v1/income-categories/';
+const expenseCategoriesUrl =
+  'https://troskovnik.omniapps.info/api/v1/expense-categories/';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpSendService {
+  constructor(
+    private store: Store<IAppState>,
+    private http: HttpClient,
+    private service: HttpFetchService
+  ) {}
 
-  constructor(private store: Store<IAppState>, private http: HttpClient, private service: HttpFetchService) { }
-
-  sendIncome(incomeCategory, incomeEntryDate, incomeAmount, incomeDescription, incomeCategoryId, userName) {
+  sendIncome(
+    incomeCategory,
+    incomeEntryDate,
+    incomeAmount,
+    incomeDescription,
+    incomeCategoryId,
+    userName
+  ) {
     const date = new Date();
-    const fullDate = `${date.getFullYear()}
-    -${('0' + (date.getMonth() + 1)).slice(-2)}
-    -${('0' + date.getDate()).slice(-2)}
-     ${('0' + date.getHours()).slice(-2)}
-    :${('0' + date.getMinutes()).slice(-2)}
-    :${('0' + date.getSeconds()).slice(-2)}`;
+    const fullDate = `${date.getFullYear()}-${(
+      '0' +
+      (date.getMonth() + 1)
+    ).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${(
+      '0' + date.getHours()
+    ).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${(
+      '0' + date.getSeconds()
+    ).slice(-2)}`;
     const incomeJSON = {
       amount: incomeAmount,
       created_at: fullDate,
@@ -50,14 +64,23 @@ export class HttpSendService {
     );
   }
 
-  sendExpense(expenseCategory, expenseEntryDate, expenseAmount, expenseDescription, expenseCategoryId) {
+  sendExpense(
+    expenseCategory,
+    expenseEntryDate,
+    expenseAmount,
+    expenseDescription,
+    expenseCategoryId
+  ) {
+    console.log(arguments);
     const date = new Date();
-    const fullDate = `${date.getFullYear()}
-    -${('0' + (date.getMonth() + 1)).slice(-2)}
-    -${('0' + date.getDate()).slice(-2)}
-     ${('0' + date.getHours()).slice(-2)}
-    :${('0' + date.getMinutes()).slice(-2)}
-    :${('0' + date.getSeconds()).slice(-2)}`;
+    const fullDate = `${date.getFullYear()}-${(
+      '0' +
+      (date.getMonth() + 1)
+    ).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${(
+      '0' + date.getHours()
+    ).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${(
+      '0' + date.getSeconds()
+    ).slice(-2)}`;
     const expenseJSON = {
       amount: expenseAmount,
       created_at: fullDate,
@@ -75,6 +98,7 @@ export class HttpSendService {
       expense_category_id: expenseCategoryId,
       updated_at: fullDate
     };
+    console.log(expenseJSON);
     const postExpense = this.http.post(expensesUrl, expenseJSON);
     postExpense.subscribe(
       message => this.service.fetchExpenses(),
@@ -85,12 +109,14 @@ export class HttpSendService {
 
   sendIncomeCategory(name) {
     const date = new Date();
-    const fullDate = `${date.getFullYear()}
-    -${('0' + (date.getMonth() + 1)).slice(-2)}
-    -${('0' + date.getDate()).slice(-2)}
-     ${('0' + date.getHours()).slice(-2)}
-    :${('0' + date.getMinutes()).slice(-2)}
-    :${('0' + date.getSeconds()).slice(-2)}`;
+    const fullDate = `${date.getFullYear()}-${(
+      '0' +
+      (date.getMonth() + 1)
+    ).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${(
+      '0' + date.getHours()
+    ).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${(
+      '0' + date.getSeconds()
+    ).slice(-2)}`;
     const incomeCategoryJSON = {
       created_at: fullDate,
       deleted_at: null,
@@ -98,20 +124,25 @@ export class HttpSendService {
       name,
       updated_at: fullDate
     };
-    const postIncomeCategory = this.http.post(incomeCategoriesUrl, incomeCategoryJSON);
-    postIncomeCategory.subscribe(
-      message => this.service.fetchIncomeCategories()
+    const postIncomeCategory = this.http.post(
+      incomeCategoriesUrl,
+      incomeCategoryJSON
+    );
+    postIncomeCategory.subscribe(message =>
+      this.service.fetchIncomeCategories()
     );
   }
 
   sendExpenseCategory(name) {
     const date = new Date();
-    const fullDate = `${date.getFullYear()}
-    -${('0' + (date.getMonth() + 1)).slice(-2)}
-    -${('0' + date.getDate()).slice(-2)}
-     ${('0' + date.getHours()).slice(-2)}
-    :${('0' + date.getMinutes()).slice(-2)}
-    :${('0' + date.getSeconds()).slice(-2)}`;
+    const fullDate = `${date.getFullYear()}-${(
+      '0' +
+      (date.getMonth() + 1)
+    ).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${(
+      '0' + date.getHours()
+    ).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${(
+      '0' + date.getSeconds()
+    ).slice(-2)}`;
     const expenseCategoryJSON = {
       created_at: fullDate,
       deleted_at: null,
@@ -119,36 +150,39 @@ export class HttpSendService {
       name,
       updated_at: fullDate
     };
-    const postExpenseCategory = this.http.post(expenseCategoriesUrl, expenseCategoryJSON);
-    postExpenseCategory.subscribe(
-      message => this.service.fetchExpenseCategories()
+    const postExpenseCategory = this.http.post(
+      expenseCategoriesUrl,
+      expenseCategoryJSON
+    );
+    postExpenseCategory.subscribe(message =>
+      this.service.fetchExpenseCategories()
     );
   }
 
   deleteIncome(id) {
     const deleteIncome = this.http.delete(incomesUrl + id);
-    deleteIncome.subscribe(
-      message => this.service.fetchIncomes()
-    );
+    deleteIncome.subscribe(message => this.service.fetchIncomes());
   }
 
   deleteExpense(id) {
     const deleteExpense = this.http.delete(expensesUrl + id);
-    deleteExpense.subscribe(
-      message => this.service.fetchExpenses()
-    );
+    deleteExpense.subscribe(message => this.service.fetchExpenses());
   }
 
   // ONLY FOR DEVELOPMENT PURPOSES
   deleteIncomeCategory(num) {
     console.log('income category deleted');
-    const deleteIncomeCategories = this.http.delete(`https://troskovnik.omniapps.info/api/v1/income-categories/${num}`);
+    const deleteIncomeCategories = this.http.delete(
+      `https://troskovnik.omniapps.info/api/v1/income-categories/${num}`
+    );
     deleteIncomeCategories.subscribe(message => console.log(message));
   }
 
   deleteExpenseCategory(num) {
     console.log('okida expense');
-    const deleteExpenseCategories = this.http.delete(`https://troskovnik.omniapps.info/api/v1/expense-categories/${num}`);
+    const deleteExpenseCategories = this.http.delete(
+      `https://troskovnik.omniapps.info/api/v1/expense-categories/${num}`
+    );
     deleteExpenseCategories.subscribe(message => console.log(message));
   }
 }
