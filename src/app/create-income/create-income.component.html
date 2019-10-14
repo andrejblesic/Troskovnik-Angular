@@ -6,7 +6,7 @@
   </mat-expansion-panel-header>
 
   <div class="create-income-card">
-    <form class="income-form">
+    <form class="income-form" #createIncomeForm="ngForm">
       <mat-form-field>
         <mat-label>Category</mat-label>
 
@@ -69,6 +69,7 @@
     <button
       class="submit-button"
       (click)="sendIncome()"
+      (click)="createIncomeForm.reset()"
       mat-raised-button
       color="primary"
     >
@@ -79,7 +80,6 @@
   <mat-expansion-panel> </mat-expansion-panel
 ></mat-expansion-panel>
 
-
 <mat-expansion-panel class="income-panel mat-elevation-z8 ">
   <mat-expansion-panel-header>
     <mat-panel-title>
@@ -88,7 +88,7 @@
   </mat-expansion-panel-header>
 
   <div class="create-income-card">
-    <form class="income-form">
+    <form class="income-form" #createIncomeCategory="ngForm">
       <mat-form-field class="full-width">
         <input
           matInput
@@ -103,6 +103,7 @@
     <button
       class="submit-button"
       (click)="sendIncomeCategory()"
+      (click)="createIncomeCategory.reset()"
       mat-raised-button
       color="primary"
     >
