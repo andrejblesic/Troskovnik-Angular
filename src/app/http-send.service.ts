@@ -69,7 +69,8 @@ export class HttpSendService {
     expenseEntryDate,
     expenseAmount,
     expenseDescription,
-    expenseCategoryId
+    expenseCategoryId,
+    userName
   ) {
     console.log(arguments);
     const date = new Date();
@@ -88,6 +89,7 @@ export class HttpSendService {
       description: expenseDescription,
       entry_date: expenseEntryDate.replace(/\//g, '.'),
       id: 1,
+      created_by: userName,
       expense_category: {
         id: 1,
         name: expenseCategory,
@@ -167,22 +169,5 @@ export class HttpSendService {
   deleteExpense(id) {
     const deleteExpense = this.http.delete(expensesUrl + id);
     deleteExpense.subscribe(message => this.service.fetchExpenses());
-  }
-
-  // ONLY FOR DEVELOPMENT PURPOSES
-  deleteIncomeCategory(num) {
-    console.log('income category deleted');
-    const deleteIncomeCategories = this.http.delete(
-      `https://troskovnik.omniapps.info/api/v1/income-categories/${num}`
-    );
-    deleteIncomeCategories.subscribe(message => console.log(message));
-  }
-
-  deleteExpenseCategory(num) {
-    console.log('okida expense');
-    const deleteExpenseCategories = this.http.delete(
-      `https://troskovnik.omniapps.info/api/v1/expense-categories/${num}`
-    );
-    deleteExpenseCategories.subscribe(message => console.log(message));
   }
 }

@@ -29,10 +29,11 @@
 
       <mat-form-field>
         <input
+          #dateInput
+          value="expenseEntryDate"
           name="expenseEntryDate"
           required
           (mousedown)="picker.open()"
-          value=""
           matInput
           [matDatepicker]="picker"
           placeholder="Entry Date"

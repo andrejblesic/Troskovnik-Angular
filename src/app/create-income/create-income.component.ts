@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { HttpSendService } from '../http-send.service';
 import { Store } from '@ngrx/store';
 import { share } from 'rxjs/operators';
@@ -13,13 +13,15 @@ import { IAppState } from '../models/general-models';
 })
 export class CreateIncomeComponent implements OnInit, OnDestroy {
 
-  constructor(private service: HttpSendService, private store: Store<IAppState>) { }
+  constructor(
+    private service: HttpSendService,
+    private store: Store<IAppState>
+  ) { }
 
-  date = new FormControl(new Date());
-  serializedDate = new FormControl(new Date().toISOString());
+  @ViewChild('dateInput', {static: false}) dateInput;
 
   incomeCategory = 'Razvoj softwarea';
-  incomeEntryDate = '';
+  incomeEntryDate = null;
   incomeAmount = '';
   incomeDescription = '';
   incomeCategories: Observable<any>;
@@ -38,6 +40,11 @@ export class CreateIncomeComponent implements OnInit, OnDestroy {
       this.userName
     );
     this.incomeCategoryId = 1;
+    this.resetDate();
+  }
+
+  resetDate() {
+    this.dateInput.nativeElement.value = '';
   }
 
   sendIncomeCategory() {
@@ -45,7 +52,7 @@ export class CreateIncomeComponent implements OnInit, OnDestroy {
   }
 
   setDate($event) {
-    console.log($event.target.value);
+    console.log(this.dateInput.nativeElement.value);
     this.incomeEntryDate = `${('0' + $event.target.value.getDate()).slice(
       -2
     )}/${('0' + ($event.target.value.getMonth() + 1)).slice(

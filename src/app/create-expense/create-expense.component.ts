@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { HttpSendService } from '../http-send.service';
 import { Store } from '@ngrx/store';
 import { share } from 'rxjs/operators';
@@ -12,13 +12,13 @@ import { IAppState } from '../models/general-models';
   styleUrls: ['./create-expense.component.scss']
 })
 export class CreateExpenseComponent implements OnInit, OnDestroy {
+
   constructor(
     private store: Store<IAppState>,
     private service: HttpSendService
-  ) {}
+  ) { }
 
-  date = new FormControl(new Date());
-  serializedDate = new FormControl(new Date().toISOString());
+  @ViewChild('dateInput', {static: false}) dateInput;
 
   expenseCategory: string;
   expenseEntryDate = '';
@@ -36,13 +36,19 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
       this.expenseEntryDate,
       this.expenseAmount,
       this.expenseDescription,
-      this.expenseCategoryId
+      this.expenseCategoryId,
+      this.userName
     );
     this.expenseCategoryId = 1;
+    this.dateReset();
   }
 
   sendExpenseCategory() {
     this.service.sendExpenseCategory(this.newExpenseCategory);
+  }
+
+  dateReset() {
+    this.dateInput.nativeElement.value = '';
   }
 
   setDate($event) {
