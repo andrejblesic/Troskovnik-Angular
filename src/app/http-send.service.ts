@@ -44,10 +44,10 @@ export class HttpSendService {
       deleted_at: null,
       description: incomeDescription,
       entry_date: incomeEntryDate.replace(/\//g, '.'),
-      id: 1,
+      id: null,
       created_by: userName,
       income_category: {
-        id: 1,
+        id: null,
         name: incomeCategory,
         created_at: fullDate,
         updated_at: fullDate,

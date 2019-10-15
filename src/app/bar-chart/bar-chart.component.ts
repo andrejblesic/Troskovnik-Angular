@@ -22,7 +22,7 @@ export class BarChartComponent implements OnInit, OnChanges {
   constructor(
     private store: Store<AppState>,
     private httpSendService: HttpSendService
-  ) {}
+  ) { }
 
   @Input() totalTransactions: number;
   @Input() incomeTotal: number;
@@ -49,19 +49,36 @@ export class BarChartComponent implements OnInit, OnChanges {
       ],
       xAxes: [
         {
-          barPercentage: 0.2
+          barPercentage: 0.35
         }
       ]
     }
   };
+
+  colorArr = ['red', 'green'];
 
   barChartLabels = ['Expenses and Incomes'];
   barChartType = 'bar';
   barChartLegend = true;
 
   barChartData = [
-    { data: [this.incomeTotal], label: 'Incomes' },
-    { data: [this.expenseTotal], label: 'Expenses' }
+    {
+      data: [this.incomeTotal],
+      label: 'Incomes',
+      backgroundColor: 'rgb(74, 143, 200)',
+      hoverBackgroundColor: 'rgb(94, 163, 220)',
+      borderWidth: '1.5', borderColor: 'white',
+      hoverBorderColor: 'white'
+    },
+    {
+      data: [this.expenseTotal],
+      label: 'Expenses',
+      backgroundColor: 'rgb(210, 90, 117)',
+      hoverBackgroundColor: 'rgb(230, 110, 137)',
+      borderWidth: '1.5',
+      borderColor: 'white',
+      hoverBorderColor: 'white'
+    }
   ];
   expenseDoughnutChartLabels = [];
   expenseDoughnutChartData = [];
@@ -71,7 +88,7 @@ export class BarChartComponent implements OnInit, OnChanges {
 
   doughnutChartType = 'doughnut';
 
-updateChart() {
+  updateChart() {
     this.expenseDoughnutChartData = [];
     this.expenseDoughnutChartLabels = [];
     this.incomeDoughnutChartData = [];

@@ -62,38 +62,9 @@
       </mat-card>
     </mat-grid-tile>
   </mat-grid-list>
-  <mat-grid-list *ngIf="show === 'All'" cols="5" rowHeight="500px">
-    <mat-grid-tile colspan="2">
-      <canvas
-        baseChart
-        [data]="incomeDoughnutChartData"
-        [labels]="incomeDoughnutChartLabels"
-        [chartType]="doughnutChartType"
-      ></canvas>
-      <h5>Incomes</h5>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="1">
-      <canvas
-        baseChart
-        [datasets]="barChartData"
-        [labels]="barChartLabels"
-        [options]="barChartOptions"
-        [legend]="barChartLegend"
-        [chartType]="barChartType"
-      ></canvas>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="2">
-      <canvas
-        baseChart
-        [data]="expenseDoughnutChartData"
-        [labels]="expenseDoughnutChartLabels"
-        [chartType]="doughnutChartType"
-      ></canvas>
-      <h5>Expenses</h5>
-    </mat-grid-tile>
-  </mat-grid-list>
-  <mat-grid-list *ngIf="show === 'Incomes'" cols="5" rowHeight="620px">
-    <mat-grid-tile colspan="3">
+  <mat-grid-list cols="5" rowHeight="{{show === 'All' ? '600px' : '700px'}}">
+    <mat-grid-tile colspan="1" *ngIf="show !== 'All'"></mat-grid-tile>
+    <mat-grid-tile style="display: {{show === 'Incomes' ? 'block' : 'none'}}" colspan="{{show === 'Incomes' ? '3' : (show === 'All' ? '2' : '0')}}">
       <canvas
         baseChart
         [data]="incomeDoughnutChartData"
@@ -101,7 +72,7 @@
         [chartType]="doughnutChartType"
       ></canvas>
     </mat-grid-tile>
-    <mat-grid-tile colspan="2">
+    <mat-grid-tile *ngIf="show === 'All'" colspan="1">
       <canvas
         baseChart
         [datasets]="barChartData"
@@ -111,24 +82,12 @@
         [chartType]="barChartType"
       ></canvas>
     </mat-grid-tile>
-  </mat-grid-list>
-  <mat-grid-list *ngIf="show === 'Expenses'" cols="5" rowHeight="620px">
-    <mat-grid-tile colspan="3">
+    <mat-grid-tile style="display: {{show === 'Expenses' ? 'block' : 'none'}}" colspan="{{show === 'Expenses' ? '3' : (show === 'All' ? '2' : '0')}}">
       <canvas
         baseChart
         [data]="expenseDoughnutChartData"
         [labels]="expenseDoughnutChartLabels"
         [chartType]="doughnutChartType"
-      ></canvas>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="2">
-      <canvas
-        baseChart
-        [datasets]="barChartData"
-        [labels]="barChartLabels"
-        [options]="barChartOptions"
-        [legend]="barChartLegend"
-        [chartType]="barChartType"
       ></canvas>
     </mat-grid-tile>
   </mat-grid-list>

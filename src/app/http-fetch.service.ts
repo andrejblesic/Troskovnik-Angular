@@ -62,7 +62,7 @@ export class HttpFetchService {
 
   dispatchUserInfo(message) {
     console.log(message);
-    this.store.dispatch(userInfo({user_info: <IUserInfo> message.data}));
+    this.store.dispatch(userInfo({user_info: message.data as IUserInfo}));
   }
 
   dispatchIncomeCategories(message) {
