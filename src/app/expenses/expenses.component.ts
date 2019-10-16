@@ -2,16 +2,7 @@ import { Component, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { HttpSendService } from '../http-send.service';
 import { Sort } from '@angular/material/sort';
-
-interface AppState {
-  appState: {
-    dateRange: object;
-    incomes: object;
-    expenses: object;
-    income_categories: object;
-    expense_categories: object;
-  };
-}
+import { IAppState } from '../models/general-models';
 
 @Component({
   selector: 'app-expenses',
@@ -27,7 +18,7 @@ export class ExpensesComponent implements OnInit {
   ];
 
   constructor(
-    private store: Store<AppState>,
+    private store: Store<IAppState>,
     private httpSendService: HttpSendService,
     private renderer: Renderer2
   ) {}
@@ -39,6 +30,7 @@ export class ExpensesComponent implements OnInit {
   loading = true;
   currentSort: Sort;
   selectedExpense: number;
+  navbarOpen: boolean;
 
   sortData(sort: Sort) {
     this.currentSort = sort;
@@ -69,6 +61,9 @@ export class ExpensesComponent implements OnInit {
     const nav = document.getElementById('main-nav');
     const scrollTop = nav.scrollTop;
     nav.style.cssText = 'overflow-y: hidden !important';
+    if (this.navbarOpen) {
+      nav.style.cssText = 'margin-left: 200px';
+    }
     this.renderer.setStyle(this.confirmDelete.nativeElement, 'display', 'flex');
     this.renderer.setStyle(this.confirmDelete.nativeElement, 'top', `${scrollTop}px`);
   }
@@ -77,12 +72,18 @@ export class ExpensesComponent implements OnInit {
     this.httpSendService.deleteExpense(this.selectedExpense);
     const nav = document.getElementById('main-nav');
     nav.style.cssText = 'overflow-y: scroll !important';
+    if (this.navbarOpen) {
+      nav.style.cssText = 'margin-left: 200px';
+    }
     this.renderer.setStyle(this.confirmDelete.nativeElement, 'display', 'none');
   }
 
   cancelDelete() {
     const nav = document.getElementById('main-nav');
     nav.style.cssText = 'overflow-y: scroll !important';
+    if (this.navbarOpen) {
+      nav.style.cssText = 'margin-left: 200px';
+    }
     this.renderer.setStyle(this.confirmDelete.nativeElement, 'display', 'none');
   }
 
@@ -105,6 +106,9 @@ export class ExpensesComponent implements OnInit {
     this.store
       .select(state => state.appState.expenses)
       .subscribe(message => (message ? this.handleMessage(message) : null));
+    this.store.select(state => state.appState.navbarOpen).subscribe(
+      message => this.navbarOpen = message
+    );
   }
 }
 
