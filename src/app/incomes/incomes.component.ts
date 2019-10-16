@@ -30,6 +30,7 @@ export class IncomesComponent implements OnInit {
   loading = true;
   currentSort: Sort;
   selectedIncome: number;
+  navbarOpen: boolean;
 
   sortData(sort: Sort) {
     this.currentSort = sort;
@@ -60,6 +61,9 @@ export class IncomesComponent implements OnInit {
     const nav = document.getElementById('main-nav');
     const scrollTop = nav.scrollTop;
     nav.style.cssText = 'overflow-y: hidden !important';
+    if (this.navbarOpen) {
+      nav.style.cssText = 'margin-left: 200px';
+    }
     this.renderer.setStyle(this.confirmDelete.nativeElement, 'display', 'flex');
     this.renderer.setStyle(this.confirmDelete.nativeElement, 'top', `${scrollTop}px`);
   }
@@ -68,12 +72,18 @@ export class IncomesComponent implements OnInit {
     this.httpSendService.deleteIncome(this.selectedIncome);
     const nav = document.getElementById('main-nav');
     nav.style.cssText = 'overflow-y: scroll !important';
+    if (this.navbarOpen) {
+      nav.style.cssText = 'margin-left: 200px';
+    }
     this.renderer.setStyle(this.confirmDelete.nativeElement, 'display', 'none');
   }
 
   cancelDelete() {
     const nav = document.getElementById('main-nav');
     nav.style.cssText = 'overflow-y: scroll !important';
+    if (this.navbarOpen) {
+      nav.style.cssText = 'margin-left: 200px';
+    }
     this.renderer.setStyle(this.confirmDelete.nativeElement, 'display', 'none');
   }
 
@@ -96,6 +106,9 @@ export class IncomesComponent implements OnInit {
     this.store
       .select(state => state.appState.incomes)
       .subscribe(message => (message ? this.handleMessage(message) : null));
+    this.store.select(state => state.appState.navbarOpen).subscribe(
+      message => this.navbarOpen = message
+    );
   }
 }
 

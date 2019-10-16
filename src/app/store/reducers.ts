@@ -8,7 +8,7 @@ interface State {
   expense_categories: {};
 }
 
-const initialState = {dateRange: {startDate: 0, endDate: Infinity}};
+const initialState = {navbarOpen: false, dateRange: {startDate: 0, endDate: Infinity}};
 
 export const transactionReducer = createReducer(
   initialState,
@@ -18,5 +18,6 @@ export const transactionReducer = createReducer(
   on(actions.incomeCategories, (state, action) => ({...state, income_categories: action.income_categories})),
   on(actions.expenseCategories, (state, action) => ({...state, expense_categories: action.expense_categories})),
   on(actions.dateRange, (state, action) => ({...state, dateRange: {startDate: action.startDate, endDate: action.endDate}})),
-  on(actions.clearDateRange, (state, action) => ({...state, dateRange: {startDate: action.startDate, endDate: action.endDate}}))
+  on(actions.clearDateRange, (state, action) => ({...state, dateRange: {startDate: action.startDate, endDate: action.endDate}})),
+  on(actions.toggleNavbar, (state, action) => ({...state, navbarOpen: !state.navbarOpen}))
 );

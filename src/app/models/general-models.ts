@@ -20,6 +20,7 @@ export interface IDateRange {
 
 export interface IAppState {
   appState: {
+    navbarOpen: boolean;
     dateRange: IDateRange;
     user_info: IUserInfo;
     incomes: object;
@@ -27,4 +28,8 @@ export interface IAppState {
     income_categories: object[];
     expense_categories: object[];
   };
+}
+
+export interface IToggleNavbar {
+  navbarOpen: boolean;
 }
