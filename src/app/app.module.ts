@@ -99,7 +99,6 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     LayoutModule,
     MatToolbarModule,
-
     MatSidenavModule,
     MatIconModule,
     MatListModule,
@@ -110,7 +109,6 @@ const appRoutes: Routes = [
     SatDatepickerModule
   ],
   providers: [
-    HttpFetchService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
