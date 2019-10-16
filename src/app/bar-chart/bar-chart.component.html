@@ -62,7 +62,7 @@
       </mat-card>
     </mat-grid-tile>
   </mat-grid-list>
-  <mat-grid-list cols="5" rowHeight="{{show === 'All' ? '600px' : '700px'}}">
+  <mat-grid-list cols="5" rowHeight="600px">
     <mat-grid-tile colspan="1" *ngIf="show !== 'All'"></mat-grid-tile>
     <mat-grid-tile style="display: {{show === 'Incomes' ? 'block' : 'none'}}" colspan="{{show === 'Incomes' ? '3' : (show === 'All' ? '2' : '0')}}">
       <canvas
