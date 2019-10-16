@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { HttpSendService } from '../http-send.service';
 import { Sort } from '@angular/material/sort';
@@ -19,13 +19,17 @@ export class IncomesComponent implements OnInit {
 
   constructor(
     private store: Store<IAppState>,
-    private httpSendService: HttpSendService
+    private httpSendService: HttpSendService,
+    private renderer: Renderer2
   ) {}
+
+  @ViewChild('confirmDelete', {static: false}) confirmDelete;
 
   incomesArray: object[] = [];
   incomeTotal = 0;
   loading = true;
   currentSort: Sort;
+  selectedIncome: number;
 
   sortData(sort: Sort) {
     this.currentSort = sort;
@@ -51,8 +55,26 @@ export class IncomesComponent implements OnInit {
     return index;
   }
 
-  deleteIncome($event) {
-    this.httpSendService.deleteIncome($event.target.id);
+  openDeleteDialog($event) {
+    this.selectedIncome = $event.target.id;
+    const nav = document.getElementById('main-nav');
+    const scrollTop = nav.scrollTop;
+    nav.style.cssText = 'overflow-y: hidden !important';
+    this.renderer.setStyle(this.confirmDelete.nativeElement, 'display', 'flex');
+    this.renderer.setStyle(this.confirmDelete.nativeElement, 'top', `${scrollTop}px`);
+  }
+
+  deleteIncome() {
+    this.httpSendService.deleteIncome(this.selectedIncome);
+    const nav = document.getElementById('main-nav');
+    nav.style.cssText = 'overflow-y: scroll !important';
+    this.renderer.setStyle(this.confirmDelete.nativeElement, 'display', 'none');
+  }
+
+  cancelDelete() {
+    const nav = document.getElementById('main-nav');
+    nav.style.cssText = 'overflow-y: scroll !important';
+    this.renderer.setStyle(this.confirmDelete.nativeElement, 'display', 'none');
   }
 
   handleMessage(message) {
