@@ -5,13 +5,8 @@ import { LoginService } from './login.service';
 import { Store } from '@ngrx/store';
 import { share, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-
-interface AppState {
-  appState: {
-    expenses: object;
-    incomes: object;
-  };
-}
+import { Router } from '@angular/router';
+import { IAppState } from './models/general-models';
 
 @Component({
   selector: 'app-root',
@@ -20,23 +15,15 @@ interface AppState {
 })
 export class AppComponent implements OnInit {
   constructor(
-    private store: Store<AppState>,
+    private store: Store<IAppState>,
     private loginService: LoginService,
-    private httpFetchService: HttpFetchService
+    private httpFetchService: HttpFetchService,
+    private router: Router
   ) {}
 
   title = 'troskovnik-angular';
 
   loading = true;
-
-  userInfo = {
-    grant_type: 'password',
-    client_id: '2',
-    client_secret: 'DhApJ7TQhVgtnjZEwYvNaSqrm4K9JU87TyrnNjcU',
-    username: 'admin@troskovnik.omniapps.info',
-    password: '1282Verbatim(',
-    scope: ''
-  };
 
   checkLoading(message) {
     if (
@@ -49,10 +36,20 @@ export class AppComponent implements OnInit {
     }
   }
 
+  handleLoggedIn(message) {
+    if (message) {
+      this.router.navigateByUrl('/dashboard');
+    } else {
+      this.router.navigateByUrl('/login');
+    }
+  }
+
   ngOnInit() {
-    this.loginService.login(this.userInfo);
-    this.store.subscribe(message =>
-      console.log('STATE UPDATED, NEW STATE:', message)
+    this.store.subscribe(
+      message => console.log("State updated, new state: ", message)
+    )
+    this.store.select(state => state.appState.loggedIn).subscribe(
+      message => this.handleLoggedIn(message)
     );
   }
 }

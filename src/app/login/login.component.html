@@ -4,18 +4,18 @@
     <form>
       <p>
         <mat-form-field>
-          <input type="text" matInput placeholder="Username" />
+          <input [(ngModel)]="userInfo.username" name="username" type="text" matInput placeholder="Username" />
         </mat-form-field>
       </p>
 
       <p>
         <mat-form-field>
-          <input type="password" matInput placeholder="Password" />
+          <input [(ngModel)]="userInfo.password" name="password" type="password" matInput placeholder="Password" />
         </mat-form-field>
       </p>
 
       <div class="button">
-        <button type="submit" mat-button>Login</button>
+        <button (click)="login()" type="submit" mat-button>Login</button>
       </div>
     </form>
   </mat-card-content>

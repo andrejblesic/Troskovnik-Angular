@@ -11,6 +11,11 @@
     <mat-nav-list>
       <a
         mat-list-item
+        routerLinkActive="router-link-active"
+        ><img class="nav-icon white" src="../../assets/images/user.svg" alt="">{{fullUserName}}</a
+      >
+      <a
+        mat-list-item
         [routerLink]="['/dashboard']"
         routerLinkActive="router-link-active"
         ><i class="material-icons nav-icon"> dashboard </i>Dashboard</a
@@ -31,10 +36,17 @@
           <img class="nav-icon white" src="../../assets/images/expenses.svg" alt="">
         Expenses</a
       >
+      <a
+        mat-list-item
+        (click)="drawer.toggle()"
+        (click)="logout()"
+        routerLinkActive="router-link-active"
+        ><img class="nav-icon white" src="../../assets/images/logout.svg" alt="">Log Out</a
+      >
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content id="main-nav">
-    <mat-toolbar color="primary">
+    <mat-toolbar *ngIf="loggedIn" color="primary">
       <button
         type="button"
         aria-label="Toggle sidenav"

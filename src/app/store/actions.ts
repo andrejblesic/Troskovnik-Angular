@@ -7,7 +7,7 @@ import {
   IIncomeCategories,
   IUserInfo,
 } from '../models/income-expense-models';
-import { IToggleNavbar, IDateRange } from '../models/general-models';
+import { IToggleNavbar, IDateRange, ILoggedIn } from '../models/general-models';
 
 const ALL_EXPENSES = '[HttpFetchService] All Expenses';
 const ALL_INCOMES = '[HttpFetchService] All Incomes';
@@ -17,6 +17,7 @@ const USER_INFO = '[HttpFetchService] User Info';
 const DATE_RANGE = '[Date Range Picker] Date Range';
 const CLEAR_DATE_RANGE = '[Date Range Picker] Clear Date Range';
 const TOGGLE_NAVBAR = '[Navbar] Toggle Navbar';
+const LOGGED_IN = '[Login Service] Logged In';
 
 export const userInfo = createAction(
   USER_INFO,
@@ -57,3 +58,8 @@ export const toggleNavbar = createAction(
   TOGGLE_NAVBAR,
   props<IToggleNavbar>()
 );
+
+export const loggedIn = createAction(
+  LOGGED_IN,
+  props<ILoggedIn>()
+)

@@ -20,6 +20,7 @@ export interface IDateRange {
 
 export interface IAppState {
   appState: {
+    loggedIn: boolean;
     navbarOpen: boolean;
     dateRange: IDateRange;
     user_info: IUserInfo;
@@ -32,4 +33,8 @@ export interface IAppState {
 
 export interface IToggleNavbar {
   navbarOpen: boolean;
+}
+
+export interface ILoggedIn {
+  loggedIn: boolean;
 }
