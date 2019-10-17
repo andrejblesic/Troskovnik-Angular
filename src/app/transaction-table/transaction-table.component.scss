@@ -50,11 +50,14 @@ table {
   width: 200px;
   margin: 20px auto;
 }
+.mat-column-type {
+  width: 200px !important;
+}
 .mat-column-category {
   word-wrap: break-word !important;
   white-space: unset !important;
   flex: 0 0 28% !important;
-  width: 28% !important;
+  width: 200px !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-word;
@@ -62,6 +65,15 @@ table {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+}
+.mat-column-description {
+  width: auto;
+}
+.mat-column-entryDate {
+  width: 200px !important;
+}
+.mat-column-amount {
+  width: 200px !important;
 }
 .income-arrow {
   margin-right: 10px;
