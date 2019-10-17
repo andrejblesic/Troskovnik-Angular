@@ -1,7 +1,3 @@
-// .bar-chart {
-//   display: block;
-//   width: 50%;
-// }
 .income-panel {
   margin-left: calc(3.5% - 17px);
   margin-right: calc(1.5% + 17px);
@@ -19,7 +15,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  user-select: none;
+  padding: 7px 10px;
+  &.link {
+    &:active:hover {
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      border-right: 1px solid rgba(100, 100, 100, 0.3);
+      border-bottom: 1px solid rgba(100, 100, 100, 0.3);
+      cursor: pointer;
+    }
+  }
 }
 .mat-card-subtitle {
   margin-bottom: 0;
+}
+.general-info {
+  margin: 30px auto;
 }

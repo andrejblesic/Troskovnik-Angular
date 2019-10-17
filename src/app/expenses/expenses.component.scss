@@ -5,6 +5,16 @@
 }
 table {
   width: 100%;
+  font-family: 'Nunito', sans-serif;
+}
+.mat-cell {
+  font-size: 15px !important;
+}
+.mat-header-cell {
+  font-size: 15px !important;
+}
+.mat-footer-cell {
+  font-size: 15px !important;
 }
 .full-width-table {
   width: 100%;
