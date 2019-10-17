@@ -3,10 +3,9 @@
   [expanded]="true"
   class="income-panel mat-elevation-z8 "
 >
-  <mat-expansion-panel-header></mat-expansion-panel-header>
-  <mat-grid-list cols="{{show === 'All' ? '4' : '3'}}" rowHeight="120px">
+  <mat-grid-list class="general-info" cols="{{show === 'All' ? '4' : '3'}}" rowHeight="120px">
     <mat-grid-tile *ngIf="show === 'Incomes' || show === 'All'">
-      <mat-card class="mat-elevation-z0 dash-card">
+      <mat-card [routerLink]="['/incomes']" class="mat-elevation-z0 dash-card link">
         <mat-card-header>
           <img
             class="dash-icon"
@@ -21,7 +20,7 @@
     </mat-grid-tile>
 
     <mat-grid-tile *ngIf="show === 'Expenses' || show === 'All'">
-      <mat-card class=" mat-elevation-z0 dash-card">
+      <mat-card [routerLink]="['/incomes']" class=" mat-elevation-z0 dash-card link">
         <mat-card-header>
           <img
             class="dash-icon"
@@ -62,6 +61,7 @@
       </mat-card>
     </mat-grid-tile>
   </mat-grid-list>
+
   <mat-grid-list cols="5" rowHeight="600px">
     <mat-grid-tile colspan="1" *ngIf="show !== 'All'"></mat-grid-tile>
     <mat-grid-tile style="display: {{show === 'Incomes' ? 'block' : 'none'}}" colspan="{{show === 'Incomes' ? '3' : (show === 'All' ? '2' : '0')}}">
