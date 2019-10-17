@@ -17,13 +17,14 @@
   align-items: center;
   user-select: none;
   padding: 7px 10px;
+  outline: none;
   &.link {
+    cursor: pointer;
     &:active:hover {
       border-top: 1px solid rgba(0, 0, 0, 0.1);
       border-left: 1px solid rgba(0, 0, 0, 0.1);
       border-right: 1px solid rgba(100, 100, 100, 0.3);
       border-bottom: 1px solid rgba(100, 100, 100, 0.3);
-      cursor: pointer;
     }
   }
 }
