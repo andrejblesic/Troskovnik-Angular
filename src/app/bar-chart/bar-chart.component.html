@@ -4,14 +4,14 @@
   class="income-panel mat-elevation-z8 "
 >
   <mat-expansion-panel-header></mat-expansion-panel-header>
-  <mat-grid-list cols="4" rowHeight="80px">
-    <mat-grid-tile>
-      <mat-card class=" mat-elevation-z0">
+  <mat-grid-list cols="{{show === 'All' ? '4' : '3'}}" rowHeight="120px">
+    <mat-grid-tile *ngIf="show === 'Incomes' || show === 'All'">
+      <mat-card class="mat-elevation-z0 dash-card">
         <mat-card-header>
           <img
             class="dash-icon"
             mat-card-avatar
-            src="https://img.icons8.com/color/96/000000/request-money.png"
+            src="../../assets/images/incomes-color.svg"
           />
 
           <mat-card-title>Incomes:</mat-card-title>
@@ -20,13 +20,13 @@
       </mat-card>
     </mat-grid-tile>
 
-    <mat-grid-tile>
-      <mat-card class=" mat-elevation-z0">
+    <mat-grid-tile *ngIf="show === 'Expenses' || show === 'All'">
+      <mat-card class=" mat-elevation-z0 dash-card">
         <mat-card-header>
           <img
             class="dash-icon"
             mat-card-avatar
-            src="https://img.icons8.com/color/96/000000/initiate-money-transfer.png"
+            src="../../assets/images/expenses-color.svg"
           />
           <mat-card-title>Expenses:</mat-card-title>
           <mat-card-subtitle>${{ expenseTotal | number: '.2' }}</mat-card-subtitle>
@@ -35,12 +35,12 @@
     </mat-grid-tile>
 
     <mat-grid-tile>
-      <mat-card class=" mat-elevation-z0">
+      <mat-card class="mat-elevation-z0 dash-card">
         <mat-card-header>
           <img
             class="dash-icon"
             mat-card-avatar
-            src="https://img.icons8.com/color/96/000000/love-for-money.png"
+            src="../../assets/images/wallet.svg"
           />
           <mat-card-title>Balance:</mat-card-title>
           <mat-card-subtitle>${{ total | number: '.2' }}</mat-card-subtitle>
@@ -49,14 +49,14 @@
     </mat-grid-tile>
 
     <mat-grid-tile>
-      <mat-card class=" mat-elevation-z0">
+      <mat-card class="mat-elevation-z0 dash-card">
         <mat-card-header>
           <img
             class="dash-icon"
             mat-card-avatar
-            src="https://img.icons8.com/color/96/000000/split-transaction.png"
+            src="../../assets/images/credit-card.svg"
           />
-          <mat-card-title>Total Transactions:</mat-card-title>
+          <mat-card-title>Total {{show === 'All' ? 'Transactions' : (show === 'Incomes' ? 'Incomes' : 'Expenses')}}:</mat-card-title>
           <mat-card-subtitle> {{ totalTransactions }} </mat-card-subtitle>
         </mat-card-header>
       </mat-card>

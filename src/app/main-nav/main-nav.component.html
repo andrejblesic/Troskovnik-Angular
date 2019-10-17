@@ -13,22 +13,23 @@
         mat-list-item
         [routerLink]="['/dashboard']"
         routerLinkActive="router-link-active"
-        ><i class="material-icons navbar-icon"> dashboard </i>Dashboard</a
+        ><i class="material-icons nav-icon"> dashboard </i>Dashboard</a
       >
       <a
         mat-list-item
         [routerLink]="['/incomes']"
         routerLinkActive="router-link-active"
-        ><i class="material-icons navbar-icon">
-          call_received
-        </i>
+        >
+          <img class="nav-icon white" src="../../assets/images/incomes.svg" alt="">
         Incomes</a
       >
       <a
         mat-list-item
         [routerLink]="['/expenses']"
         routerLinkActive="router-link-active"
-        ><i class="material-icons navbar-icon"> call_made </i>Expenses</a
+        >
+          <img class="nav-icon white" src="../../assets/images/expenses.svg" alt="">
+        Expenses</a
       >
     </mat-nav-list>
   </mat-sidenav>
