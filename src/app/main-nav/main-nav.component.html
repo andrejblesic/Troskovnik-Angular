@@ -14,6 +14,7 @@
         routerLinkActive="router-link-active"
         ><img class="nav-icon white" src="../../assets/images/user.svg" alt="">{{fullUserName | async}}</a
       >
+      <mat-divider></mat-divider>
       <a
         mat-list-item
         [routerLink]="['/dashboard']"
@@ -36,6 +37,7 @@
           <img class="nav-icon white" src="../../assets/images/expenses.svg" alt="">
         Expenses</a
       >
+      <mat-divider></mat-divider>
       <a
         mat-list-item
         (click)="drawer.toggle()"
