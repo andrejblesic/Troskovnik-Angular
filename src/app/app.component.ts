@@ -7,6 +7,7 @@ import { share, map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { IAppState } from './models/general-models';
+import { loggedIn } from './store/actions';
 
 @Component({
   selector: 'app-root',
@@ -25,21 +26,28 @@ export class AppComponent implements OnInit, OnDestroy {
   loading = true;
   checkLoggedIn: Subscription;
 
-  handleLoggedIn(message) {
-    if (message) {
-      this.router.navigateByUrl('/dashboard');
-    } else {
-      this.router.navigateByUrl('/login');
-    }
-  }
+  userInfo = {
+    grant_type: 'password',
+    client_id: '2',
+    client_secret: 'DhApJ7TQhVgtnjZEwYvNaSqrm4K9JU87TyrnNjcU',
+    username: '',
+    password: '',
+    scope: ''
+  };
 
   ngOnInit() {
-    // dev only
+    if (localStorage.getItem('loggedIn') === 'true') {
+      this.store.dispatch(loggedIn({loggedIn: true}));
+      this.userInfo.username = localStorage.username;
+      this.userInfo.password = localStorage.password;
+      this.loginService.login(this.userInfo);
+      this.router.navigateByUrl('/dashboard');
+    } else {
+      console.log('benes');
+      this.router.navigateByUrl('/login');
+    }
     this.store.subscribe(
       message => console.log('State updated, new state: ', message)
-    );
-    this.checkLoggedIn = this.store.select(state => state.appState.loggedIn).subscribe(
-      message => this.handleLoggedIn(message)
     );
   }
 

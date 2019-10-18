@@ -5,6 +5,7 @@ import { map, shareReplay, share } from 'rxjs/operators';
 import { toggleNavbar, loggedIn } from '../store/actions';
 import { Store } from '@ngrx/store';
 import { IAppState } from '../models/general-models';
+import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-main-nav',
@@ -14,7 +15,8 @@ import { IAppState } from '../models/general-models';
 export class MainNavComponent implements OnInit {
   constructor(
     private store: Store<IAppState>,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private loginService: LoginService
   ) {}
 
   loggedIn: Observable<any>;
@@ -33,7 +35,7 @@ export class MainNavComponent implements OnInit {
   }
 
   logout() {
-    this.store.dispatch(loggedIn({loggedIn: false}));
+    this.loginService.logout();
   }
 
   ngOnInit() {
