@@ -25,22 +25,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   total: number;
   incomeSub: Subscription;
   expenseSub: Subscription;
+  dateSub: Subscription;
   dateRange = { startDate: 0, endDate: Infinity };
   show = 'All';
   loading = true;
   totalTransactions: number;
-
-  ngOnInit() {
-    this.store
-      .select(state => state.appState.dateRange)
-      .subscribe(message => this.setDateRange(message));
-    this.incomeSub = this.store
-      .select(state => state.appState.incomes)
-      .subscribe(message => this.handleIncomes(message));
-    this.expenseSub = this.store
-      .select(state => state.appState.expenses)
-      .subscribe(message => this.handleExpenses(message));
-  }
 
   showTransactions($event) {
     this.show = $event;
@@ -141,8 +130,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.total = this.incomeTotal - this.expenseTotal;
   }
 
+  ngOnInit() {
+    this.dateSub = this.store
+      .select(state => state.appState.dateRange)
+      .subscribe(message => this.setDateRange(message));
+    this.incomeSub = this.store
+      .select(state => state.appState.incomes)
+      .subscribe(message => this.handleIncomes(message));
+    this.expenseSub = this.store
+      .select(state => state.appState.expenses)
+      .subscribe(message => this.handleExpenses(message));
+  }
+
   ngOnDestroy() {
     this.incomeSub.unsubscribe();
     this.expenseSub.unsubscribe();
+    this.dateSub.unsubscribe();
   }
 }

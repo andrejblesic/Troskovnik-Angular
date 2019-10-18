@@ -43,7 +43,6 @@ export class LoginService {
   }
 
   setAccessToken(message) {
-    console.log(message.access_token);
     const userInfo = jwtDecode(message.access_token);
     this.service.fetchUserInfo(userInfo.sub);
     localStorage.setItem('access_token', message.access_token);

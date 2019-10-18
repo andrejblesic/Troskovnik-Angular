@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpFetchService } from './http-fetch.service';
 import { HttpSendService } from './http-send.service';
 import { LoginService } from './login.service';
 import { Store } from '@ngrx/store';
 import { share, map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { IAppState } from './models/general-models';
 
@@ -13,7 +13,7 @@ import { IAppState } from './models/general-models';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<IAppState>,
     private loginService: LoginService,
@@ -22,19 +22,8 @@ export class AppComponent implements OnInit {
   ) {}
 
   title = 'troskovnik-angular';
-
   loading = true;
-
-  checkLoading(message) {
-    if (
-      message.appState.incomes &&
-      message.appState.expenses &&
-      message.appState.income_categories &&
-      message.appState.expense_categories
-    ) {
-      this.loading = false;
-    }
-  }
+  checkLoggedIn: Subscription;
 
   handleLoggedIn(message) {
     if (message) {
@@ -45,11 +34,16 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    // dev only
     this.store.subscribe(
-      message => console.log("State updated, new state: ", message)
-    )
-    this.store.select(state => state.appState.loggedIn).subscribe(
+      message => console.log('State updated, new state: ', message)
+    );
+    this.checkLoggedIn = this.store.select(state => state.appState.loggedIn).subscribe(
       message => this.handleLoggedIn(message)
     );
+  }
+
+  ngOnDestroy() {
+    this.checkLoggedIn.unsubscribe();
   }
 }
