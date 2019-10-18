@@ -33,11 +33,22 @@ export class LoginService {
     httpLogin.subscribe(
       message => this.setAccessToken(message),
       error => console.log(error),
-      () => this.loginSuccess()
+      () => this.loginSuccess(userInfo)
     );
   }
 
-  loginSuccess() {
+  logout() {
+    this.store.dispatch(loggedIn({loggedIn: false}));
+    localStorage.setItem('username', '');
+    localStorage.setItem('password', '');
+    localStorage.setItem('loggedIn', 'false');
+    this.router.navigateByUrl('/login');
+  }
+
+  loginSuccess(userInfo) {
+    localStorage.setItem('username', userInfo.username);
+    localStorage.setItem('password', userInfo.password);
+    localStorage.setItem('loggedIn', 'true');
     this.store.dispatch(loggedIn({loggedIn: true}));
     this.router.navigateByUrl('/dashboard');
   }
