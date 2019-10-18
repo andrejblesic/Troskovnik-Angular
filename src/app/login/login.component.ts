@@ -15,12 +15,11 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-
   constructor(
     private loginService: LoginService,
     private store: Store<IAppState>,
     private router: Router
-  ) { }
+  ) {}
 
   loggedInSub: Subscription;
 
@@ -28,8 +27,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     grant_type: 'password',
     client_id: '2',
     client_secret: 'DhApJ7TQhVgtnjZEwYvNaSqrm4K9JU87TyrnNjcU',
-    username: '',
-    password: '',
+    username: 'admin@troskovnik.omniapps.info',
+    password: '1282Verbatim(',
     scope: ''
   };
 
@@ -38,9 +37,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loggedInSub = this.store.select(state => state.appState.loggedIn).subscribe(
-      message => { if (message) {this.router.navigateByUrl('/dashboard'); }}
-    );
+    this.loggedInSub = this.store
+      .select(state => state.appState.loggedIn)
+      .subscribe(message => {
+        if (message) {
+          this.router.navigateByUrl('/dashboard');
+        }
+      });
   }
 
   ngOnDestroy() {

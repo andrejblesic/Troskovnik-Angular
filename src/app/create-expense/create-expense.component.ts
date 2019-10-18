@@ -5,6 +5,7 @@ import { share } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { IAppState } from '../models/general-models';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-expense',
@@ -12,13 +13,13 @@ import { IAppState } from '../models/general-models';
   styleUrls: ['./create-expense.component.scss']
 })
 export class CreateExpenseComponent implements OnInit, OnDestroy {
-
   constructor(
     private store: Store<IAppState>,
-    private service: HttpSendService
-  ) { }
+    private service: HttpSendService,
+    private _snackBar: MatSnackBar
+  ) {}
 
-  @ViewChild('dateInput', {static: false}) dateInput;
+  @ViewChild('dateInput', { static: false }) dateInput;
 
   expenseCategory: string;
   expenseEntryDate = '';
@@ -64,10 +65,14 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
     this.expenseCategoryId = parseInt($event, 10);
   }
 
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, { duration: 2000 });
+  }
+
   ngOnInit() {
-    this.userSub = this.store.select(state => state.appState.user_info).subscribe(
-      message => message ? this.userName = message.name : null
-    );
+    this.userSub = this.store
+      .select(state => state.appState.user_info)
+      .subscribe(message => (message ? (this.userName = message.name) : null));
     this.expenseCategories = this.store
       .select(state => state.appState.expense_categories)
       .pipe(share());
