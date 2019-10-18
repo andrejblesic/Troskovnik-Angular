@@ -43,7 +43,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.loginService.login(this.userInfo);
       this.router.navigateByUrl('/dashboard');
     } else {
-      console.log('benes');
       this.router.navigateByUrl('/login');
     }
     this.store.subscribe(

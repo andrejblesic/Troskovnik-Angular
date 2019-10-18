@@ -12,6 +12,7 @@
 
         <mat-select
           [(ngModel)]="expenseCategory"
+          required
           (valueChange)="setExpenseCategoryId($event)"
           name="select-expense-category"
           class="select-input-category"
@@ -58,6 +59,7 @@
       <mat-form-field class="full-width">
         <input
           matInput
+          required
           [(ngModel)]="expenseDescription"
           placeholder="Description"
           type="text"
@@ -65,17 +67,19 @@
           value=""
         />
       </mat-form-field>
+      <button
+        type="submit"
+        name="Submit"
+        class="submit-button"
+        (click)="sendExpense()"
+        (click)="openSnackBar('Expense Created', 'Dismiss')"
+        (click)="createExpenseForm.reset()"
+        color="primary"
+        mat-raised-button
+      >
+        Submit
+      </button>
     </form>
-    <button
-      class="submit-button"
-      (click)="sendExpense()"
-      (click)="createExpenseForm.reset()"
-      (click)="openSnackBar('Expense Created', 'Dismiss')"
-      mat-raised-button
-      color="primary"
-    >
-      Submit
-    </button>
   </div>
 
   <mat-expansion-panel> </mat-expansion-panel

@@ -23,7 +23,7 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
 
   expenseCategory: string;
   expenseEntryDate = '';
-  expenseAmount = '';
+  expenseAmount = null;
   expenseDescription = '';
   expenseCategories: Observable<any>;
   expenseCategoryId: number;
@@ -50,6 +50,7 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
 
   dateReset() {
     this.dateInput.nativeElement.value = '';
+    this.expenseEntryDate = '';
   }
 
   setDate($event) {
@@ -66,7 +67,14 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
   }
 
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, { duration: 2000 });
+    console.log(this.expenseAmount, this.expenseDescription);
+    if (this.expenseAmount !== null
+      && this.expenseCategory === null
+      && this.expenseEntryDate !== ''
+      && this.expenseDescription !== null
+    ) {
+      this._snackBar.open(message, action, { duration: 2000 });
+    }
   }
 
   ngOnInit() {
