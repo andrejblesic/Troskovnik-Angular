@@ -19,5 +19,6 @@ export const transactionReducer = createReducer(
   on(actions.expenseCategories, (state, action) => ({...state, expense_categories: action.expense_categories})),
   on(actions.dateRange, (state, action) => ({...state, dateRange: {startDate: action.startDate, endDate: action.endDate}})),
   on(actions.clearDateRange, (state, action) => ({...state, dateRange: {startDate: action.startDate, endDate: action.endDate}})),
-  on(actions.toggleNavbar, (state, action) => ({...state, navbarOpen: !state.navbarOpen}))
+  on(actions.toggleNavbar, (state, action) => ({...state, navbarOpen: !state.navbarOpen})),
+  on(actions.loggedIn, (state, action) => ({...state, loggedIn: action.loggedIn}))
 );
