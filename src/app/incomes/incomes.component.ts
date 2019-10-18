@@ -1,15 +1,16 @@
-import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { HttpSendService } from '../http-send.service';
 import { Sort } from '@angular/material/sort';
 import { IAppState } from '../models/general-models';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-incomes',
   templateUrl: './incomes.component.html',
   styleUrls: ['./incomes.component.scss']
 })
-export class IncomesComponent implements OnInit {
+export class IncomesComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'category',
     'description',
@@ -31,6 +32,8 @@ export class IncomesComponent implements OnInit {
   currentSort: Sort;
   selectedIncome: number;
   navbarOpen: boolean;
+  navbarSub: Subscription;
+  incomeSub: Subscription;
 
   sortData(sort: Sort) {
     this.currentSort = sort;
@@ -87,7 +90,7 @@ export class IncomesComponent implements OnInit {
     this.renderer.setStyle(this.confirmDelete.nativeElement, 'display', 'none');
   }
 
-  handleMessage(message) {
+  handleIncomesMessage(message) {
     this.incomeTotal = 0;
     for (const item in message) {
       if (message.hasOwnProperty(item)) {
@@ -103,12 +106,17 @@ export class IncomesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store
+    this.incomeSub = this.store
       .select(state => state.appState.incomes)
-      .subscribe(message => (message ? this.handleMessage(message) : null));
-    this.store.select(state => state.appState.navbarOpen).subscribe(
+      .subscribe(message => (message ? this.handleIncomesMessage(message) : null));
+    this.navbarSub = this.store.select(state => state.appState.navbarOpen).subscribe(
       message => this.navbarOpen = message
     );
+  }
+
+  ngOnDestroy() {
+    this.navbarSub.unsubscribe();
+    this.incomeSub.unsubscribe();
   }
 }
 

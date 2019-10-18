@@ -62,4 +62,4 @@ export const toggleNavbar = createAction(
 export const loggedIn = createAction(
   LOGGED_IN,
   props<ILoggedIn>()
-)
+);

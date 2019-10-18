@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { dateRange } from '../store/actions';
 import { Store } from '@ngrx/store';
 
@@ -17,7 +17,7 @@ interface AppState {
   templateUrl: './date-range-picker.component.html',
   styleUrls: ['./date-range-picker.component.scss']
 })
-export class DateRangePickerComponent implements OnInit {
+export class DateRangePickerComponent {
 
   constructor(private store: Store<AppState>) { }
 
@@ -29,8 +29,4 @@ export class DateRangePickerComponent implements OnInit {
     const endDate = $event.target.value.end._d.getTime();
     this.store.dispatch(dateRange({startDate, endDate}));
   }
-
-  ngOnInit() {
-  }
-
 }

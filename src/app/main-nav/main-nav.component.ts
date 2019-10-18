@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, share } from 'rxjs/operators';
 import { toggleNavbar, loggedIn } from '../store/actions';
 import { Store } from '@ngrx/store';
 import { IAppState } from '../models/general-models';
@@ -17,8 +17,8 @@ export class MainNavComponent implements OnInit {
     private breakpointObserver: BreakpointObserver
   ) {}
 
-  loggedIn = false;
-  fullUserName: string;
+  loggedIn: Observable<any>;
+  fullUserName: Observable<any>;
 
   showFiller = false;
   isHandset$: Observable<boolean> = this.breakpointObserver
@@ -37,11 +37,7 @@ export class MainNavComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.select(state => state.appState.loggedIn).subscribe(
-      message => this.loggedIn = message
-    );
-    this.store.select(state => state.appState.user_info ? state.appState.user_info.name : null).subscribe(
-      message => this.fullUserName = message
-    )
+    this.loggedIn = this.store.select(state => state.appState.loggedIn).pipe(share());
+    this.fullUserName = this.store.select(state => state.appState.user_info ? state.appState.user_info.name : null).pipe(share());
   }
 }

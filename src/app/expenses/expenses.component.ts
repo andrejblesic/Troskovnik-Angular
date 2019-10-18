@@ -1,15 +1,16 @@
-import { Component, OnInit, ViewChild, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer2, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { HttpSendService } from '../http-send.service';
 import { Sort } from '@angular/material/sort';
 import { IAppState } from '../models/general-models';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-expenses',
   templateUrl: './expenses.component.html',
   styleUrls: ['./expenses.component.scss']
 })
-export class ExpensesComponent implements OnInit {
+export class ExpensesComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'category',
     'description',
@@ -31,6 +32,8 @@ export class ExpensesComponent implements OnInit {
   currentSort: Sort;
   selectedExpense: number;
   navbarOpen: boolean;
+  navbarSub: Subscription;
+  expenseSub: Subscription;
 
   sortData(sort: Sort) {
     this.currentSort = sort;
@@ -87,7 +90,7 @@ export class ExpensesComponent implements OnInit {
     this.renderer.setStyle(this.confirmDelete.nativeElement, 'display', 'none');
   }
 
-  handleMessage(message) {
+  handleExpensesMessage(message) {
     this.expenseTotal = 0;
     for (const item in message) {
       if (message.hasOwnProperty(item)) {
@@ -103,12 +106,17 @@ export class ExpensesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store
+    this.expenseSub = this.store
       .select(state => state.appState.expenses)
-      .subscribe(message => (message ? this.handleMessage(message) : null));
-    this.store.select(state => state.appState.navbarOpen).subscribe(
+      .subscribe(message => (message ? this.handleExpensesMessage(message) : null));
+    this.navbarSub = this.store.select(state => state.appState.navbarOpen).subscribe(
       message => this.navbarOpen = message
     );
+  }
+
+  ngOnDestroy() {
+    this.navbarSub.unsubscribe();
+    this.expenseSub.unsubscribe();
   }
 }
 

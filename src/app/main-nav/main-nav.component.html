@@ -12,7 +12,7 @@
       <a
         mat-list-item
         routerLinkActive="router-link-active"
-        ><img class="nav-icon white" src="../../assets/images/user.svg" alt="">{{fullUserName}}</a
+        ><img class="nav-icon white" src="../../assets/images/user.svg" alt="">{{fullUserName | async}}</a
       >
       <a
         mat-list-item
@@ -46,7 +46,7 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content id="main-nav">
-    <mat-toolbar *ngIf="loggedIn" color="primary">
+    <mat-toolbar *ngIf="loggedIn | async" color="primary">
       <button
         type="button"
         aria-label="Toggle sidenav"
