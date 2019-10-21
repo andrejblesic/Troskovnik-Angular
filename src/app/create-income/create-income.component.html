@@ -6,12 +6,13 @@
   </mat-expansion-panel-header>
 
   <div class="create-income-card">
-    <form class="income-form" #createIncomeForm="ngForm">
+    <form [formGroup]="newIncomeForm" class="income-form" #createIncomeForm="ngForm">
       <mat-form-field>
         <mat-label>Category</mat-label>
 
         <mat-select
-          [(ngModel)]="incomeCategory"
+          required
+          formControlName="incomeCategory"
           (valueChange)="setIncomeCategoryId($event)"
           name="select-income-category"
           class="select-input-category"
@@ -29,6 +30,7 @@
 
       <mat-form-field>
         <input
+          formControlName="incomeEntryDate"
           #dateInput
           (mousedown)="picker.open()"
           name="incomeEntryDate"
@@ -45,8 +47,8 @@
 
       <mat-form-field>
         <input
+          formControlName="incomeAmount"
           matInput
-          [(ngModel)]="incomeAmount"
           required
           placeholder="Amount"
           type="number"
@@ -56,25 +58,24 @@
       </mat-form-field>
       <mat-form-field class="full-width">
         <input
+          formControlName="incomeDescription"
           matInput
-          [(ngModel)]="incomeDescription"
+          required
           placeholder="Description"
           type="text"
           name="incomeDescription"
           value=""
         />
       </mat-form-field>
+      <button
+        class="submit-button"
+        (click)="sendIncome()"
+        mat-raised-button
+        color="primary"
+      >
+        Submit
+      </button>
     </form>
-    <!-- (click)="sendIncome()" -->
-    <button
-      class="submit-button"
-      (click)="sendIncome()"
-      (click)="createIncomeForm.reset()"
-      mat-raised-button
-      color="primary"
-    >
-      Submit
-    </button>
   </div>
 
   <mat-expansion-panel> </mat-expansion-panel
@@ -88,27 +89,27 @@
   </mat-expansion-panel-header>
 
   <div class="create-income-card">
-    <form class="income-form" #createIncomeCategory="ngForm">
+    <form [formGroup]="newIncomeCategoryForm" class="income-form" #createIncomeCategory="ngForm">
       <mat-form-field class="full-width">
         <input
+          formControlName="newIncomeCategory"
+          required
           matInput
-          [(ngModel)]="newIncomeCategory"
           placeholder="New Income Category Name"
           type="text"
           name="newIncomeCategory"
           value=""
         />
       </mat-form-field>
+      <button
+        class="submit-button"
+        (click)="sendIncomeCategory()"
+        mat-raised-button
+        color="primary"
+      >
+        Submit
+      </button>
     </form>
-    <button
-      class="submit-button"
-      (click)="sendIncomeCategory()"
-      (click)="createIncomeCategory.reset()"
-      mat-raised-button
-      color="primary"
-    >
-      Submit
-    </button>
   </div>
 
   <mat-expansion-panel> </mat-expansion-panel

@@ -41,7 +41,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.userInfo.username = localStorage.username;
       this.userInfo.password = localStorage.password;
       this.loginService.login(this.userInfo);
-      this.router.navigateByUrl('/dashboard');
     } else {
       this.router.navigateByUrl('/login');
     }

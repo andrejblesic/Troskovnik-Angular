@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth-interceptor';
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { MAT_DATE_LOCALE } from '@angular/material';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -106,7 +106,8 @@ const appRoutes: Routes = [
     MatSortModule,
     MatDatepickerModule,
     ChartsModule,
-    SatDatepickerModule
+    SatDatepickerModule,
+    ReactiveFormsModule
   ],
   providers: [
     {

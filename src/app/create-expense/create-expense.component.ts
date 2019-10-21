@@ -3,7 +3,7 @@ import { HttpSendService } from '../http-send.service';
 import { Store } from '@ngrx/store';
 import { share } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAppState } from '../models/general-models';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -31,7 +31,24 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
   userName: string;
   userSub: Subscription;
 
-  sendExpense() {
+  newExpenseForm = new FormGroup({
+    expenseCategory: new FormControl([Validators.required]),
+    expenseEntryDate: new FormControl([Validators.required]),
+    expenseAmount: new FormControl([Validators.required]),
+    expenseDescription: new FormControl([Validators.required])
+  });
+
+  newExpenseCategoryForm = new FormGroup({
+    newExpenseCategory: new FormControl(null, [Validators.required])
+  });
+
+  sendExpense($event): void {
+    if (!this.expenseCategory) {
+      this.newExpenseForm.controls.expenseCategory.setErrors({incorrect: true})
+    }
+    if (!this.expenseCategory || !this.expenseEntryDate || !this.expenseAmount || !this.expenseDescription) {
+      return;
+    }
     this.service.sendExpense(
       this.expenseCategory,
       this.expenseEntryDate,
@@ -42,10 +59,19 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
     );
     this.expenseCategoryId = 1;
     this.dateReset();
+    this.newExpenseForm.reset();
+    for (const input in this.newExpenseForm.controls) {
+      this.newExpenseForm.controls[input].setErrors(null);
+    }
   }
 
-  sendExpenseCategory() {
-    this.service.sendExpenseCategory(this.newExpenseCategory);
+  sendExpenseCategory(): void {
+    console.log(this.newExpenseCategoryForm)
+    if (this.newExpenseCategory) {
+      this.service.sendExpenseCategory(this.newExpenseCategory);
+      this.newExpenseCategoryForm.reset();
+      this.newExpenseCategoryForm.controls.newExpenseCategory.setErrors(null);
+    }
   }
 
   dateReset() {
@@ -67,7 +93,6 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
   }
 
   openSnackBar(message: string, action: string) {
-    console.log(this.expenseAmount, this.expenseDescription);
     if (this.expenseAmount !== null
       && this.expenseCategory === null
       && this.expenseEntryDate !== ''
@@ -77,7 +102,23 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
     }
   }
 
+  updateValues(message) {
+    this.expenseCategory = message.expenseCategory;
+    this.expenseAmount = message.expenseAmount;
+    this.expenseDescription = message.expenseDescription;
+  }
+
+  handleNewCategory(message) {
+    this.newExpenseCategory = message.newExpenseCategory;
+  }
+
   ngOnInit() {
+    this.newExpenseCategoryForm.valueChanges.subscribe(
+      message => this.handleNewCategory(message)
+    );
+    this.newExpenseForm.valueChanges.subscribe(
+      message => this.updateValues(message)
+    );
     this.userSub = this.store
       .select(state => state.appState.user_info)
       .subscribe(message => (message ? (this.userName = message.name) : null));
