@@ -11,7 +11,6 @@
         <mat-label>Category</mat-label>
 
         <mat-select
-          required
           formControlName="incomeCategory"
           (valueChange)="setIncomeCategoryId($event)"
           name="select-income-category"
@@ -34,7 +33,6 @@
           #dateInput
           (mousedown)="picker.open()"
           name="incomeEntryDate"
-          required
           pattern="/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/i"
           matInput
           [matDatepicker]="picker"
@@ -49,7 +47,6 @@
         <input
           formControlName="incomeAmount"
           matInput
-          required
           placeholder="Amount"
           type="number"
           name="incomeAmount"
@@ -60,7 +57,6 @@
         <input
           formControlName="incomeDescription"
           matInput
-          required
           placeholder="Description"
           type="text"
           name="incomeDescription"
