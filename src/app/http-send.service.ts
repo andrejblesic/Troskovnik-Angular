@@ -72,7 +72,6 @@ export class HttpSendService {
     expenseCategoryId,
     userName
   ) {
-    console.log(arguments);
     const date = new Date();
     const fullDate = `${date.getFullYear()}-${(
       '0' +
@@ -100,7 +99,6 @@ export class HttpSendService {
       expense_category_id: expenseCategoryId,
       updated_at: fullDate
     };
-    console.log(expenseJSON);
     const postExpense = this.http.post(expensesUrl, expenseJSON);
     postExpense.subscribe(
       message => this.service.fetchExpenses(),

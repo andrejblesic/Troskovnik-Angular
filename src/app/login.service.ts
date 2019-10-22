@@ -50,7 +50,6 @@ export class LoginService {
     localStorage.setItem('password', userInfo.password);
     localStorage.setItem('loggedIn', 'true');
     this.store.dispatch(loggedIn({loggedIn: true}));
-    this.router.navigateByUrl('/dashboard');
   }
 
   setAccessToken(message) {

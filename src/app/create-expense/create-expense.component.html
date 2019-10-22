@@ -6,13 +6,12 @@
   </mat-expansion-panel-header>
 
   <div class="create-expense-card">
-    <form class="expense-form" #createExpenseForm="ngForm">
+    <form [formGroup]="newExpenseForm" class="expense-form" #createExpenseForm="ngForm">
       <mat-form-field>
         <mat-label>Category</mat-label>
 
         <mat-select
-          [(ngModel)]="expenseCategory"
-          required
+          formControlName="expenseCategory"
           (valueChange)="setExpenseCategoryId($event)"
           name="select-expense-category"
           class="select-input-category"
@@ -30,6 +29,7 @@
 
       <mat-form-field>
         <input
+          formControlName="expenseEntryDate"
           #dateInput
           value="expenseEntryDate"
           name="expenseEntryDate"
@@ -46,8 +46,8 @@
 
       <mat-form-field>
         <input
+          formControlName="expenseAmount"
           matInput
-          [(ngModel)]="expenseAmount"
           required
           placeholder="Amount"
           type="number"
@@ -58,9 +58,9 @@
 
       <mat-form-field class="full-width">
         <input
+          formControlName="expenseDescription"
           matInput
           required
-          [(ngModel)]="expenseDescription"
           placeholder="Description"
           type="text"
           name="expenseDescription"
@@ -73,7 +73,6 @@
         class="submit-button"
         (click)="sendExpense()"
         (click)="openSnackBar('Expense Created', 'Dismiss')"
-        (click)="createExpenseForm.reset()"
         color="primary"
         mat-raised-button
       >
@@ -93,27 +92,26 @@
   </mat-expansion-panel-header>
 
   <div class="create-expense-card">
-    <form class="expense-form" #createExpenseCategory="ngForm">
+    <form [formGroup]="newExpenseCategoryForm" class="expense-form" #createExpenseCategory="ngForm">
       <mat-form-field class="full-width">
         <input
+          formControlName="newExpenseCategory"
           matInput
-          [(ngModel)]="newExpenseCategory"
           placeholder="New Expense Category Name"
           type="text"
           name="newExpenseCategory"
           value=""
         />
       </mat-form-field>
+      <button
+        class="submit-button"
+        (click)="sendExpenseCategory()"
+        mat-raised-button
+        color="primary"
+      >
+        Submit
+      </button>
     </form>
-    <button
-      class="submit-button"
-      (click)="sendExpenseCategory()"
-      (click)="createExpenseCategory.reset()"
-      mat-raised-button
-      color="primary"
-    >
-      Submit
-    </button>
   </div>
 
   <mat-expansion-panel> </mat-expansion-panel
