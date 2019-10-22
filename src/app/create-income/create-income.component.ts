@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { HttpSendService } from '../http-send.service';
+import { HttpFetchService } from '../http-fetch.service';
 import { Store } from '@ngrx/store';
 import { share } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAppState } from '../models/general-models';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-income',
@@ -14,8 +16,10 @@ import { IAppState } from '../models/general-models';
 export class CreateIncomeComponent implements OnInit, OnDestroy {
 
   constructor(
-    private service: HttpSendService,
-    private store: Store<IAppState>
+    private httpSendService: HttpSendService,
+    private httpFetchService: HttpFetchService,
+    private store: Store<IAppState>,
+    private _snackBar: MatSnackBar
   ) { }
 
   @ViewChild('dateInput', {static: false}) dateInput;
@@ -41,20 +45,25 @@ export class CreateIncomeComponent implements OnInit, OnDestroy {
     newIncomeCategory: new FormControl()
   });
 
-  sendIncome() {
+  sendIncome(): void {
     if (!this.incomeCategory) {
       this.newIncomeForm.controls.incomeCategory.setErrors({incorrect: true})
     }
     if (!this.incomeCategory || !this.incomeEntryDate || !this.incomeAmount || !this.incomeDescription) {
+      this.openSnackBar('Please fill out all the fields', 'Dismiss');
       return;
     }
-    this.service.sendIncome(
+    this.httpSendService.sendIncome(
       this.incomeCategory,
       this.incomeEntryDate,
       this.incomeAmount,
       this.incomeDescription,
       this.incomeCategoryId,
       this.userName
+    ).subscribe(
+      message => null,
+      error => console.log(error),
+      () => this.incomeSendSuccess()
     );
     this.incomeCategoryId = 1;
     this.newIncomeForm.reset();
@@ -64,19 +73,40 @@ export class CreateIncomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  resetDate() {
+  incomeSendSuccess(): void {
+    this.httpFetchService.fetchIncomes();
+    this.openSnackBar('Income successfully added', 'Dismiss');
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
+
+  resetDate(): void {
     this.dateInput.nativeElement.value = '';
   }
 
-  sendIncomeCategory() {
+  sendIncomeCategory(): void {
     if (!this.newIncomeCategory) {
       return;
     }
-    this.service.sendIncomeCategory(this.newIncomeCategory);
+    this.httpSendService.sendIncomeCategory(this.newIncomeCategory).subscribe(
+      message => null,
+      error => console.log(error),
+      () => this.incomeCategorySendSuccess()
+    );
     this.newIncomeCategoryForm.reset();
+    this.newIncomeCategoryForm.controls.newIncomeCategory.setErrors(null);
   }
 
-  setDate($event) {
+  incomeCategorySendSuccess(): void {
+    this.httpFetchService.fetchIncomeCategories();
+    this.openSnackBar('Income category successfully added', 'Dismiss');
+  }
+
+  setDate($event): void {
     console.log(this.dateInput.nativeElement.value);
     this.incomeEntryDate = `${('0' + $event.target.value.getDate()).slice(
       -2
@@ -86,21 +116,21 @@ export class CreateIncomeComponent implements OnInit, OnDestroy {
     this.newIncomeForm.controls.incomeEntryDate.setErrors(null);
   }
 
-  setIncomeCategoryId($event) {
+  setIncomeCategoryId($event): void {
     this.incomeCategoryId = parseInt($event, 10);
   }
 
-  updateValues(message) {
+  updateValues(message): void {
     this.incomeCategory = message.incomeCategory;
     this.incomeAmount = message.incomeAmount;
     this.incomeDescription = message.incomeDescription;
   }
 
-  handleNewCategory(message) {
+  handleNewCategory(message): void {
     this.newIncomeCategory = message.newIncomeCategory;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.newIncomeCategoryForm.valueChanges.subscribe(
       message => this.handleNewCategory(message)
     );
@@ -113,7 +143,7 @@ export class CreateIncomeComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.userSub.unsubscribe();
   }
 

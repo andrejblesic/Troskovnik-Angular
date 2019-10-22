@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpFetchService } from './http-fetch.service';
 import { IAppState } from './models/general-models';
+import { Observable } from 'rxjs';
 
 const incomesUrl = 'https://troskovnik.omniapps.info/api/v1/incomes/';
 const expensesUrl = 'https://troskovnik.omniapps.info/api/v1/expenses/';
@@ -22,13 +23,13 @@ export class HttpSendService {
   ) {}
 
   sendIncome(
-    incomeCategory,
-    incomeEntryDate,
-    incomeAmount,
-    incomeDescription,
-    incomeCategoryId,
-    userName
-  ) {
+    incomeCategory: string,
+    incomeEntryDate: string,
+    incomeAmount: number,
+    incomeDescription: string,
+    incomeCategoryId: number,
+    userName: string
+  ): Observable<any> {
     const date = new Date();
     const fullDate = `${date.getFullYear()}-${(
       '0' +
@@ -57,21 +58,17 @@ export class HttpSendService {
       updated_at: fullDate
     };
     const postIncome = this.http.post(incomesUrl, incomeJSON);
-    postIncome.subscribe(
-      message => this.service.fetchIncomes(),
-      error => console.log(error),
-      () => console.log('Income Sent')
-    );
+    return postIncome;
   }
 
   sendExpense(
-    expenseCategory,
-    expenseEntryDate,
-    expenseAmount,
-    expenseDescription,
-    expenseCategoryId,
-    userName
-  ) {
+    expenseCategory: string,
+    expenseEntryDate: string,
+    expenseAmount: number,
+    expenseDescription: string,
+    expenseCategoryId: number,
+    userName: string
+  ): Observable<any> {
     const date = new Date();
     const fullDate = `${date.getFullYear()}-${(
       '0' +
@@ -100,14 +97,10 @@ export class HttpSendService {
       updated_at: fullDate
     };
     const postExpense = this.http.post(expensesUrl, expenseJSON);
-    postExpense.subscribe(
-      message => this.service.fetchExpenses(),
-      error => console.log(error),
-      () => console.log('Expense Sent')
-    );
+    return postExpense;
   }
 
-  sendIncomeCategory(name) {
+  sendIncomeCategory(name: string): Observable<any> {
     const date = new Date();
     const fullDate = `${date.getFullYear()}-${(
       '0' +
@@ -128,12 +121,10 @@ export class HttpSendService {
       incomeCategoriesUrl,
       incomeCategoryJSON
     );
-    postIncomeCategory.subscribe(message =>
-      this.service.fetchIncomeCategories()
-    );
+    return postIncomeCategory;
   }
 
-  sendExpenseCategory(name) {
+  sendExpenseCategory(name: string) {
     const date = new Date();
     const fullDate = `${date.getFullYear()}-${(
       '0' +
@@ -154,9 +145,7 @@ export class HttpSendService {
       expenseCategoriesUrl,
       expenseCategoryJSON
     );
-    postExpenseCategory.subscribe(message =>
-      this.service.fetchExpenseCategories()
-    );
+    return postExpenseCategory;
   }
 
   deleteIncome(id) {

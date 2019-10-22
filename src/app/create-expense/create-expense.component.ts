@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { HttpSendService } from '../http-send.service';
+import { HttpFetchService } from '../http-fetch.service';
 import { Store } from '@ngrx/store';
 import { share } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
@@ -15,7 +16,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class CreateExpenseComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<IAppState>,
-    private service: HttpSendService,
+    private httpSendService: HttpSendService,
+    private httpFetchService: HttpFetchService,
     private _snackBar: MatSnackBar
   ) {}
 
@@ -23,8 +25,8 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
 
   expenseCategory: string;
   expenseEntryDate = '';
-  expenseAmount = null;
-  expenseDescription = '';
+  expenseAmount: number;
+  expenseDescription: string;
   expenseCategories: Observable<any>;
   expenseCategoryId: number;
   newExpenseCategory: string;
@@ -32,30 +34,35 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
   userSub: Subscription;
 
   newExpenseForm = new FormGroup({
-    expenseCategory: new FormControl([Validators.required]),
-    expenseEntryDate: new FormControl([Validators.required]),
-    expenseAmount: new FormControl([Validators.required]),
-    expenseDescription: new FormControl([Validators.required])
+    expenseCategory: new FormControl(null, [Validators.required]),
+    expenseEntryDate: new FormControl(null, [Validators.required]),
+    expenseAmount: new FormControl(null, [Validators.required]),
+    expenseDescription: new FormControl(null, [Validators.required])
   });
 
   newExpenseCategoryForm = new FormGroup({
     newExpenseCategory: new FormControl(null, [Validators.required])
   });
 
-  sendExpense($event): void {
+  sendExpense(): void {
     if (!this.expenseCategory) {
       this.newExpenseForm.controls.expenseCategory.setErrors({incorrect: true})
     }
     if (!this.expenseCategory || !this.expenseEntryDate || !this.expenseAmount || !this.expenseDescription) {
+      this.openSnackBar('Please fill out all the fields', 'Dismiss');
       return;
     }
-    this.service.sendExpense(
+    this.httpSendService.sendExpense(
       this.expenseCategory,
       this.expenseEntryDate,
       this.expenseAmount,
       this.expenseDescription,
       this.expenseCategoryId,
       this.userName
+    ).subscribe(
+      message => null,
+      error => console.log(error),
+      () => this.expenseSendSuccess()
     );
     this.expenseCategoryId = 1;
     this.dateReset();
@@ -65,21 +72,41 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
     }
   }
 
-  sendExpenseCategory(): void {
-    console.log(this.newExpenseCategoryForm)
-    if (this.newExpenseCategory) {
-      this.service.sendExpenseCategory(this.newExpenseCategory);
-      this.newExpenseCategoryForm.reset();
-      this.newExpenseCategoryForm.controls.newExpenseCategory.setErrors(null);
-    }
+  expenseSendSuccess(): void {
+    this.httpFetchService.fetchExpenses();
+    this.openSnackBar('Expense successfully added', 'Dismiss');
   }
 
-  dateReset() {
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
+
+  sendExpenseCategory(): void {
+    if (!this.newExpenseCategory) {
+      return;
+    }
+    this.httpSendService.sendExpenseCategory(this.newExpenseCategory).subscribe(
+      message => null,
+      error => console.log(error),
+      () => this.expenseCategorySendSuccess()
+    );
+    this.newExpenseCategoryForm.reset();
+    this.newExpenseCategoryForm.controls.newExpenseCategory.setErrors(null);
+  }
+
+  expenseCategorySendSuccess(): void {
+    this.httpFetchService.fetchExpenseCategories();
+    this.openSnackBar('Expense category successfully added', 'Dismiss');
+  }
+
+  dateReset(): void {
     this.dateInput.nativeElement.value = '';
     this.expenseEntryDate = '';
   }
 
-  setDate($event) {
+  setDate($event): void {
     console.log($event.target.value.getMonth());
     this.expenseEntryDate = `${('0' + $event.target.value.getDate()).slice(
       -2
@@ -88,31 +115,21 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
     )}/${$event.target.value.getFullYear()}`;
   }
 
-  setExpenseCategoryId($event) {
+  setExpenseCategoryId($event): void {
     this.expenseCategoryId = parseInt($event, 10);
   }
 
-  openSnackBar(message: string, action: string) {
-    if (this.expenseAmount !== null
-      && this.expenseCategory === null
-      && this.expenseEntryDate !== ''
-      && this.expenseDescription !== null
-    ) {
-      this._snackBar.open(message, action, { duration: 2000 });
-    }
-  }
-
-  updateValues(message) {
+  updateValues(message): void {
     this.expenseCategory = message.expenseCategory;
     this.expenseAmount = message.expenseAmount;
     this.expenseDescription = message.expenseDescription;
   }
 
-  handleNewCategory(message) {
+  handleNewCategory(message): void {
     this.newExpenseCategory = message.newExpenseCategory;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.newExpenseCategoryForm.valueChanges.subscribe(
       message => this.handleNewCategory(message)
     );
@@ -127,7 +144,7 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
       .pipe(share());
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.userSub.unsubscribe();
   }
 }
