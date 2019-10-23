@@ -18,7 +18,7 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
     private store: Store<IAppState>,
     private httpSendService: HttpSendService,
     private httpFetchService: HttpFetchService,
-    private _snackBar: MatSnackBar
+    private snackBar: MatSnackBar
   ) {}
 
   @ViewChild('dateInput', { static: false }) dateInput;
@@ -46,7 +46,7 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
 
   sendExpense(): void {
     if (!this.expenseCategory) {
-      this.newExpenseForm.controls.expenseCategory.setErrors({incorrect: true})
+      this.newExpenseForm.controls.expenseCategory.setErrors({incorrect: true});
     }
     if (!this.expenseCategory || !this.expenseEntryDate || !this.expenseAmount || !this.expenseDescription) {
       this.openSnackBar('Please fill out all the fields', 'Dismiss');
@@ -78,13 +78,14 @@ export class CreateExpenseComponent implements OnInit, OnDestroy {
   }
 
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
+    this.snackBar.open(message, action, {
       duration: 3000,
     });
   }
 
   sendExpenseCategory(): void {
     if (!this.newExpenseCategory) {
+      this.openSnackBar('Please fill out the field', 'Dismiss');
       return;
     }
     this.httpSendService.sendExpenseCategory(this.newExpenseCategory).subscribe(

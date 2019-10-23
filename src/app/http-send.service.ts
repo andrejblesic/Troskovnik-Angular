@@ -150,11 +150,15 @@ export class HttpSendService {
 
   deleteIncome(id) {
     const deleteIncome = this.http.delete(incomesUrl + id);
-    deleteIncome.subscribe(message => this.service.fetchIncomes());
+    return deleteIncome;
+
+    // subscribe(message => this.service.fetchIncomes());
   }
 
   deleteExpense(id) {
     const deleteExpense = this.http.delete(expensesUrl + id);
-    deleteExpense.subscribe(message => this.service.fetchExpenses());
+    return deleteExpense;
+
+    // subscribe(message => this.service.fetchExpenses());
   }
 }

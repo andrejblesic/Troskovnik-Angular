@@ -19,13 +19,13 @@ export class CreateIncomeComponent implements OnInit, OnDestroy {
     private httpSendService: HttpSendService,
     private httpFetchService: HttpFetchService,
     private store: Store<IAppState>,
-    private _snackBar: MatSnackBar
+    private snackBar: MatSnackBar
   ) { }
 
   @ViewChild('dateInput', {static: false}) dateInput;
 
   incomeCategory: string;
-  incomeEntryDate = "";
+  incomeEntryDate = '';
   incomeAmount: number;
   incomeDescription: string;
   incomeCategories: Observable<any>;
@@ -47,7 +47,7 @@ export class CreateIncomeComponent implements OnInit, OnDestroy {
 
   sendIncome(): void {
     if (!this.incomeCategory) {
-      this.newIncomeForm.controls.incomeCategory.setErrors({incorrect: true})
+      this.newIncomeForm.controls.incomeCategory.setErrors({incorrect: true});
     }
     if (!this.incomeCategory || !this.incomeEntryDate || !this.incomeAmount || !this.incomeDescription) {
       this.openSnackBar('Please fill out all the fields', 'Dismiss');
@@ -79,7 +79,7 @@ export class CreateIncomeComponent implements OnInit, OnDestroy {
   }
 
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
+    this.snackBar.open(message, action, {
       duration: 3000,
     });
   }
@@ -90,6 +90,7 @@ export class CreateIncomeComponent implements OnInit, OnDestroy {
 
   sendIncomeCategory(): void {
     if (!this.newIncomeCategory) {
+      this.openSnackBar('Please fill out the field', 'Dismiss');
       return;
     }
     this.httpSendService.sendIncomeCategory(this.newIncomeCategory).subscribe(

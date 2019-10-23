@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild, Renderer2, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { HttpSendService } from '../http-send.service';
+import { HttpFetchService } from '../http-fetch.service';
 import { Sort } from '@angular/material/sort';
 import { IAppState } from '../models/general-models';
 import { Subscription } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-expenses',
@@ -21,7 +23,9 @@ export class ExpensesComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<IAppState>,
     private httpSendService: HttpSendService,
-    private renderer: Renderer2
+    private httpFetchService: HttpFetchService,
+    private renderer: Renderer2,
+    private snackBar: MatSnackBar
   ) {}
 
   @ViewChild('confirmDelete', {static: false}) confirmDelete;
@@ -35,7 +39,7 @@ export class ExpensesComponent implements OnInit, OnDestroy {
   navbarSub: Subscription;
   expenseSub: Subscription;
 
-  sortData(sort: Sort) {
+  sortData(sort: Sort): number {
     this.currentSort = sort;
     const data = this.expensesArray.slice();
     if (!sort || !sort.active || sort.direction === '') {
@@ -55,11 +59,17 @@ export class ExpensesComponent implements OnInit, OnDestroy {
     });
   }
 
-  trackByFn(item, index) {
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
+
+  trackByFn(item: object, index: number): number {
     return index;
   }
 
-  openDeleteDialog($event) {
+  openDeleteDialog($event): void {
     this.selectedExpense = $event.target.id;
     const nav = document.getElementById('main-nav');
     const scrollTop = nav.scrollTop;
@@ -71,8 +81,12 @@ export class ExpensesComponent implements OnInit, OnDestroy {
     this.renderer.setStyle(this.confirmDelete.nativeElement, 'top', `${scrollTop}px`);
   }
 
-  deleteExpense() {
-    this.httpSendService.deleteExpense(this.selectedExpense);
+  deleteExpense(): void {
+    this.httpSendService.deleteExpense(this.selectedExpense).subscribe(
+      message => null,
+      error => console.log(error),
+      () => this.deleteSuccess()
+    );
     const nav = document.getElementById('main-nav');
     nav.style.cssText = 'overflow-y: scroll !important';
     if (this.navbarOpen) {
@@ -81,7 +95,12 @@ export class ExpensesComponent implements OnInit, OnDestroy {
     this.renderer.setStyle(this.confirmDelete.nativeElement, 'display', 'none');
   }
 
-  cancelDelete() {
+  deleteSuccess(): void {
+    this.httpFetchService.fetchExpenses();
+    this.openSnackBar('Expense deleted successfully', 'Dismiss');
+  }
+
+  cancelDelete(): void {
     const nav = document.getElementById('main-nav');
     nav.style.cssText = 'overflow-y: scroll !important';
     if (this.navbarOpen) {
@@ -90,7 +109,7 @@ export class ExpensesComponent implements OnInit, OnDestroy {
     this.renderer.setStyle(this.confirmDelete.nativeElement, 'display', 'none');
   }
 
-  handleExpensesMessage(message) {
+  handleExpensesMessage(message: object): void {
     this.expenseTotal = 0;
     for (const item in message) {
       if (message.hasOwnProperty(item)) {
@@ -105,7 +124,7 @@ export class ExpensesComponent implements OnInit, OnDestroy {
     this.loading = false;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.expenseSub = this.store
       .select(state => state.appState.expenses)
       .subscribe(message => (message ? this.handleExpensesMessage(message) : null));
@@ -114,13 +133,13 @@ export class ExpensesComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.navbarSub.unsubscribe();
     this.expenseSub.unsubscribe();
   }
 }
 
-function compareAmounts(a, b, isAsc) {
+function compareAmounts(a, b, isAsc: boolean): number {
   if (isAsc) {
     return parseFloat(a[1].amount) - parseFloat(b[1].amount);
   } else {
@@ -128,7 +147,7 @@ function compareAmounts(a, b, isAsc) {
   }
 }
 
-function compareDates(a, b, isAsc) {
+function compareDates(a, b, isAsc: boolean): number {
   let date1 = a[1].entry_date.split('.');
   date1 = [date1[0], date1[1], date1[2]] = [date1[1], date1[0], date1[2]];
   const timeStampA = new Date(date1.join('.')).getTime();
@@ -142,7 +161,7 @@ function compareDates(a, b, isAsc) {
   }
 }
 
-function compareCategories(a, b, isAsc) {
+function compareCategories(a, b, isAsc: boolean): number {
   if (isAsc) {
     return a[1].expense_category.name > b[1].expense_category.name ? -1 : 1;
   } else {

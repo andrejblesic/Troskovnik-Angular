@@ -1,9 +1,11 @@
 import { Component, OnInit, Renderer2, ViewChild, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { HttpSendService } from '../http-send.service';
+import { HttpFetchService } from '../http-fetch.service';
 import { Sort } from '@angular/material/sort';
 import { IAppState } from '../models/general-models';
 import { Subscription } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-incomes',
@@ -21,7 +23,9 @@ export class IncomesComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<IAppState>,
     private httpSendService: HttpSendService,
-    private renderer: Renderer2
+    private httpFetchService: HttpFetchService,
+    private renderer: Renderer2,
+    private snackBar: MatSnackBar
   ) {}
 
   @ViewChild('confirmDelete', {static: false}) confirmDelete;
@@ -35,7 +39,13 @@ export class IncomesComponent implements OnInit, OnDestroy {
   navbarSub: Subscription;
   incomeSub: Subscription;
 
-  sortData(sort: Sort) {
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
+
+  sortData(sort: Sort): object[] {
     this.currentSort = sort;
     const data = this.incomesArray.slice();
     if (!sort || !sort.active || sort.direction === '') {
@@ -55,11 +65,11 @@ export class IncomesComponent implements OnInit, OnDestroy {
     });
   }
 
-  trackByFn(index, item) {
+  trackByFn(index: number, item: object) {
     return index;
   }
 
-  openDeleteDialog($event) {
+  openDeleteDialog($event): void {
     this.selectedIncome = $event.target.id;
     const nav = document.getElementById('main-nav');
     const scrollTop = nav.scrollTop;
@@ -71,8 +81,12 @@ export class IncomesComponent implements OnInit, OnDestroy {
     this.renderer.setStyle(this.confirmDelete.nativeElement, 'top', `${scrollTop}px`);
   }
 
-  deleteIncome() {
-    this.httpSendService.deleteIncome(this.selectedIncome);
+  deleteIncome(): void {
+    this.httpSendService.deleteIncome(this.selectedIncome).subscribe(
+      message => null,
+      error => console.log(error),
+      () => this.deleteSuccess()
+    );
     const nav = document.getElementById('main-nav');
     nav.style.cssText = 'overflow-y: scroll !important';
     if (this.navbarOpen) {
@@ -81,7 +95,12 @@ export class IncomesComponent implements OnInit, OnDestroy {
     this.renderer.setStyle(this.confirmDelete.nativeElement, 'display', 'none');
   }
 
-  cancelDelete() {
+  deleteSuccess() {
+    this.httpFetchService.fetchIncomes();
+    this.openSnackBar('Income deleted successfully', 'Dismiss');
+  }
+
+  cancelDelete(): void {
     const nav = document.getElementById('main-nav');
     nav.style.cssText = 'overflow-y: scroll !important';
     if (this.navbarOpen) {
@@ -90,7 +109,7 @@ export class IncomesComponent implements OnInit, OnDestroy {
     this.renderer.setStyle(this.confirmDelete.nativeElement, 'display', 'none');
   }
 
-  handleIncomesMessage(message) {
+  handleIncomesMessage(message: object): void {
     this.incomeTotal = 0;
     for (const item in message) {
       if (message.hasOwnProperty(item)) {
@@ -105,7 +124,7 @@ export class IncomesComponent implements OnInit, OnDestroy {
     this.loading = false;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.incomeSub = this.store
       .select(state => state.appState.incomes)
       .subscribe(message => (message ? this.handleIncomesMessage(message) : null));
@@ -114,13 +133,13 @@ export class IncomesComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.navbarSub.unsubscribe();
     this.incomeSub.unsubscribe();
   }
 }
 
-const compareAmounts = (a, b, isAsc) => {
+const compareAmounts = (a, b, isAsc: boolean) => {
   if (isAsc) {
     return parseFloat(a[1].amount) - parseFloat(b[1].amount);
   } else {
@@ -128,7 +147,7 @@ const compareAmounts = (a, b, isAsc) => {
   }
 };
 
-const compareDates = (a, b, isAsc) => {
+const compareDates = (a, b, isAsc: boolean) => {
   let date1 = a[1].entry_date.split('.');
   date1 = [date1[0], date1[1], date1[2]] = [date1[1], date1[0], date1[2]];
   const timeStampA = new Date(date1.join('.')).getTime();
